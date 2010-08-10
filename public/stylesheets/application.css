@@ -18,6 +18,13 @@ body {
   font-family: Ebit;
 }
 
+#head .icon{
+  width: 2em;
+  height: 2em;
+  float: left;
+  margin-right: 0.5em;
+}
+
 #foot{
   text-align: right;
   clear: both;

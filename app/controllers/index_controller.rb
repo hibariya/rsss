@@ -1,12 +1,14 @@
 class IndexController < ApplicationController
+  before_filter do
+    load_user params[:user] || 'pussy_cat'
+  end
+
   def index
-    @user = User.all.last
-    
   end
 
   def test
     `rails runner "User.all.each do |user|
-      user.reload_summaries
+      user.create_histories
     end"`
 
     redirect_to '/'

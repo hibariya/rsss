@@ -25,20 +25,30 @@ class AuthController < ApplicationController
 
     response = consumer.request(:get,
       '/account/verify_credentials.json',
-      access_token, { :scheme => :query_string })
+      access_token, {:scheme=>:query_string})
 
     case response
     when Net::HTTPSuccess
       @user_info = JSON.parse(response.body)
       unless @user_info['screen_name']
         flash[:notice] = "Authentication failed"
-        return redirect_to action: :index
+        return redirect_to :action=>:failure
       end
     else
       RAILS_DEFAULT_LOGGER.error "Failed to get user info via OAuth"
       flash[:notice] = "Authentication failed"
-      return redirect_to action: :index
+      return redirect_to :action=>:failure
     end
+    
+    user = User.find(:first, :conditions=>{:screen_name=>@user_info['screen_name']}) || User.new(:screen_name=>@user_info['screen_name'])
+    user.oauth_token = access_token.token
+    user.oauth_secret = access_token.secret
+    user.token = Digest::SHA1.new(access_token.token).to_s 
+    user.save
+
+    session[:token] = user.token
+    return redirect_to :controller=>:dashboard
   end
 
+  def failure; end
 end

@@ -3,12 +3,32 @@
 <head>
   <title>Rsss</title>
   <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag 'js_class' %>
+  <%= javascript_include_tag 'bluff' %>
+  <%= javascript_include_tag 'excanvas' %>
   <%= csrf_meta_tag %>
+  <script type="text/javascript">
+  <!--
+    i = 0;
+    setInterval("crsr()", 500);
+    function crsr(){
+      document.getElementById("bcrsr").innerHTML = i==1 ? '_' : '&nbsp;';
+      i = i==1 ? 0 : 1;
+    }
+  //-->
+  </script>
 </head>
 <body>
-
+<div id="head">
+  <img src="<%= @user_info['profile_image_url'] %>" class="icon" /><h1><%= @user_info['screen_name'] %>'s RSS Summaries</h1>
+  <div style="clear:both:"></div>
+  <div class="description"><%= @user_info['screen_name'] %>(<%= @user_info['name'] %>)</div>
+  <div class="description"><%= @user_info['description'] %></div>
+</div>
 <%= yield %>
 
+<div id="foot">
+  <a href="http://github.com/hibariya/rsss" target="_blank">http://github.com/hibariya/rsss<span id="bcrsr">_</span></a>
+</div>
 </body>
 </html>
