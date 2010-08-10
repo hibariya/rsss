@@ -2,7 +2,7 @@
   <ul id="amount" class="sites">
     <% @user.summaries.sort_by{|s| s.general_level }.reverse.each do |history| %>
     <% site = history.site 
-       last_history = site.histories.all.second %>
+       last_history = site.histories.all.second || History.new %>
       <li class="site">
         <div class="title" style="font-size: <%= 12+history.volume_level %>px;">
           <a href="<%= site.uri %>" target="_blank" style="color: rgb(0, <%= (history.frequency_level)*10 %>, 0);"><%= site.title[0..20]+(site.title.length>20 ? '...': '') %></a>
