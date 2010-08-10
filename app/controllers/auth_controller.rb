@@ -2,8 +2,8 @@ class AuthController < ApplicationController
 
   def self.consumer
     OAuth::Consumer.new(
-      'LDoKK9JyZvcAamOEeoLoQ',
-      '7SCkQoXtYfzLplVH28ucQb29sPhogsGhSDpN2bCg',
+      'key',
+      'secret',
       {:site => 'http://twitter.com'}
     )
   end
