@@ -10,13 +10,13 @@ class User
   field :token, :type=>String
 
   embeds_many :sites
-  attr_accessor :feeds, :summaries, :last_histories
+  attr_accessor :feeds, :summaries
 
   def summaries
     histories_at 0 end
 
   def histories_at(num)
-    @last_histories ||= sites.map{|s| s.histories.sort_by{|h| h.created_at }.reverse[num] || History.new } end
+    sites.map{|s| s.histories.sort_by{|h| h.created_at }.reverse[num] || History.new } end
 
   #
   # 過去30日間の遷移を更新
