@@ -1,0 +1,62 @@
+<script type="text/javascript">
+<!--
+  i = 0;
+  setInterval("crsr()", 500);
+  function crsr(){
+    document.getElementById("bcrsr").innerHTML = i==1 ? '_' : '&nbsp;';
+    i = i==1 ? 0 : 1;
+  }
+//-->
+</script>
+<div id="head">
+  <h1><%= @user.name.capitalize %>'s RSS Summaries</h1>
+  <div class="description"><a href="<%= @user.site %>" target="_blank"><%= @user.site %></a></div>
+  <div class="description"><%= @user.description %></div>
+</div>
+<div id="segmentation">
+  <ul id="amount" class="sites">
+    <% @user.summaries.sort_by_general.each do |site| 
+      last_history = User::Summaries::Summary.new(@user.histories.last.find{|f| f['link']==site.link}) %>
+      <li class="site">
+        <div class="title" style="font-size: <%= 12+site.volume_level %>px;"><a href="<%= site.link %>" target="_blank" style="color: rgb(0, <%= (site.frequency_level)*10 %>, 0);"><%= site.title[0..20]+(site.title.length>20 ? '...': '') %></a>
+          <span class="info"> (<%= ((site.general_level.to_f/24)*100).round %>)</span>
+          <div class="info">
+            <%= raw URI.parse(site.link).host %>
+            <%= (site.general_level > last_history.general_level)? '⇧': '' %>
+            <%= (site.general_level < last_history.general_level)? '⇩': '' %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <div class='gruff'>
+    <canvas id="histories" width="400"></canvas>
+    <script type="text/javascript">
+      var g = new Bluff.Line('histories', 400);
+      g.hide_title = true;
+      g.font = 'Helvetica';
+      g.hide_dots = true;
+      g.hide_line_numbers = true;
+      /*g.hide_line_markers = true;*/
+      g.line_width = 2;
+      g.dot_radius = 0;
+      g.theme_pastel();
+      g.replace_colors(<%= raw %w(#f39700 #e60012 #9caeb7 #00a7db #009944 #d7c447
+        #9b7cb6 #00ada9 #bb641d #e85298 #0079c2 #6cbb5a #b6007a #e5171f
+        #522886 #0078ba #019a66 #e44d93 #814721 #a9cc51 #ee7b1a #00a0de).inspect %>)
+      <% @user.summaries.map do |site| 
+        history = Array.new @user.histories.length, 0
+        history<<site.general_level
+        @user.histories.each_with_index do |h, k|
+          history[k] = h.find({}){|f|f['link']==site.link}['general_level'].to_i end %>
+          g.data("<%= raw URI.parse(site.link).host %>", <%= raw history.inspect %>);
+      <% end %>
+      g.labels = {1: '30 days ago', 30: 'now'}
+      g.draw();
+    </script>
+  
+  </div>
+</div>
+<div id="foot">
+  <a href="http://github.com/hibariya/rsss" target="_blank">http://github.com/hibariya/rsss<span id="bcrsr">_</span></a>
+</div>

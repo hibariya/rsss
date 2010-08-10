@@ -1,0 +1,111 @@
+@font-face {
+  font-family: Ebit;
+  src: url('/8-bit-wonder.ttf') format('truetype');
+}
+
+body {
+  margin: 0em 0em 0em 0em;
+  padding: 0em 0em 0em 0em
+  font-size: 12px;
+  font-family: Helvetica;
+  background: #c3d825;
+}
+
+#head{
+  height: 3.75em;
+  margin: 0em 0em 0em 0em;
+  padding: 0.5em 0em 0.25em 2em;
+  font-family: Ebit;
+}
+
+#foot{
+  text-align: right;
+  clear: both;
+  height: 1em;
+  padding: 2em 2em 0.25em 1em;
+  font-family: Ebit;
+}
+
+#foot a{
+  text-decoration: none;
+}
+
+#bcrsr {
+  color: #000000;
+}
+
+h1 {
+  font-family: 8bitwonder;
+  font-style: normal;
+  font-size: 2em;
+  padding: 0em 0em 0em 0em;
+  margin: 0em 0em 0em 0em;
+}
+
+.description {
+  font-family: Helvetica;
+  font-size: 10px;
+}
+
+#segmentation {
+  padding: 0.25em 0em 0.25em 2em;
+}
+
+#segmentation ul {
+  background: #FFFFFF;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  margin: 1em 0em 1em 0em;
+  padding-left: 0em;
+  width: 450px;
+  list-style-type: none;
+  float: left;
+}
+
+#segmentation ul li {
+  border-bottom: 1px solid #F0F3F0;
+  margin: 1em 0em 1em 0em;
+  padding: 0em 0em 1em 0em;
+}
+
+#segmentation .gruff {
+  background: #FFFFFF;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  margin: 1em 0em 1em 1em;
+  padding: 0em 1em 1em 1em;
+  width: 420px;
+  list-style-type: none;
+  float: left;
+}
+
+#segmentation #volume {
+
+}
+
+#segmentation #frequency {
+
+}
+
+.sites {
+  
+}
+
+.sites a {
+  text-decoration: none;
+}
+
+
+.site {
+  text-indent: 2em;
+  margin: 1em 0em 1em 0em
+}
+
+.info {
+  font-size: 10px;
+}
+
