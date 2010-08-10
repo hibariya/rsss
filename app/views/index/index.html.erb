@@ -21,9 +21,9 @@
         <div class="title" style="font-size: <%= 12+site.volume_level %>px;"><a href="<%= site.link %>" target="_blank" style="color: rgb(0, <%= (site.frequency_level)*10 %>, 0);"><%= site.title[0..20]+(site.title.length>20 ? '...': '') %></a>
           <span class="info"> (<%= ((site.general_level.to_f/24)*100).round %>)</span>
           <div class="info">
-            <%= raw URI.parse(site.link).host %>
             <%= (site.general_level > last_history.general_level)? '⇧': '' %>
             <%= (site.general_level < last_history.general_level)? '⇩': '' %>
+            <%= raw URI.parse(site.link).host %>
           </div>
         </div>
       </li>
