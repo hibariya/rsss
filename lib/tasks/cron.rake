@@ -1,4 +1,6 @@
 task :cron => :environment do
-  puts 'piyo'
+  User.all.each do |user|
+    user.create_histories
+  end
 end
 
