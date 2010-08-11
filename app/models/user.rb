@@ -2,7 +2,6 @@ class User
   include Mongoid::Document
 
   field :screen_name, :type=>String
-
   field :name, :type=>String
   field :description, :type=>String
   field :site, :type=>String
