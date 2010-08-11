@@ -29,8 +29,7 @@ gem 'rails', '3.0.0.rc'
 #   gem 'webrat'
 # end
 
-#gem 'mongoid', '2.0.0.beta.12'
-gem 'mongoid', '2.0.0.beta.16'
+gem 'mongoid', '2.0.0.beta.15'
 gem 'bson_ext'
 
 gem 'oauth'
