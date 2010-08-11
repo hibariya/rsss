@@ -43,7 +43,7 @@ class AuthController < ApplicationController
     user = User.find(:first, :conditions=>{:screen_name=>@user_info['screen_name']}) || User.new(:screen_name=>@user_info['screen_name'])
     user.oauth_token = access_token.token
     user.oauth_secret = access_token.secret
-    user.token = Digest::SHA1.new(access_token.token).to_s 
+    user.token = (Digest::SHA1.new<<access_token.token).to_s 
     user.save
     user.create_histories rescue nil
 
