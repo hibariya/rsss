@@ -25,6 +25,9 @@
   <div class="description"><%= @user_info['screen_name'] %>(<%= @user_info['name'] %>)</div>
   <div class="description"><%= @user_info['description'] %></div>
 </div>
+
+<% if flash[:note] %><div class="kdmr notice"><%= flash[:notice] %></div><% end %>
+
 <%= yield %>
 
 <div id="foot">

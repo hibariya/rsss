@@ -9,6 +9,10 @@ class Site
 
   attr_accessor :entries
 
+  def validate
+    errors.add('wrong type URI') unless uri =~ /^https?:\/\//
+  end
+
   def history_at(num=0)
     histories.sort_by{|h| h.created_at }.reverse[num] || History.new
   end

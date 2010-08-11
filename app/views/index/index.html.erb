@@ -19,12 +19,23 @@
   </script>
 </head>
 <body>
+  
 <div id="head">
   <h1>RSSS: RSS Summaries</h1>
 </div>
 <div class="kdmr note-wide">
   <%= link_to 'Sign in with Twitter', '/auth' %>   
 </div>
+
+<div class="kdmr document-wide">
+  <h2>RSSSについて</h2>
+  <p>いま自分がWebのどの辺を彷徨いているのかを自動的に表示します。</p>
+  <p>自分が吐いているRSSをいくつか登録しておくことで、最近の各Webサービスの利用度をざっくりと可視化します。
+  評価基準は1日あたりの<b>更新回数</b>と1日あたりの<b>更新量</b>で、1日1回サイト一覧の中で相対的に評価します。</p>
+  <p>タグクラウドのような感じで、1日あたりの更新量が多いほど大きく表示され、1日あたりの更新回数が多いほど明るく表示し、更新量と更新回数をあわせた総合的なランク付けをおこないます。その他、過去1ヶ月程度のランクの変化を可視化したりします。</p>
+  <p>バグ/その他 => <a href="http://twitter.com/pussy_cat">@pussy_cat (hibariya)</a></p>
+</div>
+
 <div id="foot">
   <%= link_to 'RSSS', '/' %>
   =>
