@@ -31,12 +31,12 @@ class AuthController < ApplicationController
     when Net::HTTPSuccess
       @user_info = JSON.parse(response.body)
       unless @user_info['screen_name']
-        flash[:notice] = "Authentication failed"
+        flash[:notice] = 'Authentication failed'
         return redirect_to :action=>:failure
       end
     else
-      RAILS_DEFAULT_LOGGER.error "Failed to get user info via OAuth"
-      flash[:notice] = "Authentication failed"
+      RAILS_DEFAULT_LOGGER.error 'Failed to get user info via OAuth'
+      flash[:notice] = 'Authentication failed'
       return redirect_to :action=>:failure
     end
     
