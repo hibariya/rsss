@@ -44,7 +44,7 @@ GEM
     mime-types (1.16)
     mongo (1.0.6)
       bson (>= 1.0.4)
-    mongoid (2.0.0.beta.15)
+    mongoid (2.0.0.beta.14)
       activemodel (= 3.0.0.rc)
       bson (= 1.0.4)
       mongo (= 1.0.6)
@@ -83,6 +83,6 @@ PLATFORMS
 DEPENDENCIES
   bson_ext
   json
-  mongoid (= 2.0.0.beta.15)
+  mongoid (= 2.0.0.beta.14)
   oauth
   rails (= 3.0.0.rc)
