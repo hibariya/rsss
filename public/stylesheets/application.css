@@ -22,7 +22,7 @@ body {
   width: 2em;
   height: 2em;
   float: left;
-  margin-right: 0.5em;
+  margin: 0.4em 0.5em 0 0;
 }
 
 #foot{

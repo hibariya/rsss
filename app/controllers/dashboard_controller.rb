@@ -11,6 +11,23 @@ class DashboardController < ApplicationController
   end
 
   def index
+    if params[:submit]
+      site = @user.sites.select{|s| s.id.to_s==params[:site][:id] }.first
+      if site
+        site.uri = params[:site][:uri]
+        site.save
+      else
+        @user.sites<<Site.new(uri: params[:site][:uri])
+        @user.save
+      end
+      return redirect_to :action=>:index
+    end
+
+    if params[:delete]
+      site = @user.sites.select{|s| s.id.to_s==params[:site][:id] }.first
+      site.delete if site
+      return redirect_to :action=>:index
+    end
   end
 
   def edit

@@ -26,14 +26,16 @@ class User
     feeds.each do |feed|
       site = sites.select{|s| s.uri==feed.uri }.first
       site.reload_channel
-      site.histories = site.histories.sort_by{|h| h.created_at }.reverse[0...30]
-      site.histories<<History.new(:volume_level=>feed.volume_level, :frequency_level=>feed.frequency_level, :created_at=>now)
+      site.histories = site.histories.find_all{|h| h.created_at.strftime('%Y%m%d%H')!=now.strftime('%Y%m%d%H')}.
+        sort_by{|h| h.created_at }.reverse[0...30]
+      site.histories<<History.new(:volume_level=>feed.volume_level, 
+                                  :frequency_level=>feed.frequency_level, :created_at=>now)
     end
     save && self
   end
 
   def feeds
-    @feeds ||= Feeds.new(sites.map{|f| f.entries }) end
+    @feeds ||= Feeds.new(sites.map{|f| f.entries rescue nil }.find_all{|s|!s.nil?}) end
 
   #
   # フィードの一覧を相対評価するための何か
