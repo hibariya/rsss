@@ -22,6 +22,10 @@ input {
   margin-right: 0.25em;
 }
 
+a {
+  text-decoration: none;
+}
+
 #head{
   height: 3.75em;
   margin: 0em 0em 0em 0em;
@@ -70,16 +74,7 @@ h1 {
 }
 
 #segmentation ul {
-  background: #FFFFFF;
-  border-radius: 20px;
-  -moz-border-radius: 20px;
-  -webkit-border-radius: 20px;
-  border: 3px #e0ebaf solid;
-  margin: 1em 0em 1em 0em;
-  padding-left: 0em;
-  width: 450px;
   list-style-type: none;
-  float: left;
 }
 
 #segmentation ul li {
@@ -90,10 +85,6 @@ h1 {
 
 #segmentation .gruff {
   background: #FFFFFF;
-  border-radius: 20px;
-  -moz-border-radius: 20px;
-  -webkit-border-radius: 20px;
-  border: 3px #e0ebaf solid;
   margin: 1em 0em 1em 1em;
   padding: 0em 1em 1em 1em;
   width: 420px;
@@ -108,22 +99,13 @@ h1 {
   -webkit-border-radius: 20px;
 }
 
-#segmentation #volume {
-
-}
-
-#segmentation #frequency {
-
-}
-
 .sites {
-  
+  background: #FFFFFF;
+  margin: 1em 0em 1em 0em;
+  padding-left: 0em;
+  width: 450px;
+  float: left;
 }
-
-.sites a {
-  text-decoration: none;
-}
-
 
 .site {
   text-indent: 2em;
@@ -132,5 +114,13 @@ h1 {
 
 .info {
   font-size: 10px;
+}
+
+.note-wide {
+  width: 800px;
+  font-family: Ebit;
+  text-align: center;
+  margin: 100px 0 100px 2em;
+  padding: 1em 1em 1em 1em;
 }
 

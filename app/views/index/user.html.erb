@@ -1,23 +1,22 @@
 <div id="segmentation">
-  <ul id="amount" class="sites">
+  <ul class="sites kdmr">
     <% @user.summaries.sort_by{|s| s.general_level }.reverse.each do |history| %>
     <% site = history.site 
-    #last_history = site.history_at(1) 
-    %>
+       last_history = site.history_at(1) %>
       <li class="site">
         <div class="title" style="font-size: <%= 12+history.volume_level %>px;">
           <a href="<%= site.uri %>" target="_blank" style="color: rgb(0, <%= (history.frequency_level)*10 %>, 0);"><%= site.title[0..20]+(site.title.length>20 ? '...': '') %></a>
-          <span class="info"> (<%= ((history.general_level.to_f/24)*100).round %>)</span>
+          <span class="info"> <%= ((history.general_level.to_f/24)*100).round %>pt</span>
           <div class="info">
-            <%#= (history.general_level > last_history.general_level)? '⇧': '' %>
-            <%#= (history.general_level < last_history.general_level)? '⇩': '' %>
+            <%= (history.general_level > last_history.general_level)? '⇧': '' %>
+            <%= (history.general_level < last_history.general_level)? '⇩': '' %>
             <%= raw URI.parse(site.uri).host %>
           </div>
         </div>
       </li>
     <% end %>
   </ul>
-  <div class='gruff'>
+  <div class="gruff kdmr">
     <canvas id="histories" width="400"></canvas>
     <script type="text/javascript">
       var g = new Bluff.Line('histories', 400);
@@ -25,7 +24,6 @@
       g.font = 'Helvetica';
       g.hide_dots = true;
       g.hide_line_numbers = true;
-      /*g.hide_line_markers = true;*/
       g.line_width = 2;
       g.dot_radius = 0;
       g.theme_pastel();
