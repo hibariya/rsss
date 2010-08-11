@@ -27,8 +27,7 @@ class User
       site = sites.select{|s| s.uri==feed.uri }.first
       site.reload_channel
       site.histories = site.histories.sort_by{|h| h.created_at }.reverse[0...30]
-      site.histories<<History.new(volume_level: feed.volume_level,
-        frequency_level: feed.frequency_level, created_at: now)
+      site.histories<<History.new(:volume_level=>feed.volume_level, :frequency_level=>feed.frequency_level, :created_at=>now)
     end
     save && self
   end
