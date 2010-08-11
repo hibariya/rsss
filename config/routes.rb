@@ -1,16 +1,16 @@
 Rsss::Application.routes.draw do |map|
-  get "dashboard/index"
-  post "dashboard/index"
-  get "dashboard/edit"
+  #get "sites/create"
+  #get "sites/update"
+  #get "sites/destroy"
 
   get "auth/oauth"
   get "auth/oauth_callback"
   get "auth/failure"
 
-  get "index/index"
-
   match '/dashboard'  => 'dashboard#index'
   match '/auth'  => 'auth#oauth'
+  resources :sites, :expect=>[:create, :destroy, :update]
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -69,5 +69,5 @@ Rsss::Application.routes.draw do |map|
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
   #match '/:user(/:controller(/:action(/:id)))' => 'index#index'
-  match '/:user' => 'index#index'
+  match '/:user' => 'index#user'
 end

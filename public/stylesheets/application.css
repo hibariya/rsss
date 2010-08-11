@@ -9,6 +9,17 @@ body {
   font-size: 12px;
   font-family: Helvetica;
   background: #c3d825;
+  width: 1000px;
+}
+
+form {
+  display: inline;
+}
+
+input { 
+  height: 1.5em;
+  font-size: 1.2em;
+  margin-right: 0.25em;
 }
 
 #head{
@@ -88,6 +99,13 @@ h1 {
   width: 420px;
   list-style-type: none;
   float: left;
+}
+
+.kdmr {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
 }
 
 #segmentation #volume {

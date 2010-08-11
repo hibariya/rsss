@@ -20,11 +20,13 @@
 </head>
 <body>
 <div id="head">
-  <h1>RSSS: RSS Summaries</h1>
+  <img src="<%= @user_info['profile_image_url'] %>" class="icon" /><h1>Dashboard</h1>
+  <div style="clear:both:"></div>
+  <div class="description"><%= @user_info['screen_name'] %>(<%= @user_info['name'] %>)</div>
+  <div class="description"><%= @user_info['description'] %></div>
 </div>
-<div class="kdmr" style="width: 800px; font-family: Ebit; text-align: center; margin: 100px 0 100px 2em; padding: 1em 1em 1em 1em;">
-  <%= link_to 'Sign in with Twitter', '/auth', :style=>'text-decoration: none;' %>   
-</div>
+<%= yield %>
+
 <div id="foot">
   <%= link_to 'RSSS', '/' %>
   =>

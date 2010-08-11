@@ -4,6 +4,8 @@ class IndexController < ApplicationController
   end
 
   def index
-  end
+    render layout: false end
+
+  def user; end
   
 end

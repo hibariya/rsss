@@ -1,0 +1,46 @@
+<div id="segmentation">
+  <ul id="amount" class="sites">
+    <% @user.summaries.sort_by{|s| s.general_level }.reverse.each do |history| %>
+    <% site = history.site 
+    #last_history = site.history_at(1) 
+    %>
+      <li class="site">
+        <div class="title" style="font-size: <%= 12+history.volume_level %>px;">
+          <a href="<%= site.uri %>" target="_blank" style="color: rgb(0, <%= (history.frequency_level)*10 %>, 0);"><%= site.title[0..20]+(site.title.length>20 ? '...': '') %></a>
+          <span class="info"> (<%= ((history.general_level.to_f/24)*100).round %>)</span>
+          <div class="info">
+            <%#= (history.general_level > last_history.general_level)? '⇧': '' %>
+            <%#= (history.general_level < last_history.general_level)? '⇩': '' %>
+            <%= raw URI.parse(site.uri).host %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <div class='gruff'>
+    <canvas id="histories" width="400"></canvas>
+    <script type="text/javascript">
+      var g = new Bluff.Line('histories', 400);
+      g.hide_title = true;
+      g.font = 'Helvetica';
+      g.hide_dots = true;
+      g.hide_line_numbers = true;
+      /*g.hide_line_markers = true;*/
+      g.line_width = 2;
+      g.dot_radius = 0;
+      g.theme_pastel();
+      g.replace_colors(<%= raw %w(#f39700 #e60012 #9caeb7 #00a7db #009944 #d7c447
+        #9b7cb6 #00ada9 #bb641d #e85298 #0079c2 #6cbb5a #b6007a #e5171f
+        #522886 #0078ba #019a66 #e44d93 #814721 #a9cc51 #ee7b1a #00a0de).inspect %>)
+      <% @user.sites.each do |site| 
+        history = Array.new 31, 0
+        site.histories.sort_by{|h| h.created_at }.reverse.each_with_index{|h,i| history[i] = h.general_level } %>
+          g.data("<%= raw URI.parse(site.uri).host %>", <%= raw history.reverse.inspect %>);
+      <% end %>
+      g.labels = {1: '30 days ago', 30: 'now'}
+      g.draw();
+    </script>
+  
+  </div>
+</div>
+

@@ -1,21 +1,24 @@
 <div id="segmentation">
-  <ul id="amount" class="sites" style="width: 800px;">
+  <ul id="amount" class="kdmr" style="width: 800px;">
     <% @user.sites<<Site.new
        @user.sites.reverse.each do |site| %>
       <li class="site">
-      <%= form_tag :method=>'post' %>
         <div class="title">
           <%= site.title %>
         </div>
         <div class="title">
-          <input type="hidden" name="site[id]" value="<%= site.id.to_s %>" />
-          <input type="text" name="site[uri]" value="<%= site.uri %>" style="width: 600px; height: 1.6em; font-size: 1.5em;" />
-          <input type="submit" value="<%= site.uri.nil?? 'Add': 'Change' %>" name="submit" />
-        <% unless site.uri.nil? %><input type="submit" value="Delete" name="delete" /><% end %>
+          <%= form_for site do |f| %>
+            <%= f.text_field :uri, :style=>'width: 550px;' %>
+            <%= f.submit site.uri?? 'Update': 'Create' %>
+        <% end %>
+        <% unless site.uri.nil? %>
+        <%= form_for site, :html=>{:method=>:delete} do |f| %>
+            <%= f.submit 'Destroy' %>
+        <% end %>
+      <% end %>
         </div>
         <div class="info">
         </div>
-      </form>
       </li>
     <% end %>
   </ul>
