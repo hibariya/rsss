@@ -2,9 +2,9 @@ class User
   include Mongoid::Document
 
   field :screen_name, :type=>String
-  field :name, :type=>String
-  field :description, :type=>String
-  field :site, :type=>String
+  #field :name, :type=>String
+  #field :description, :type=>String
+  #field :site, :type=>String
 
   field :created_at, :type=>Time
   field :updated_at, :type=>Time
@@ -15,6 +15,10 @@ class User
 
   embeds_many :sites
   attr_accessor :feeds, :summaries
+
+  def self.find_by_token(t)
+    find(:first, :conditions=>{:token=>t})
+  end
 
   def summaries
     histories_at 0 end
@@ -27,13 +31,18 @@ class User
   #
   def create_histories
     now = Time.now
-    feeds.each do |feed|
-      site = sites.select{|s| s.uri==feed.uri }.first
-      site.reload_channel
-      site.histories = site.histories.find_all{|h| h.created_at.strftime('%Y%m%d%H')!=now.strftime('%Y%m%d%H')}.
-        sort_by{|h| h.created_at }.reverse[0...30]
-      site.histories<<History.new(:volume_level=>feed.volume_level, 
-                                  :frequency_level=>feed.frequency_level, :created_at=>now)
+    if sites.length==1
+      sites.last.reload_channel.histories<<History.new(:volume_level=>24, :frequency_level=>24, :created_at=>now)
+
+    else
+      feeds.each do |feed|
+        site = sites.select{|s| s.uri==feed.uri }.first
+        site.reload_channel
+        site.histories = site.histories.find_all{|h| h.created_at.strftime('%Y%m%d%H')!=now.strftime('%Y%m%d%H')}.
+          sort_by{|h| h.created_at }.reverse[0...30]
+        site.histories<<History.new(:volume_level=>feed.volume_level, 
+                                    :frequency_level=>feed.frequency_level, :created_at=>now)
+      end
     end
     save && self
   end

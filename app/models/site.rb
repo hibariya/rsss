@@ -9,8 +9,8 @@ class Site
 
   attr_accessor :entries
 
-  def validate
-    errors.add('wrong type URI') unless uri =~ /^https?:\/\//
+  validate do |site|
+    site.errors.add(:uri, 'wrong type URI') unless site.uri =~ /^https?:\/\//
   end
 
   def history_at(num=0)

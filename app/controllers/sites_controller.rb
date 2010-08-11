@@ -4,7 +4,7 @@ class SitesController < ApplicationController
   def create
     @user.sites<<Site.new(:uri=>params[:site][:uri])
     unless @user.sites.last.valid?
-      flash[:notice] = @user.sites.last.errors.first
+      flash[:notice] = @user.sites.last.errors.first.last
     else
       @user.save
       @user.create_histories

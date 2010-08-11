@@ -8,9 +8,9 @@
           <a href="<%= site.uri %>" target="_blank" style="color: rgb(0, <%= (history.frequency_level)*10 %>, 0);"><%= site.title[0..20]+(site.title.length>20 ? '...': '') %></a>
           <span class="info"> <%= ((history.general_level.to_f/24)*100).round %>pt</span>
           <div class="info">
+            <%= raw URI.parse(site.uri).host %>
             <%= (history.general_level > last_history.general_level)? '⇧': '' %>
             <%= (history.general_level < last_history.general_level)? '⇩': '' %>
-            <%= raw URI.parse(site.uri).host %>
           </div>
         </div>
       </li>

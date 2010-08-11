@@ -30,14 +30,10 @@ class AuthController < ApplicationController
     case response
     when Net::HTTPSuccess
       @user_info = JSON.parse(response.body)
-      unless @user_info['screen_name']
-        flash[:notice] = 'Authentication failed'
-        return redirect_to :action=>:failure
-      end
+      raise unless @user_info['screen_name']
     else
       RAILS_DEFAULT_LOGGER.error 'Failed to get user info via OAuth'
-      flash[:notice] = 'Authentication failed'
-      return redirect_to :action=>:failure
+      raise
     end
     
     user = User.find(:first, :conditions=>{:screen_name=>@user_info['screen_name']}) || User.new(:screen_name=>@user_info['screen_name'])
@@ -49,7 +45,16 @@ class AuthController < ApplicationController
 
     session[:token] = user.token
     return redirect_to '/dashboard'
+
+  rescue
+    flash[:notice] = 'Authentication failed'
+    return redirect_to :action=>:failure
   end
 
   def failure; end
+
+  def signout
+    session[:token] = nil
+    return redirect_to '/'
+  end
 end

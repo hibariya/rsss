@@ -6,6 +6,11 @@ class IndexController < ApplicationController
   def index
     render :layout=>false end
 
-  def user; end
+  def user
+    unless @user
+      flash[:notice] = "No such User or Page"
+      render :status=>404, :action=>'error', :layout=>'application'
+    end
+  end
   
 end

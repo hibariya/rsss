@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   def self.check_admin
     lambda { 
       if session[:token]
-        load_user User.find(:first, :conditions=>{:token=>session[:token]}).screen_name
+        load_user User.find_by_token(session[:token]).screen_name rescue nil
       end
 
       if @user.nil?

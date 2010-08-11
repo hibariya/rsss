@@ -1,26 +1,25 @@
-<div id="segmentation">
-  <ul class="sites kdmr" style="width: 800px;">
-    <% @user.sites.reverse.each do |site| %>
-      <li class="site">
-        <div class="title">
-          <%= site.title %>
-        </div>
-        <div class="title">
-          <%= form_for site do |f| %>
-            <%= f.text_field :uri, :style=>'width: 550px;' %>
-            <%= f.submit site.uri?? 'Update': 'Create' %>
-        <% end %>
-        <% unless site.uri.nil? %>
+<ul id="sites" class="sites kdmr" style="width: 800px;">
+  <% @user.sites.reverse.each do |site| %>
+    <li class="site">
+    <div>
+      <%= site.title %>
+      <%= 'RSSまたはAtomフィードのURIを追加: ' unless site.uri? %>
+    </div>
+    <div>
+      <%= form_for site do |f| %>
+        <%= f.text_field :uri, :style=>'width: 600px;' %>
+        <%= f.submit site.uri?? '変更': '追加', :onclick=>'return confirm("Are You Sure?");' %>
+      <% end %>
+      <% unless site.uri.nil? %>
         <%= form_for site, :html=>{:method=>:delete} do |f| %>
-            <%= f.submit 'Destroy' %>
+          <%= f.submit '削除', :onclick=>'return confirm("Are You Sure?");' %>
         <% end %>
       <% end %>
-        </div>
-        <div class="info">
-        </div>
-      </li>
-    <% end %>
-  </ul>
-</div>
+    </div>
+    <div class="info">
+    </div>
+    </li>
+  <% end %>
+</ul>
 
 

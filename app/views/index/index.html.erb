@@ -24,7 +24,11 @@
   <h1>RSSS: RSS Summaries</h1>
 </div>
 <div class="kdmr note-wide">
-  <%= link_to 'Sign in with Twitter', '/auth' %>   
+  <% if User.find_by_token(session[:token]).nil? %>
+    <%= link_to 'Sign in with Twitter', '/auth' %>
+  <% else %>
+    <%= link_to 'Dashboard', '/dashboard' %>
+  <% end %>
 </div>
 
 <div class="kdmr document-wide">

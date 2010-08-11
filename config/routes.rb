@@ -6,6 +6,7 @@ Rsss::Application.routes.draw do |map|
   get "auth/oauth"
   get "auth/oauth_callback"
   get "auth/failure"
+  get "auth/signout"
 
   match '/dashboard'  => 'dashboard#index'
   match '/auth'  => 'auth#oauth'
