@@ -4,12 +4,12 @@ class AuthController < ApplicationController
     OAuth::Consumer.new(
       Rsss::OAUTH_CONSUER_KEY,
       Rsss::OAUTH_CONSUMER_SECRET,
-      {site: 'http://twitter.com'})
+      {:site=>'http://twitter.com'})
   end
 
   def oauth
     request_token = self.class.consumer.get_request_token(
-      oauth_callback: "http://#{request.host_with_port}/auth/oauth_callback")
+      :oauth_callback=>"http://#{request.host_with_port}/auth/oauth_callback")
     session[:request_token] = request_token.token
     session[:request_token_secret] = request_token.secret
     return redirect_to request_token.authorize_url
@@ -21,7 +21,7 @@ class AuthController < ApplicationController
       session[:request_token], session[:request_token_secret])
 
     access_token = request_token.get_access_token({},
-      oauth_token: params[:oauth_token], oauth_verifier: params[:oauth_verifier])
+      :oauth_token=>params[:oauth_token], :oauth_verifier=>params[:oauth_verifier])
 
     response = consumer.request(:get,
       '/account/verify_credentials.json',

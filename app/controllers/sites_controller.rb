@@ -2,7 +2,7 @@ class SitesController < ApplicationController
   before_filter ApplicationController.check_admin
   
   def create
-    @user.sites<<Site.new(uri: params[:site][:uri])
+    @user.sites<<Site.new(:uri=>params[:site][:uri])
     @user.save
     @user.create_histories
     return redirect_to '/dashboard'

@@ -1,10 +1,10 @@
 class IndexController < ApplicationController
   before_filter do
-    load_user params[:user] || 'pussy_cat'
+    load_user params[:user]
   end
 
   def index
-    render layout: false end
+    render :layout=>false end
 
   def user; end
   
