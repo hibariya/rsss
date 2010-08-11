@@ -1,7 +1,6 @@
 <div id="segmentation">
   <ul id="amount" class="kdmr" style="width: 800px;">
-    <% @user.sites<<Site.new
-       @user.sites.reverse.each do |site| %>
+    <% @user.sites.reverse.each do |site| %>
       <li class="site">
         <div class="title">
           <%= site.title %>
