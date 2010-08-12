@@ -41,7 +41,6 @@ class AuthController < ApplicationController
     user.oauth_secret = access_token.secret
     user.token = (Digest::SHA1.new<<access_token.token).to_s 
     user.save
-    user.create_histories rescue nil
 
     session[:token] = user.token
     return redirect_to '/dashboard'
