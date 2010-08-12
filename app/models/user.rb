@@ -32,18 +32,34 @@ class User
   def create_histories
     now = Time.now
     if sites.length==1
-      sites.last.reload_channel.histories<<History.new(:volume_level=>24, :frequency_level=>24, :created_at=>now)
-
+      site = sites.last
+      site.reload_channel
+      site.recent_entries.delete_all
+      site.entries.each do |entry|
+          site.recent_entries<<RecentEntry.new(:title=>entry.title, :content=>entry.snipet,
+                                               :link=>entry.link, :date=>entry.date)
+      end
+      site.histories<<History.new(:volume_level=>24, :frequency_level=>24, :created_at=>now)
+    
     else
+      sites.each{|s| s.recent_entries.delete_all }
+      save
+      reload
       feeds.each do |feed|
         site = sites.select{|s| s.uri==feed.uri }.first
         site.reload_channel
-        site.histories = site.histories.find_all{|h| h.created_at.strftime('%Y%m%d%H')!=now.strftime('%Y%m%d%H')}.
-          sort_by{|h| h.created_at }.reverse[0...30]
+        site.entries.each do |entry|
+          site.recent_entries<<RecentEntry.new(:title=>entry.title, :content=>entry.snipet,
+                                               :link=>entry.link, :date=>entry.date)
+        end
+
         site.histories<<History.new(:volume_level=>feed.volume_level, 
                                     :frequency_level=>feed.frequency_level, :created_at=>now)
+        site.histories.select{|h| h.created_at.strftime('%Y%m%d%H')==now.strftime('%Y%m%d%H')}.first.delete
+        (site.histories.sort_by{|h| h.created_at }.reverse[32..-1] || []).each{|d| d.delete unless d.nil?}
       end
     end
+
     save && self
   end
 

@@ -5,6 +5,7 @@ class Site
   field :site_uri, :type=>String
   field :title, :type=>String
   embeds_many :histories
+  embeds_many :recent_entries
   embedded_in :user, :inverse_of=>:sites
 
   attr_accessor :entries
@@ -153,7 +154,23 @@ class Site
           else res end
         end
       end
- 
+
+      def snipet(len=120)
+        content.gsub(/<[^>]+>/, '').gsub(/[\n\r\s]/, '')[0...len] 
+      end
+
+      #
+      # エントリのURIに相当しそうな部分
+      #
+      def link
+        @link ||= [:about, :link].inject(nil) do |res, m|
+          if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
+            res = @entry.__send__ m 
+            res.respond_to?(:content)? res.content: res
+          else res end
+        end
+      end
+
       #
       # カテゴリ的なもの
       #
