@@ -42,7 +42,7 @@ class User
       site.histories<<History.new(:volume_level=>24, :frequency_level=>24, :created_at=>now)
     
     else
-      sites.each{|s| s.recent_entries.delete_all }
+      sites.each{|s| s.recent_entries.delete_all } 
       save
       reload
       feeds.each do |feed|
@@ -53,10 +53,12 @@ class User
                                                :link=>entry.link, :date=>entry.date)
         end
 
+        todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d%H')==now.strftime('%Y%m%d%H')}.first
+        todays.delete unless todays.nil?
         site.histories<<History.new(:volume_level=>feed.volume_level, 
                                     :frequency_level=>feed.frequency_level, :created_at=>now)
-        site.histories.select{|h| h.created_at.strftime('%Y%m%d%H')==now.strftime('%Y%m%d%H')}.first.delete
-        (site.histories.sort_by{|h| h.created_at }.reverse[32..-1] || []).each{|d| d.delete unless d.nil?}
+        (site.histories.sort_by{|h| h.created_at }.reverse[32..-1] || []).
+          each{|d| d.delete unless d.nil?} if site.histories.length > 31
       end
     end
 

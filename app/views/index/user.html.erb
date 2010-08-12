@@ -2,15 +2,21 @@
   <ul class="sites kdmr">
     <% @user.summaries.sort_by{|s| s.general_level }.reverse.each do |history| %>
     <% site = history.site 
-       last_history = site.history_at(1) %>
+       last_history = site.history_at(1) rescue History.new %>
       <li class="site">
         <div class="title" style="font-size: <%= 12+history.volume_level %>px;">
           <a href="<%= site.site_uri %>" target="_blank" style="color: rgb(0, <%= (history.frequency_level)*10 %>, 0);"><%= site.title[0..20]+(site.title.length>20 ? '...': '') %></a>
           <span class="info"> <%= ((history.general_level.to_f/24)*100).round %>pt</span>
           <div class="info">
-            <%= raw URI.parse(site.uri).host %>
+            in <%= raw URI.parse(site.uri).host %>
             <%= (history.general_level > last_history.general_level)? '⇧': '' %>
             <%= (history.general_level < last_history.general_level)? '⇩': '' %>
+          </div>
+          <div class="info" style="text-align: right;">
+            <div>最近のエントリ</div>
+            <% site.recent_entries.sort_by{|e|e.date}.reverse[0..((history.general_level/10).round)].each do |entry| %>
+              <a href="<%= entry.link %>" target="_blank" title="<%= entry.content %>"><%= entry.title[0..40] %><%= entry.title.length>40 ? '...' : '' %></a><br />
+            <% end %>
           </div>
         </div>
       </li>

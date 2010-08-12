@@ -15,8 +15,7 @@ class Site
   end
 
   def history_at(num=0)
-    histories.sort_by{|h| h.created_at }.reverse[num] || History.new
-  end
+    histories.sort_by{|h| h.created_at }.reverse[num] || History.new end
 
   def entries
     return @entries unless @entries.nil?
@@ -166,7 +165,7 @@ class Site
         @link ||= [:about, :link].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
-            res.respond_to?(:content)? res.content: res
+            res.respond_to?(:href)? res.href: res
           else res end
         end
       end

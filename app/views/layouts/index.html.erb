@@ -7,16 +7,6 @@
   <%= javascript_include_tag 'bluff' %>
   <%= javascript_include_tag 'excanvas' %>
   <%= csrf_meta_tag %>
-  <script type="text/javascript">
-  <!--
-    i = 0;
-    setInterval("crsr()", 500);
-    function crsr(){
-      document.getElementById("bcrsr").innerHTML = i==1 ? '_' : '&nbsp;';
-      i = i==1 ? 0 : 1;
-    }
-  //-->
-  </script>
 </head>
 <body>
 <div id="head">
@@ -33,7 +23,7 @@
 <div id="foot">
   <%= link_to 'RSSS', '/' %>
   =>
-  <a href="http://github.com/hibariya/rsss" target="_blank">http://github.com/hibariya/rsss<span id="bcrsr">_</span></a>
+  <a href="http://github.com/hibariya/rsss" target="_blank">http://github.com/hibariya/rsss</a>
 </div>
 </body>
 </html>

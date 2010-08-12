@@ -1,8 +1,8 @@
 class History
   include Mongoid::Document
 
-  field :volume_level, :type=>Fixnum
-  field :frequency_level, :type=>Fixnum
+  field :volume_level, :type=>Fixnum, :default=>0
+  field :frequency_level, :type=>Fixnum, :default=>0
   field :created_at, :type=>Time
   embedded_in :site, :inverse_of=>:histories
 
