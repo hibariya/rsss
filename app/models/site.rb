@@ -137,9 +137,9 @@ class Site
         @title ||= [:title].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
-            (res.respond_to?(:content)? res.content: res).to_s
+            res.respond_to?(:content)? res.content: res
           else res end
-        end
+        end or ''
       end
       
       #
@@ -149,9 +149,9 @@ class Site
         @content ||= [:content_encoded, :content, :description, :summary, :subtitle].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
-            (res.respond_to?(:content)? res.content: res).to_s
+            res.respond_to?(:content)? res.content: res
           else res end
-        end
+        end or ''
       end
 
       def snipet(len=120)
@@ -176,9 +176,9 @@ class Site
       def categories
         @categories ||= [:categories, :dc_subjects, :dc_categories].inject([]) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil?
-            (res+@entry.__send__(m).map{|c| (c.respond_to?(:content)? c.content: c).to_s }).uniq
+            (res+@entry.__send__(m).map{|c| (c.respond_to?(:content)? c.content: c) or '' }).uniq
           else res end
-        end
+        end or []
       end
 
       #
