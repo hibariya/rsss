@@ -19,6 +19,7 @@ class SitesController < ApplicationController
         flash[:notice] = site.errors.first
       else
         site.save
+        @user.create_histories
       end
     end
     return redirect_to '/dashboard'

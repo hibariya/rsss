@@ -24,17 +24,19 @@ class User
     histories_at 0 end
 
   def histories_at(num)
-    sites.map{|s| s.histories.sort_by{|h| h.created_at }.reverse[num] || History.new } end
+    sites.map{|s| s.histories.sort_by{|h| h.created_at }.reverse[num] }.find_all{|s| !s.nil?} end
 
   #
   # 過去30日間の遷移を更新
   #
   def create_histories
     now = Time.now
+    sites.each{|s| s.recent_entries.delete_all } 
+    save
+    reload
     if sites.length==1
       site = sites.last
       site.reload_channel
-      site.recent_entries.delete_all
       site.entries.each do |entry|
           site.recent_entries<<RecentEntry.new(:title=>entry.title, :content=>entry.snipet,
                                                :link=>entry.link, :date=>entry.date)
@@ -42,9 +44,6 @@ class User
       site.histories<<History.new(:volume_level=>24, :frequency_level=>24, :created_at=>now)
     
     else
-      sites.each{|s| s.recent_entries.delete_all } 
-      save
-      reload
       feeds.each do |feed|
         site = sites.select{|s| s.uri==feed.uri }.first
         site.reload_channel
