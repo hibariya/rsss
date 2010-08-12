@@ -93,8 +93,8 @@ class Site
     # サイト名
     #
     def title
-      @title ||= @feed.respond_to?(:title)? 
-        @feed.title.content: @feed.channel.title end
+      @title ||= (@feed.respond_to?(:title)? 
+        @feed.title.content: @feed.channel.title).to_s end
 
     #
     # サイトURL
@@ -137,7 +137,7 @@ class Site
         @title ||= [:title].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
-            res.respond_to?(:content)? res.content: res
+            (res.respond_to?(:content)? res.content: res).to_s
           else res end
         end
       end
@@ -149,13 +149,13 @@ class Site
         @content ||= [:content_encoded, :content, :description, :summary, :subtitle].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
-            res.respond_to?(:content)? res.content: res
+            (res.respond_to?(:content)? res.content: res).to_s
           else res end
         end
       end
 
       def snipet(len=120)
-        content.to_s.gsub(/<[^>]+>/, '').gsub(/[\n\r\s]/, '')[0...len] 
+        content.gsub(/<[^>]+>/, '').gsub(/[\n\r\s]/, '').scan(/./)[0...len].join
       end
 
       #
@@ -176,7 +176,7 @@ class Site
       def categories
         @categories ||= [:categories, :dc_subjects, :dc_categories].inject([]) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil?
-            (res+@entry.__send__(m).map{|c| c.respond_to?(:content)? c.content: c }).uniq
+            (res+@entry.__send__(m).map{|c| (c.respond_to?(:content)? c.content: c).to_s }).uniq
           else res end
         end
       end
