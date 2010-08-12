@@ -155,7 +155,7 @@ class Site
       end
 
       def snipet(len=120)
-        content.gsub(/<[^>]+>/, '').gsub(/[\n\r\s]/, '')[0...len] 
+        content.to_s.gsub(/<[^>]+>/, '').gsub(/[\n\r\s]/, '')[0...len] 
       end
 
       #
