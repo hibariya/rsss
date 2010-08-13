@@ -56,7 +56,7 @@ class User
         todays.delete unless todays.nil?
         site.histories<<History.new(:volume_level=>feed.volume_level, 
                                     :frequency_level=>feed.frequency_level, :created_at=>now)
-        (site.histories.sort_by{|h| h.created_at }.reverse[32..-1] || []).
+        (site.histories.sort_by{|h| h.created_at }.reverse[31..-1] || []).
           each{|d| d.delete unless d.nil?} if site.histories.length > 31
       end
     end
