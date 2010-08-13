@@ -52,7 +52,7 @@ class User
                                                :link=>entry.link, :date=>entry.date)
         end
 
-        todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d%H')==now.strftime('%Y%m%d%H')}.first
+        todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d')==now.strftime('%Y%m%d')}.first
         todays.delete unless todays.nil?
         site.histories<<History.new(:volume_level=>feed.volume_level, 
                                     :frequency_level=>feed.frequency_level, :created_at=>now)
