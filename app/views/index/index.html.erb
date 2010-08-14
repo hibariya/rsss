@@ -1,22 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Rsss</title>
+  <title>RSSS | RSS Feed Summaries</title>
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag 'js_class' %>
   <%= javascript_include_tag 'bluff' %>
   <%= javascript_include_tag 'excanvas' %>
   <%= csrf_meta_tag %>
-  <script type="text/javascript">
-  <!--
-    i = 0;
-    setInterval("crsr()", 500);
-    function crsr(){
-      document.getElementById("bcrsr").innerHTML = i==1 ? '_' : '&nbsp;';
-      i = i==1 ? 0 : 1;
-    }
-  //-->
-  </script>
+  <link rel="icon" type="image/png" href="/favicon.png" />
 </head>
 <body>
   
@@ -43,9 +34,12 @@
 </div>
 
 <div id="foot">
-  <%= link_to 'RSSS', '/' %>
-  =>
-  <a href="http://github.com/hibariya/rsss" target="_blank">http://github.com/hibariya/rsss<span id="bcrsr">_</span></a>
+  <div class="kdmr note-wide" style="width: 100%; text-align: right;">
+    <%= link_to 'RSSS', '/' %>
+    Developed by 
+    <%= link_to 'HIBARIYA', 'http://twitter.com/pussy_cat' %>
+    ( in <a href="http://github.com/hibariya/rsss" target="_blank">Github</a> )
+  </div>
 </div>
 </body>
 </html>
