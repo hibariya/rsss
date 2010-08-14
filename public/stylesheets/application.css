@@ -36,6 +36,11 @@ ul li {
   padding: 0em 1em 1em 0em;
 }
 
+p {
+  padding: 0.5em 0.5em 0.5em 1em;
+  margin: 0em 0em 0em 0em;
+}
+
 #head{
   height: 3.75em;
   margin: 0em 0em 0em 0em;

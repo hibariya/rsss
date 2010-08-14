@@ -24,13 +24,45 @@
 
 <div class="kdmr document-wide">
   <h2>RSSSについて</h2>
-  <p>いまWebのどの辺を彷徨いているのかを自動的に公開するためのツールです。</p>
-  <p>自分が吐いているRSS/Atomフィードをいくつか登録しておくことで、最近の各Webサービスの利用度をざっくりと可視化します。
-  評価基準は1日あたりの<b>更新回数</b>と1日あたりの<b>更新量</b>で、1日1回サイト一覧の中で相対的に評価します。</p>
-  <p>タグクラウドのような感じで、1日あたりの更新量が多いほど大きく表示され、1日あたりの更新回数が多いほど明るく表示し、更新量と更新回数をあわせた総合的なランク付けをおこないます。その他、過去1ヶ月程度のランクの変化を可視化したりします。</p>
-  <p style="text-align: center;">イメージ↓<br /><img src="/images/sample.png" style="width: 482px; height: 327px;" /></p>
-  <p>その他: Twitterで認証しますがTwitterへのPOSTなどは行ないません。ときどきフィードの取得に失敗することがあります。永遠に取得できないフィードがあるかもしれません。実験的なので評価の仕方はバランスがよくないかもしれません。</p>
-  <p style="text-align: center;">バグ/その他 => <a href="http://twitter.com/pussy_cat">@pussy_cat (hibariya)</a></p>
+  <p>
+    最近Webのどの辺を彷徨いているのかをリアルタイム(1日ごとに更新)に公開するプロフィールページです。自分のブログなどをいくつか登録しておくことで、最近のブログ更新を可視化します。以下のような特徴があります。
+  </p>
+  <ul>
+    <li>登録しているサイト一覧を評価結果順に表示します</li>
+    <li>ここ1ヶ月の更新の推移をグラフ表示します</li>
+  </ul>
+  <p style="text-align: center;"><img src="/images/sample_summaries.png" /></p>
+  <h3>サイトの評価</h3>
+  <p>
+  1日あたりの<b>更新回数</b>と<b>更新量</b>から、最近サイトがどれほど更新されているかを評価します。評価結果はサイトの<span style="color: green;">文字色(更新頻度)</span>と<span style="font-size: 1.4em;">文字サイズ(更新量)</span>、表示順(更新頻度+更新量)に反映されます。
+  </p>
+  <p style="text-align: center;"><img src="/images/sample_activity.png" /></p>
+
+  <h3>ここ1ヶ月の推移</h3>
+  <p>
+    1日毎に更新した各サイトの評価結果がグラフ表示されます。数が多いとわかりにくいので今後なおしていきます。
+  </p>
+  <p style="text-align: center;"><img src="/images/sample_graph.png" /></p>
+
+  <h3>使いかた</h3>
+  <p>
+    <a href="/auth">ここ</a>からTwitterのOAuthでログインすると、画像のようなページにリダイレクトされます。この設定画面から、プロフィールやサイトを登録します。サイトの登録フォームには、フィードのURIの他にブログのURIをそのまま入れることができます。
+  </p>
+  <p style="text-align: center;"><img src="/images/sample_oauth.png" /><br/>↓<br/><img src="/images/sample_dashboard.png" /></p>
+
+  <h3>バグ/その他</h3>
+  <p>
+    <ul>
+      <li>Twitterで認証しますがTwitterへのPOSTなどはしません</li>
+      <li>ときどきフィードの取得に失敗することがあります</li>
+      <li>永遠に取得できないフィードがあるかもしれません</li>
+      <li>実験的なので評価の仕方はバランスがよくないかもしれません</li>
+      <li>バグ報告/その他: <a href="http://twitter.com/pussy_cat">@pussy_cat (hibariya)</a></li>
+      <li>使用フォント: <a href="http://www.dafont.com/8bit-wonder.font">8bit-wonder</a></li>
+      <li>グラフ生成: <a href="http://bluff.jcoglan.com/">Bluff</a></li>
+    </ul>
+  </p>
+
 </div>
 
 <div id="foot">
