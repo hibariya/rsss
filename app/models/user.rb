@@ -15,6 +15,11 @@ class User
   embeds_many :sites
   attr_accessor :feeds, :summaries
 
+  validate do |user|
+    user.errors.add(:description, 'Description が長すぎます') if user.description.to_s.length > 500
+    user.errors.add(:site, 'URI が長すぎます') if user.site.to_s.length > 100
+  end
+
   def self.find_by_token(t)
     find(:first, :conditions=>{:token=>t})
   end

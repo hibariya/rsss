@@ -16,6 +16,7 @@
   <div class="description"><%= @user_info['description'] %></div>
 </div>
 <div class="kdmr note-wide">
+  <span class="menu"><%= action_name=='index'? 'Dashboard': link_to('Dashboard', '/dashboard') %></span>
   <span class="menu"><%= link_to 'My Summaries', '/'+@user_info['screen_name'] %></span>
   <span class="menu"><%= link_to 'Signout', '/auth/signout' %></span>
 </div>

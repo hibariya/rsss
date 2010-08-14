@@ -11,7 +11,8 @@ class Site
   attr_accessor :entries
 
   validate do |site|
-    site.errors.add(:uri, 'wrong type URI') unless site.uri =~ /^https?:\/\//
+    site.errors.add(:uri, 'URIではないようです') unless site.uri =~ /^https?:\/\//
+    site.errors.add(:uri, 'すでに登録されています') unless site.user.sites.select{|s| s.uri==site.uri && s.id!=site.id }.empty?
   end
 
   def history_at(num=0)

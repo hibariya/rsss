@@ -5,6 +5,7 @@ gem 'mongoid', '2.0.0.beta.15'
 gem 'bson_ext'
 gem 'oauth'
 gem 'json'
+gem 'mechanize'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

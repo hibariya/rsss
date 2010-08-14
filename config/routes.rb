@@ -10,7 +10,8 @@ Rsss::Application.routes.draw do |map|
   get "auth/failure"
   get "auth/signout"
 
-  match '/dashboard'  => 'dashboard#index'
+  match '/dashboard' => 'dashboard#index'
+  match "/dashboard/select_feed/:id" => 'dashboard#select_feed'
   match '/auth'  => 'auth#oauth'
   resources :sites, :expect=>[:create, :destroy, :update]
   resources :users, :expect=>[:update]

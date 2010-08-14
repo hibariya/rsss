@@ -41,6 +41,8 @@ GEM
       activesupport (>= 2.3.6)
       mime-types
       treetop (>= 1.4.5)
+    mechanize (1.0.0)
+      nokogiri (>= 1.2.1)
     mime-types (1.16)
     mongo (1.0.6)
       bson (>= 1.0.4)
@@ -50,6 +52,7 @@ GEM
       mongo (= 1.0.6)
       tzinfo (= 0.3.22)
       will_paginate (~> 3.0.pre)
+    nokogiri (1.4.3.1)
     oauth (0.4.1)
     polyglot (0.3.1)
     rack (1.2.1)
@@ -84,6 +87,7 @@ PLATFORMS
 DEPENDENCIES
   bson_ext
   json
+  mechanize
   mongoid (= 2.0.0.beta.15)
   oauth
   rails (= 3.0.0.rc)
