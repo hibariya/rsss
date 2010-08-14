@@ -25,7 +25,7 @@
   </ul>
 
   <% if @user.site? || @user.description? %><div class="profile kdmr">
-    <h3><%= @user_info['screen_name'] %>(<%= @user_info['name'] %>)の詳細</h3>
+    <h3><%= @user_info['screen_name'] %>(<%= @user_info['name'] %>)</h3>
     <% if @user.site? %><div class="massive"><a href="<%= @user.site %>" target="_blank"><%= @user.site %></a></div><% end %>
     <% if @user.description? %><div class="massive"><%= @user.description %></div><% end %>
   </div><% end %>
