@@ -1,5 +1,6 @@
 <div id="segmentation">
   <ul class="sites kdmr">
+    <h3>最近更新しているサイト</h3>
     <% @user.summaries.sort_by{|s| s.general_level }.reverse.each do |history| %>
     <% site = history.site 
        last_history = site.history_at(1) rescue History.new %>
@@ -22,7 +23,15 @@
       </li>
     <% end %>
   </ul>
+
+  <% if @user.site? || @user.description? %><div class="profile kdmr">
+    <h3><%= @user_info['screen_name'] %>(<%= @user_info['name'] %>)の詳細</h3>
+    <% if @user.site? %><div class="massive"><a href="<%= @user.site %>" target="_blank"><%= @user.site %></a></div><% end %>
+    <% if @user.description? %><div class="massive"><%= @user.description %></div><% end %>
+  </div><% end %>
+ 
   <div class="gruff kdmr">
+    <h3>ここ一ヶ月の推移</h3>
     <canvas id="histories" width="400"></canvas>
     <script type="text/javascript">
       var g = new Bluff.Line('histories', 400);

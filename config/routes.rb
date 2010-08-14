@@ -1,9 +1,11 @@
 Rsss::Application.routes.draw do |map|
+  #get "users/update"
+
   #get "sites/create"
   #get "sites/update"
   #get "sites/destroy"
 
-  get "auth/oauth"
+  #get "auth/oauth"
   get "auth/oauth_callback"
   get "auth/failure"
   get "auth/signout"
@@ -11,6 +13,7 @@ Rsss::Application.routes.draw do |map|
   match '/dashboard'  => 'dashboard#index'
   match '/auth'  => 'auth#oauth'
   resources :sites, :expect=>[:create, :destroy, :update]
+  resources :users, :expect=>[:update]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

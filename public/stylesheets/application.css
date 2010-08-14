@@ -70,6 +70,12 @@ h1 {
   margin: 0em 0em 0em 0em;
 }
 
+h3 {
+  font-size: 1.2em;
+  padding: 0.5em 0.5em 0.5em 0.5em;
+  margin: 0em 0em 0em 0em;
+}
+
 .description {
   font-family: Helvetica;
   font-size: 10px;
@@ -80,6 +86,15 @@ h1 {
 }
 
 #segmentation .gruff {
+  background: #FFFFFF;
+  margin: 1em 0em 1em 1em;
+  padding: 0em 1em 1em 1em;
+  width: 420px;
+  list-style-type: none;
+  float: left;
+}
+
+.profile {
   background: #FFFFFF;
   margin: 1em 0em 1em 1em;
   padding: 0em 1em 1em 1em;
@@ -108,13 +123,22 @@ h1 {
   margin: 1em 0em 1em 0em
 }
 
+.user {
+  margin: 1em 0em 1em 1em
+}
+
 .info {
   font-size: 10px;
 }
 
 .menu {
-  margin-right: 1em;
+  margin-right: 1.5em;
   font-family: Ebit;
+}
+
+.massive {
+  font-size: 1.5em;
+  padding-left: 1em;
 }
 
 #sites {
