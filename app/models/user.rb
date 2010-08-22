@@ -8,6 +8,7 @@ class User
   field :created_at, :type=>Time
   field :updated_at, :type=>Time
 
+  field :oauth_user_id, :type=>Fixnum
   field :oauth_token, :type=>String
   field :oauth_secret, :type=>String
   field :token, :type=>String

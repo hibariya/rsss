@@ -6,6 +6,8 @@ gem 'bson_ext'
 gem 'oauth'
 gem 'json'
 gem 'mechanize'
+gem 'rspec-rails', '>= 2.0.0.beta.13'
+gem 'haml'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
