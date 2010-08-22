@@ -36,7 +36,6 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    haml (3.0.17)
     i18n (0.4.1)
     json (1.4.6)
     mail (2.2.5)
@@ -54,6 +53,10 @@ GEM
       mongo (= 1.0.6)
       tzinfo (= 0.3.22)
       will_paginate (~> 3.0.pre)
+    mongoid-rspec (1.2.0)
+      bson_ext (>= 1.0.4)
+      mongoid (>= 2.0.0.beta.15)
+      rspec-rails (>= 2.0.0.beta.19)
     nokogiri (1.4.3.1)
     oauth (0.4.1)
     polyglot (0.3.1)
@@ -103,10 +106,10 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext
-  haml
   json
   mechanize
   mongoid (= 2.0.0.beta.15)
+  mongoid-rspec
   oauth
   rails (= 3.0.0.rc)
   rspec-rails (>= 2.0.0.beta.13)

@@ -1,5 +1,4 @@
 defaults: &defaults
-  uri: <%= ENV['MONGOHQ_URL'] %>
   #host: localhost
   # slaves:
   #   - host: slave1.local
@@ -8,14 +7,14 @@ defaults: &defaults
   #     port: 27019
 
 development:
-  uri: <%= ENV['MONGOHQ_URL'] %>
+  host: localhost
+  database: rsss_development
   #<<: *defaults
   #database: rsss_development
 
 test:
-  uri: <%= ENV['MONGOHQ_URL'] %>
-  #<<: *defaults
-  #database: rsss_test
+  host: localhost
+  database: rsss_test
 
 # set these environment variables on your prod server
 production:
