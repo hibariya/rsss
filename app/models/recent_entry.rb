@@ -1,3 +1,5 @@
+# -*- condig: utf-8 -*-
+
 class RecentEntry
   include Mongoid::Document
 

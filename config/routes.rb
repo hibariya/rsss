@@ -6,13 +6,13 @@ Rsss::Application.routes.draw do |map|
   #get "sites/destroy"
 
   #get "auth/oauth"
-  get "auth/oauth_callback"
-  get "auth/failure"
-  get "auth/signout"
+  get 'auth/oauth_callback'
+  get 'auth/failure'
+  get 'auth/signout'
 
-  match '/dashboard' => 'dashboard#index'
-  match "/dashboard/select_feed/:id" => 'dashboard#select_feed'
-  match '/auth'  => 'auth#oauth'
+  match '/dashboard' => 'dashboard#index', :via=>[:get]
+  match '/dashboard/select_feed/:id' => 'dashboard#select_feed', :via=>[:get]
+  match '/auth' => 'auth#oauth', :via=>[:get]
   resources :sites, :expect=>[:create, :destroy, :update]
   resources :users, :expect=>[:update]
 
@@ -66,7 +66,7 @@ Rsss::Application.routes.draw do |map|
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
-  root :to => "index#index"
+  root :to => 'index#index'
 
   # See how all your routes lay out with "rake routes"
 
@@ -74,5 +74,5 @@ Rsss::Application.routes.draw do |map|
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
   #match '/:user(/:controller(/:action(/:id)))' => 'index#index'
-  match '/:user' => 'index#user'
+  match '/:user' => 'index#user', :via=>[:get]
 end

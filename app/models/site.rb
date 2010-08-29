@@ -1,3 +1,5 @@
+# -*- condig: utf-8 -*-
+
 class Site
   include Mongoid::Document
   
@@ -11,8 +13,8 @@ class Site
   attr_accessor :entries
 
   validate do |site|
-    site.errors.add(:uri, 'URIではないようです') unless site.uri =~ /^https?:\/\//
-    site.errors.add(:uri, 'すでに登録されています') unless site.user.sites.select{|s| s.uri==site.uri && s.id!=site.id }.empty?
+    site.errors.add(:uri, 'invalid URI') unless site.uri =~ /^https?:\/\//
+    site.errors.add(:uri, 'URI already exists') unless site.user.sites.select{|s| s.uri==site.uri && s.id!=site.id }.empty?
   end
 
   def history_at(num=0)

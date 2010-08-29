@@ -1,3 +1,5 @@
+# -*- condig: utf-8 -*-
+
 class SitesController < ApplicationController
   before_filter ApplicationController.check_admin
   
@@ -52,7 +54,7 @@ class SitesController < ApplicationController
       end
 
       if flash[:feeds].empty?
-        flash[:notice] = 'フィードの読み取りに失敗しました'
+        flash[:notice] = 'LoadError'
         redirect_to '/dashboard'
       else
         redirect_to '/dashboard/select_feed/'+site.id.to_s unless flash[:feeds].empty?

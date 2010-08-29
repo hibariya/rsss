@@ -1,16 +1,20 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.0.rc'
-gem 'mongoid', '2.0.0.beta.15'
-gem 'bson_ext'
-gem 'oauth'
 gem 'json'
+gem 'bson_ext'
 gem 'mechanize'
-#gem 'haml'
+gem 'mongoid', '2.0.0.beta.16'
+gem 'oauth'
 
-group :test do
-  gem 'rspec-rails', '>= 2.0.0.beta.13', :group=>:development
+group :development, :test do
+  gem 'rspec-rails', '>= 2.0.0.beta.19'
   gem 'mongoid-rspec'
+  gem 'fabrication', '0.6.4'
+  gem 'machinist'
+  gem 'machinist_mongo', :require=>'machinist/mongoid'
+  gem 'faker'
+  gem 'wirble'
 end
 
 # Bundle edge Rails instead:

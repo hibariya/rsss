@@ -7,13 +7,14 @@ defaults: &defaults
   #     port: 27019
 
 development:
-  host: localhost
+  #host: localhost
+  host: 127.0.0.1
   database: rsss_development
   #<<: *defaults
   #database: rsss_development
 
 test:
-  host: localhost
+  host: 127.0.0.1
   database: rsss_test
 
 # set these environment variables on your prod server
