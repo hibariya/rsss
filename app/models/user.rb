@@ -16,6 +16,15 @@ class User
   field :token, :type=>String
 
   embeds_many :sites
+
+  validates :screen_name, :length=> {:maximum=>60}, :format=>/^[a-zA-Z0-9_\.]+$/
+  validates :description, :length=> {:maximum=>200}
+  validates :site, :length=> {:maximum=>400}, :format=>/^https?:\/\/.+$/
+  validates :oauth_user_id, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9]+$/
+  validates :oauth_token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
+  validates :oauth_secret, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
+  validates :token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
+
   attr_accessor :feeds, :summaries
 
   validate do |user|

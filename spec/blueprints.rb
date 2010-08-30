@@ -6,13 +6,13 @@ require 'mongoid-rspec'
 
 Sham.define do
   screen_name { Faker::Internet.user_name }
-  description { Faker::Lorem.paragraph }
+  description { Faker::Lorem.paragraph[0..190] }
   site { ['http://', Faker::Internet.domain_name].join }
   oauth_user_id {|i| 1000+i }
   token {|i| (Digest::SHA1.new<<i.to_s).to_s }
 
-  title { Faker::Lorem.sentence }
-  fixnum25(:unique => false){ rand(24) }
+  title { Faker::Lorem.sentence[0..50] }
+  fixnum25(:unique=>false){ rand(24) }
   time {|i| Time.now-i }
 end
 

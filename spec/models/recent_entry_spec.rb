@@ -8,9 +8,8 @@ describe RecentEntry do
     end
 
     shared_examples_for "recent_entry_invalid_record" do
-      it "invalidとなり保存できない" do
+      it "invalidになること" do
         @target.should_not be_valid
-        @target.save.should be_false
       end
     end
 
