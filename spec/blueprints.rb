@@ -1,8 +1,4 @@
 # -*- condig: utf-8 -*-
-require 'machinist'
-require 'mongoid'
-require 'machinist/mongoid'
-require 'mongoid-rspec'
 
 Sham.define do
   screen_name { Faker::Internet.user_name }
