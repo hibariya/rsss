@@ -12,9 +12,13 @@ class Site
 
   attr_accessor :entries
 
+  validates :uri, :presence=>true, :length=>{:maximum=>400}, :format=>/^https?:\/\/.+$/
+  validates :site_uri, :presence=>true, :length=>{:maximum=>400}
+  validates :title, :presence=>true, :length=>{:maximum=>200}
+
   validate do |site|
-    site.errors.add(:uri, 'invalid URI') unless site.uri =~ /^https?:\/\//
-    site.errors.add(:uri, 'URI already exists') unless site.user.sites.select{|s| s.uri==site.uri && s.id!=site.id }.empty?
+    site.errors.add(:uri, 'URI already exists') unless 
+      site.user.sites.select{|s| s.uri==site.uri && s.id!=site.id }.empty?
   end
 
   def history_at(num=0)

@@ -6,20 +6,18 @@ class User
   field :screen_name, :type=>String
   field :description, :type=>String
   field :site, :type=>String
-
-  field :created_at, :type=>Time
-  field :updated_at, :type=>Time
-
-  field :oauth_user_id, :type=>Fixnum
+  field :oauth_user_id, :type=>String
   field :oauth_token, :type=>String
   field :oauth_secret, :type=>String
   field :token, :type=>String
+  field :created_at, :type=>Time
+  field :updated_at, :type=>Time
 
   embeds_many :sites
 
-  validates :screen_name, :length=> {:maximum=>60}, :format=>/^[a-zA-Z0-9_\.]+$/
-  validates :description, :length=> {:maximum=>200}
-  validates :site, :length=> {:maximum=>400}, :format=>/^https?:\/\/.+$/
+  validates :screen_name, :presence=>true, :length=>{:maximum=>60}, :format=>/^[a-zA-Z0-9_\.]*$/
+  validates :description, :length=>{:maximum=>200}
+  validates :site, :length=>{:maximum=>400}, :format=>/^https?:\/\/.+$/, :if=>:site?
   validates :oauth_user_id, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9]+$/
   validates :oauth_token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
   validates :oauth_secret, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
