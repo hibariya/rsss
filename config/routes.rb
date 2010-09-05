@@ -1,4 +1,4 @@
-Rsss::Application.routes.draw do |map|
+Rsss::Application.routes.draw do
   #get "users/update"
 
   #get "sites/create"

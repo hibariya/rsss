@@ -79,7 +79,7 @@ class User
   end
 
   def feeds
-    @feeds ||= Feeds.new(sites.map{|f| f.entries rescue nil }.find_all{|s|!s.nil?}) end
+    @feeds ||= Feeds.new(sites.map{|f| f.entries rescue nil }.compact) end
 
   #
   # フィードの一覧を相対評価するための何か
@@ -94,6 +94,9 @@ class User
       segment_by_frequency
     end
 
+    #
+    # @feedsへのアクセスを短くする
+    #
     def method_missing(name, *args, &block)
       @feeds.__send__ name, *args, &block end
 

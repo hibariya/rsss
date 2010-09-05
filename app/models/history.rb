@@ -6,6 +6,7 @@ class History
   field :volume_level, :type=>Fixnum, :default=>0
   field :frequency_level, :type=>Fixnum, :default=>0
   field :created_at, :type=>Time
+  
   embedded_in :site, :inverse_of=>:histories_at
 
   validates :volume_level, :presence=>true, :numericality=>true

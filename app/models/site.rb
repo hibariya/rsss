@@ -15,7 +15,6 @@ class Site
   validates :uri, :presence=>true, :length=>{:maximum=>400}, :format=>/^https?:\/\/.+$/
   validates :site_uri, :presence=>true, :length=>{:maximum=>400}
   validates :title, :presence=>true, :length=>{:maximum=>200}
-
   validate do |site|
     site.errors.add(:uri, 'URI already exists') unless 
       site.user.sites.select{|s| s.uri==site.uri && s.id!=site.id }.empty?
@@ -28,7 +27,7 @@ class Site
     return @entries unless @entries.nil?
     u = URI.parse(uri)
     u.query = (u.query.nil?? '' : u.query+'&')+Time.now.to_i.to_s 
-    @entries = u.open{|f| Entries.new uri, RSS::Parser.parse(f.read, false, true) }
+    @entries = u.open{|f| Entries.new(uri, RSS::Parser.parse(f.read, false, true)) }
   end
 
   def reload_channel
@@ -41,13 +40,13 @@ class Site
   # 1サイトのフィードに相当する部分
   #
   class Entries
-    attr_reader :uri
-    attr_reader :feed, :entries
+    attr_reader :uri, :feed, :entries
     attr_accessor :volume_level, :frequency_level
 
     def initialize(uri, feed)
       raise ArgumentError unless [RSS::RDF, RSS::Atom::Feed, RSS::Rss].any?{|c| feed.kind_of? c }
-      @uri, @feed, @entries = uri, feed, (feed.respond_to?(:entries)? feed.entries: feed.items).map{|e| Entry.new e }
+      @entries = (feed.respond_to?(:entries)? feed.entries: feed.items).map{|e| Entry.new e }
+      @uri, @feed = uri, feed
     end
 
     #
@@ -74,8 +73,8 @@ class Site
     #
     def time_length(now=Time.now)
       now = now.to_i
-      #simple = now-earliest_date.to_i
       blank_limit = 86400*15
+      # entry間の秒数を足していく。ただし(15*86400)より長ければ(15*86400)として扱う
       @entries.sort_by{|e| e.date }.reverse.map{|e| e.date.to_i }.inject([now, 0]) do |cur, time|
         cur ||= [now, 0]
         draft = cur.first-time
@@ -93,7 +92,7 @@ class Site
     # フィード内の全ての記事のタイトルと本文のバイト数をざっくりと
     #
     def byte_length
-      @entries.map{|e| [e.title, e.content].join }.flatten.join.length
+      @entries.map{|e| [e.title, e.content] }.flatten.join.length
     end
 
     #
