@@ -7,7 +7,7 @@ describe Site do
       @target = (User.make.sites<<Site.make_unsaved).last
     end
 
-    context "uriがhttp以外のスキーマから始まるとき" do
+    context "uriがhttpから始まらないとき" do
       before{ @target.uri = 'ftp://hoge.com/piyo' }
       it "invalidになり、errorsにエラーメッセージが含まれている" do
         @target.should_not be_valid
@@ -39,13 +39,13 @@ describe Site do
       end
     end
 
-    context "site_uriが空のとき" do
-      before{ @target.site_uri = '' }
-      it "invalidになり、errorsにエラーメッセージが含まれている" do
-        @target.should_not be_valid
-        @target.errors[:site_uri].should_not be_blank
-      end
-    end
+    #context "site_uriが空のとき" do
+    #  before{ @target.site_uri = '' }
+    #  it "invalidになり、errorsにエラーメッセージが含まれている" do
+    #    @target.should_not be_valid
+    #    @target.errors[:site_uri].should_not be_blank
+    #  end
+    #end
 
     context "titleの幅が200を超えるとき" do
       before{ @target.title = 'あ'*201 }
@@ -55,13 +55,13 @@ describe Site do
       end
     end
 
-    context "titleが空のとき" do
-      before{ @target.title = '' }
-      it "invalidになり、errorsにエラーメッセージが含まれている" do
-        @target.should_not be_valid
-        @target.errors[:title].should_not be_blank
-      end
-    end
+    #context "titleが空のとき" do
+    #  before{ @target.title = '' }
+    #  it "invalidになり、errorsにエラーメッセージが含まれている" do
+    #    @target.should_not be_valid
+    #    @target.errors[:title].should_not be_blank
+    #  end
+    #end
 
     context "それら以外のとき" do
       it "validationエラーにはならない" do

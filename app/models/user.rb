@@ -19,7 +19,7 @@ class User
   validates :description, :length=>{:maximum=>200}
   validates :site, :length=>{:maximum=>400}, :format=>/^https?:\/\/.+$/, :if=>:site?
   validates :oauth_user_id, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9]+$/
-  validates :oauth_token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
+  validates :oauth_token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z\-]+$/
   validates :oauth_secret, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
   validates :token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
 
@@ -31,82 +31,56 @@ class User
   end
 
   def self.find_by_token(t)
-    find(:first, :conditions=>{:token=>t})
-  end
+    find(:first, :conditions=>{:token=>t}) end
 
   def summaries
     histories_at 0 end
 
   def histories_at(num)
-    sites.map{|s| s.histories.sort_by{|h| h.created_at }.reverse[num] }.find_all{|s| !s.nil?} end
+    sites.map{|s| s.histories.sort_by{|h| h.created_at }.reverse[num] }.compact end
 
   #
   # 過去30日間の遷移を更新
   #
   def create_histories
-    now = Time.now
-    sites.each{|s| s.recent_entries.delete_all } 
-    save
-    reload
-    if sites.length==1
-      site = sites.last
-      site.reload_channel
-      site.entries.each do |entry|
-          site.recent_entries<<RecentEntry.new(:title=>entry.title, :content=>entry.snipet,
-                                               :link=>entry.link, :date=>entry.date)
-      end
-      site.histories<<History.new(:volume_level=>24, :frequency_level=>24, :created_at=>now)
-    
-    else
-      feeds.each do |feed|
-        site = sites.select{|s| s.uri==feed.uri }.first
-        site.reload_channel
-        site.entries.each do |entry|
-          site.recent_entries<<RecentEntry.new(:title=>entry.title, :content=>entry.snipet,
-                                               :link=>entry.link, :date=>entry.date)
-        end
-
-        todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d')==now.strftime('%Y%m%d')}.first
-        todays.delete unless todays.nil?
-        site.histories<<History.new(:volume_level=>feed.volume_level, 
-                                    :frequency_level=>feed.frequency_level, :created_at=>now)
-        (site.histories.sort_by{|h| h.created_at }.reverse[31..-1] || []).
-          each{|d| d.delete unless d.nil?} if site.histories.length > 31
-      end
+    self.sites.each do |site|
+      site.reload_channel rescue next
+      todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d')==now.strftime('%Y%m%d')}
+      todays.first.delete unless todays.empty?
+      (site.histories.sort_by{|h| h.created_at }.reverse[30..-1] || []).
+        compact.each{|d| d.delete }
     end
-
-    save && self
+    SnapShot.take self
   end
-
-  def feeds
-    @feeds ||= Feeds.new(sites.map{|f| f.entries rescue nil }.compact) end
 
   #
   # フィードの一覧を相対評価するための何か
   #
-  class Feeds
-    attr_accessor :feeds
+  class SnapShot
+    class << self
+      def take(user)
+        now = Time.now
+        self.new(user.sites).each do |site, snapshot|
+          site.histories<<History.new(snapshot.merge({:created_at=>now}))
+        end
+        user.save
+      end
+    end
 
-    def initialize(feeds=[])
-      raise ArgumentError unless feeds.kind_of? Array
-      @feeds = feeds
+    def initialize(sites=[])
+      raise ArgumentError unless sites.kind_of? Array
+      @sites, @snapshot = sites, {}
       segment_by_volume
       segment_by_frequency
     end
 
     #
-    # @feedsへのアクセスを短くする
-    #
-    def method_missing(name, *args, &block)
-      @feeds.__send__ name, *args, &block end
-
-    #
     # POST量をみて評価
     #
     def segment_by_volume
-      segment(@feeds.map{|f| [f, f.volume] }).map do |site|
-        site.first.volume_level = site.last
-        site
+      segment(@sites.map{|f| [f, f.volume] }).map do |site|
+        @snapshot[site.first] ||= {}
+        @snapshot[site.first][:volume_level] = site.last
       end
     end
 
@@ -114,9 +88,9 @@ class User
     # POST数をみて評価
     #
     def segment_by_frequency
-      segment(@feeds.map{|f| [f, f.frequency] }).map do |site|
-        site.first.frequency_level = site.last
-        site
+      segment(@sites.map{|f| [f, f.frequency] }).map do |site|
+        @snapshot[site.first] ||= {}
+        @snapshot[site.first][:frequency_level] = site.last
       end
     end
 
@@ -129,6 +103,10 @@ class User
       factor = step/(max-min)
       levels.map{|l| [l.first, ((Math.sqrt(l.last)-min)*factor).round] }
     end
+
+    def method_missing(name, *args, &block)
+      @snapshot.__send__ name, *args, &block end 
+
   end
 
 end

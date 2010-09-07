@@ -38,19 +38,20 @@ class SitesController < ApplicationController
   private
   def check_feed(site)
     begin 
-      RSS::Parser.parse(site.uri, false, true)
+      site.load_channel_info
       true
-    rescue
+    rescue Exception=>e 
+      # RSSとして読み込むのに失敗したんだろう
       flash[:feeds] = []
       begin
         agent = Mechanize.new
         agent.get site.uri
         agent.page.root.search('link').find_all{|l| l.attributes['rel'].to_s=='alternate' }.each do |link|
-          href = link.attributes['href'].to_s
-          feed = Site::Entries.new(href, RSS::Parser.parse(href, false, true)) rescue next
-          flash[:feeds]<<[feed.title, href]
+          c = Site.new(:uri=>link.attributes['href'].to_s).load_channel_info
+          flash[:feeds]<<[c.title, c.uri] rescue next # 同じくRSSとして読み込めなかった
         end
-      rescue 
+      rescue
+        # Mechanizeでごにょごにょしてるときに事故がおきたか
       end
 
       if flash[:feeds].empty?

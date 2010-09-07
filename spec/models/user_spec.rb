@@ -31,7 +31,7 @@ describe User do
       end
     end
 
-    context "siteがHTTPのURLスキーマから始まらないとき" do
+    context "siteがhttpから始まらないとき" do
       before{ @target.site = 'ftp://hoge.com/piyo' }
       it "invalidになり、errorsにエラーメッセージが含まれている" do
         @target.should_not be_valid

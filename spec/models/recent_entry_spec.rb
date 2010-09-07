@@ -23,7 +23,7 @@ describe RecentEntry do
       end
     end
 
-    context "linkがhttpのスキーマではないとき" do
+    context "linkがhttpではじまらないとき" do
       before{ @target.link = 'ssh://foo.org/' }
       it "invalidになり、errorsにエラーメッセージが含まれている" do
         @target.should_not be_valid
