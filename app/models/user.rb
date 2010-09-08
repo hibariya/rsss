@@ -17,7 +17,7 @@ class User
 
   validates :screen_name, :presence=>true, :length=>{:maximum=>60}, :format=>/^[a-zA-Z0-9_\.]*$/
   validates :description, :length=>{:maximum=>200}
-  validates :site, :length=>{:maximum=>400}, :format=>/^https?:\/\/.+$/, :if=>:site?
+  validates :site, :length=>{:maximum=>400}, :format=>URI.regexp, :allow_blank=>true
   validates :oauth_user_id, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9]+$/
   validates :oauth_token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z\-]+$/
   validates :oauth_secret, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
@@ -40,7 +40,7 @@ class User
     sites.map{|s| s.histories.sort_by{|h| h.created_at }.reverse[num] }.compact end
 
   #
-  # 過去30日間の遷移を更新
+  # 過去30日間の遷移を更新。重複した日付のhistoryは削除される
   #
   def create_histories
     self.sites.each do |site|
@@ -53,11 +53,11 @@ class User
     SnapShot.take self
   end
 
-  #
-  # フィードの一覧を相対評価するための何か
-  #
   class SnapShot
     class << self
+      #
+      # 渡されたuserのsites[i].entries から各サイトの更新度を抽出して相対評価してsites[i].historiesに保存
+      #
       def take(user)
         now = Time.now
         self.new(user.sites).each do |site, snapshot|
@@ -106,7 +106,6 @@ class User
 
     def method_missing(name, *args, &block)
       @snapshot.__send__ name, *args, &block end 
-
   end
 
 end

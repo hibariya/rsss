@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def self.check_admin
+  def self.check_signin
     lambda { 
       if session[:token]
         load_user User.find_by_token(session[:token]).screen_name rescue nil

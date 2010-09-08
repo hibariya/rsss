@@ -107,19 +107,8 @@ class Site
     entries.length end
 
   #
-  # フィードの中で一番昔の日付
-  #
-  def earliest_date
-    entries.inject(nil){|r,c| r||=c.date; (r>c.date)? c.date: r } end
-
-  #
-  # フィードの中で最新の日付
-  #
-  def latest_date
-    @entries.inject(nil){|r,c| r||=c.date; (r<c.date)? c.date: r } end
-
-  #
   # フィード中の1エントリーに相当する部分
+  # RSSのインスタンスからそれっぽい項目を抽出すう
   #
   class EntryExtractor
     attr_reader :entry

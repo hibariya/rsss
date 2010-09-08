@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter ApplicationController.check_admin
+  before_filter ApplicationController.check_signin
   
   def update
     @user.site = params[:user][:site]

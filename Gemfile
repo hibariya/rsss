@@ -5,6 +5,7 @@ gem 'bson_ext', '1.0.4'
 gem 'mechanize'
 gem 'mongoid', '2.0.0.beta.17'
 gem 'oauth'
+gem 'haml'
 
 group :development, :test do
   gem 'rspec-rails', '>= 2.0.0.beta.20'

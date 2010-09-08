@@ -47,7 +47,7 @@ module Rsss
     config.mongoid.logger = Logger.new($stdout, :warn)
 
     config.generators do |g|
-      #g.template_engine :haml
+      g.template_engine :haml
       #g.orm             :mongoid
       g.test_framework  :rspec
     end
