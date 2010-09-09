@@ -1,0 +1,57 @@
+#segmentation
+  %ul.sites.kdmr
+    %h3 最近更新しているサイト
+    - @user.summaries.sort_by{|s| s.general_level }.reverse.each do |history|
+      - site = history.site 
+      - last_history = site.history_at(1) rescue History.new
+      %li.site
+        .title{:style=>"font-size: "+(12+history.volume_level).to_s+"px;"}
+          %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(history.frequency_level*10).to_s+", 0);"} #{site.title}
+          %span.info
+            = ((history.general_level.to_f/24)*100).round.to_s+"pt"
+          .info
+            in #{raw(URI.parse(site.uri).host)}
+            = (history.general_level > last_history.general_level)? '⇧': ''
+            = (history.general_level < last_history.general_level)? '⇩': ''
+          .info{:style=>"text-align: right;"}
+            %div 最近のエントリ
+            - site.entries.sort_by{|e|e.date}.reverse[0..((history.general_level/10).round)].each do |entry|
+              %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content}
+                = string_limit entry.title, 400
+                %br
+
+  - if @user.site? || @user.description?
+    .profile.kdmr
+      %h3 #{@user_info['screen_name']}(#{@user_info['name']})
+      - if @user.site?
+        .massive
+          %a{:href=>@user.site, :target=>"_blank"} #{@user.site}
+      - if @user.description?
+        .massive
+          = @user.description
+ 
+  .gruff.kdmr
+    %h3 ここ一ヶ月の推移
+    %canvas#histories{:width=>400}
+    %script{:type=>"text/javascript"}
+      //<![CDATA[
+      var g = new Bluff.Line('histories', 400);
+      g.hide_title = true;
+      g.font = 'Helvetica';
+      g.hide_dots = true;
+      g.hide_line_numbers = true;
+      g.line_width = 2;
+      g.dot_radius = 0;
+      g.theme_pastel();
+      g.replace_colors(
+      = raw(%w(#f39700 #e60012 #9caeb7 #00a7db #009944 #d7c447 #9b7cb6 #00ada9 #bb641d #e85298 #0079c2 #6cbb5a #b6007a #e5171f #522886 #0078ba #019a66 #e44d93 #814721 #a9cc51 #ee7b1a #00a0de).inspect)
+      );
+      - @user.sites.each do |site| 
+        - history = Array.new 31, 0
+        - next if site.histories.empty?
+        - site.histories.sort_by{|h| h.created_at }.reverse.each_with_index{|h,i| history[i] = h.general_level }
+        = raw('g.data("'+ URI.parse(site.uri).host + '", ' + history.reverse.inspect + ');')
+      g.labels = {1: '30 days ago', 30: 'now'};
+      g.draw();
+      //]]>
+
