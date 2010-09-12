@@ -57,3 +57,36 @@ end
 
 5.times{ User.make }
 
+class << Site::EntryExtractor
+  def sample_feed(version)
+    begin
+      # avoid NoMethodError: undefined method `make' for nil:NilClass
+      raise unless RSS::Maker::MAKERS.include?(version)
+      rss = RSS::Maker.make(version) do |maker|
+        maker.channel.about = "http://example.com/index.rss"
+        maker.channel.title = "Example"
+        maker.channel.description = "Example Site"
+        maker.channel.link = "http://example.com/"
+        maker.channel.author = "Bob"
+        maker.channel.date = Time.now
+        maker.items.do_sort = true
+
+        20.times do |t|
+          maker.items.new_item do |item|
+            e = Entry.make_unsaved
+            item.link = e.link
+            item.title = e.title
+            item.date = e.date
+            item.description = e.content
+          end
+        end
+      end
+      rss.to_s
+    rescue
+      STDERR.puts "#{version}: #{$!}"
+    end
+  end
+end
+
+#puts Site::EntryExtractor.sample_feed('atom')
+

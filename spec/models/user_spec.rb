@@ -145,6 +145,8 @@ describe User do
         @target.should be_valid
       end
     end
-
+  end
+  
+  describe SnapShot do
   end
 end

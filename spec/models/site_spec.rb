@@ -74,4 +74,9 @@ describe Site do
       end    
     end
   end
+  
+  describe EntryExtractor do
+
+
+  end
 end
