@@ -39,7 +39,7 @@ Site.blueprint do
   site_uri Sham.site
   title
   histories { (0..30).to_a.map{|i| History.make } }
-  recent_entries { (0..30).to_a.map{|i| RecentEntry.make } } 
+  entries { (0..30).to_a.map{|i| Entry.make } } 
 end
 
 History.blueprint do
@@ -48,7 +48,7 @@ History.blueprint do
   created_at { Time.now }
 end
 
-RecentEntry.blueprint do
+Entry.blueprint do
   title
   content Sham.description
   link Sham.site

@@ -17,7 +17,7 @@ class User
 
   validates :screen_name, :presence=>true, :length=>{:maximum=>60}, :format=>/^[a-zA-Z0-9_\.]*$/
   validates :description, :length=>{:maximum=>200}
-  validates :site, :length=>{:maximum=>400}, :format=>URI.regexp, :allow_blank=>true
+  validates :site, :length=>{:maximum=>400}, :format=>URI.regexp(['http']), :allow_blank=>true
   validates :oauth_user_id, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9]+$/
   validates :oauth_token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z\-]+$/
   validates :oauth_secret, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
