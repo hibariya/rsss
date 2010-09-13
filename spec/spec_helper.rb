@@ -33,7 +33,6 @@ require 'machinist'
 require 'mongoid'
 require 'machinist/mongoid'
 require 'mongoid-rspec'
-require "#{File.dirname(__FILE__)}/blueprints"
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
@@ -60,5 +59,6 @@ RSpec.configure do |config|
     Mongoid.master.collections.
       select { |c| c.name != 'system.indexes' }.each(&:drop)
   end
+  require "#{File.dirname(__FILE__)}/blueprints"
 end
 

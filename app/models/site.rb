@@ -151,10 +151,6 @@ class Site
       end or ''
     end
 
-    def snipet(len=120)
-      content.gsub(/<[^>]+>/, '').gsub(/[\n\r\s]/, '').scan(/./)[0...len].join
-    end
-
     #
     # エントリのURIに相当しそうな部分
     #

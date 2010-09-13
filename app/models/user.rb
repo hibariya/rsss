@@ -50,7 +50,7 @@ class User
       (site.histories.sort_by{|h| h.created_at }.reverse[30..-1] || []).
         compact.each{|d| d.delete }
     end
-    SnapShot.take self
+    SnapShot.take(self).save
   end
 
   class SnapShot
@@ -63,7 +63,17 @@ class User
         self.new(user.sites).each do |site, snapshot|
           site.histories<<History.new(snapshot.merge({:created_at=>now}))
         end
-        user.save
+        user
+      end
+
+      #
+      # 24点満点の相対評価を行う
+      #
+      def segment(levels, step=24)
+        max = Math.sqrt levels.inject(0){|r,c| (c.last > r)? c.last: r}
+        min = Math.sqrt levels.inject(max){|r,c| (c.last < r)? c.last: r}
+        factor = step/(max-min)
+        levels.map{|l| [l.first, ((Math.sqrt(l.last)-min)*factor).round] }
       end
     end
 
@@ -94,15 +104,8 @@ class User
       end
     end
 
-    #
-    # 24点満点の相対評価を行う
-    #
     def segment(levels, step=24)
-      max = Math.sqrt levels.inject(0){|r,c| (c.last > r)? c.last: r}
-      min = Math.sqrt levels.inject(max){|r,c| (c.last < r)? c.last: r}
-      factor = step/(max-min)
-      levels.map{|l| [l.first, ((Math.sqrt(l.last)-min)*factor).round] }
-    end
+      self.class.segment(levels, step) end
 
     def method_missing(name, *args, &block)
       @snapshot.__send__ name, *args, &block end 

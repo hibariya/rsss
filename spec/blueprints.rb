@@ -55,9 +55,9 @@ Entry.blueprint do
   date Sham.time
 end
 
-5.times{ User.make }
+#5.times{ User.make }
 
-class << Site::EntryExtractor
+class << Site::EntryExtractor #{{{ rss1.0 2.0 atom のサンプルを生成するテスト用メソッド
   def sample_feed(version)
     begin
       # avoid NoMethodError: undefined method `make' for nil:NilClass
@@ -78,6 +78,12 @@ class << Site::EntryExtractor
             item.title = e.title
             item.date = e.date
             item.description = e.content
+            item.categories.new_category do |category|
+              3.times.map do |c|
+                category.content = Sham.screen_name
+                category.term = Sham.screen_name
+              end
+            end
           end
         end
       end
@@ -87,6 +93,6 @@ class << Site::EntryExtractor
     end
   end
 end
-
+#}}}
 #puts Site::EntryExtractor.sample_feed('atom')
 

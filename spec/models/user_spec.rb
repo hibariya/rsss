@@ -147,6 +147,53 @@ describe User do
     end
   end
   
-  describe SnapShot do
+  describe "#create_histories" do
+  end
+
+  describe User::SnapShot do
+    context ".take メソッドを呼び出したとき" do
+      before do
+        @input = [[10.0, 0.5], [15.0, 0.75], [5.0, 0.25]]
+        @target = User.make_unsaved(:sites=>@input.map{|s|
+          site = Site.make_unsaved
+          site.stub!(:volume).and_return(s.first)
+          site.stub!(:frequency).and_return(s.last)
+          site
+        })
+      end
+
+      it "値を相対評価して25段階のスコアを算出する" do
+        pending('ねむい')
+      end
+
+
+
+
+      context "すべてのサイトのエントリが0のとき" do
+        before do
+          @target = User.make_unsaved(:sites=>3.times.map{
+            site=Site.make_unsaved
+            site.stub!(:volume).and_return(0)
+            site.stub!(:frequency).and_return(0)
+            site
+          })
+        end
+
+      end
+
+      context "すべてのサイトのエントリが同じ量/頻度のとき" do
+        before do
+          @target = User.make_unsaved(:sites=>3.times.map{
+            site=Site.make_unsaved
+            site.stub!(:volume).and_return(10.0)
+            site.stub!(:frequency).and_return(10.0)
+            site
+          })
+        end
+      end
+    end
+
+
+
   end
 end
