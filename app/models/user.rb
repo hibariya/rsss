@@ -70,6 +70,7 @@ class User
       # 24点満点の相対評価を行う
       #
       def segment(levels, step=24)
+        return levels.map{|l| [l.first, l.last.to_i] } if levels.all?{|l| l.last.to_f==0.0 }
         max = Math.sqrt levels.inject(0){|r,c| (c.last > r)? c.last: r}
         min = Math.sqrt levels.inject(max){|r,c| (c.last < r)? c.last: r}
         factor = step/(max-min)

@@ -3,7 +3,7 @@
     %h3 最近更新しているサイト
     - @user.summaries.sort_by{|s| s.general_level }.reverse.each do |history|
       - site = history.site 
-      - last_history = site.history_at(1) rescue History.new
+      - last_history = site.history(1) rescue History.new
       %li.site
         .title{:style=>"font-size: "+(12+history.volume_level).to_s+"px;"}
           %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(history.frequency_level*10).to_s+", 0);"} #{site.title}

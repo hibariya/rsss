@@ -153,20 +153,39 @@ describe User do
   describe User::SnapShot do
     context ".take メソッドを呼び出したとき" do
       before do
-        @input = [[10.0, 0.5], [15.0, 0.75], [5.0, 0.25]]
-        @target = User.make_unsaved(:sites=>@input.map{|s|
-          site = Site.make_unsaved
-          site.stub!(:volume).and_return(s.first)
-          site.stub!(:frequency).and_return(s.last)
+        # 予め計算しておいた値
+        @sites = [
+          {:site=>Site.make_unsaved,
+           :volume=>10.0,
+           :frequency=>0.5,
+           :volume_level=>15,
+           :frequency_level=>14},
+          {:site=>Site.make_unsaved,
+           :volume=>15.0,
+           :frequency=>0.75,
+           :volume_level=>24,
+           :frequency_level=>24},
+          {:site=>Site.make_unsaved,
+           :volume=>5.0,
+           :frequency=>0.25,
+           :volume_level=>3,
+           :frequency_level=>0}
+        ]
+        @target = User.make_unsaved(:sites=>@sites.map{|s|
+          site = s[:site]
+          site.stub!(:volume).and_return(s[:volume])
+          site.stub!(:frequency).and_return(s[:frequency])
           site
         })
       end
 
       it "値を相対評価して25段階のスコアを算出する" do
-        pending('ねむい')
+        User::SnapShot.take(@target).sites.each do |s| 
+          site = @sites.find{|f| f[:site]._id==s._id }
+          s.history(0).volume_level.should == site[:volume_level]
+          s.history(0).frequency_level.should == site[:frequency_level]
+        end
       end
-
-
 
 
       context "すべてのサイトのエントリが0のとき" do
@@ -174,21 +193,35 @@ describe User do
           @target = User.make_unsaved(:sites=>3.times.map{
             site=Site.make_unsaved
             site.stub!(:volume).and_return(0)
-            site.stub!(:frequency).and_return(0)
+            site.stub!(:frequency).and_return(0.0)
             site
           })
         end
 
+        it "すべてのスコアが0になる" do
+          User::SnapShot.take(@target).sites.each do |s| 
+            s.history(0).volume_level.should == 0
+            s.history(0).frequency_level.should == 0
+            s.history(0).general_level.should == 0
+          end
+        end
       end
 
       context "すべてのサイトのエントリが同じ量/頻度のとき" do
         before do
           @target = User.make_unsaved(:sites=>3.times.map{
             site=Site.make_unsaved
-            site.stub!(:volume).and_return(10.0)
+            site.stub!(:volume).and_return(10)
             site.stub!(:frequency).and_return(10.0)
             site
           })
+        end
+
+        it "すべてのスコアが24になる" do
+          User::SnapShot.take(@target).sites.each do |s| 
+            s.history(0).volume_level.should == 24
+            s.history(0).frequency_level.should == 24
+          end
         end
       end
     end

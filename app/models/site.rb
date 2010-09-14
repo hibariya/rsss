@@ -24,7 +24,7 @@ class Site
   def duplicate?
     !unique? end
 
-  def history_at(num=0)
+  def history(num=0)
     histories.sort_by{|h| h.created_at }.reverse[num] || History.new end
 
   #
