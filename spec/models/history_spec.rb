@@ -34,4 +34,18 @@ describe History do
       end
     end
   end
+
+  describe "History#general_level" do
+    before do
+      @target = History.make_unsaved(:volume_level=>10, :frequency_level=>20)
+    end
+    
+    it "戻り値はFloatであること" do
+      @target.general_level.should be_kind_of Float
+    end
+
+    it "volume_levelとfrequency_levelを足して2で割られていること" do
+      @target.general_level.should == 15.0
+    end
+  end
 end

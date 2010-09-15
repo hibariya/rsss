@@ -4,8 +4,7 @@ class ApplicationController < ActionController::Base
 
   def load_user(username)
     if @user = User.find(:first, :conditions=>{:screen_name=>username})
-      access_token = OAuth::AccessToken.new(AuthController.consumer, @user.oauth_token, @user.oauth_secret)
-      @user_info = JSON.parse(access_token.get('/account/verify_credentials.json').body)
+      @user_info = Rsss::Oauth.user_info @user.oauth_token, @user.oauth_secret
     end
   end
 

@@ -53,4 +53,6 @@ module Rsss
     end
 
   end
+  
+  require File.join Rails.root, "lib/rsss"
 end

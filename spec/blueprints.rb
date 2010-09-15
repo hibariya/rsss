@@ -57,12 +57,12 @@ end
 
 #5.times{ User.make }
 
-class << Site::EntryExtractor #{{{ rss1.0 2.0 atom のサンプルを生成するテスト用メソッド
+class << Rsss::Rss #{{{ rss1.0 2.0 atom のサンプルを生成するテスト用メソッド
   def sample_feed(version)
     begin
       # avoid NoMethodError: undefined method `make' for nil:NilClass
-      raise unless RSS::Maker::MAKERS.include?(version)
-      rss = RSS::Maker.make(version) do |maker|
+      raise unless ::RSS::Maker::MAKERS.include?(version)
+      rss = ::RSS::Maker.make(version) do |maker|
         maker.channel.about = "http://example.com/index.rss"
         maker.channel.title = "Example"
         maker.channel.description = "Example Site"
@@ -73,15 +73,15 @@ class << Site::EntryExtractor #{{{ rss1.0 2.0 atom のサンプルを生成す�
 
         20.times do |t|
           maker.items.new_item do |item|
-            e = Entry.make_unsaved
+            e = ::Entry.make_unsaved
             item.link = e.link
             item.title = e.title
             item.date = e.date
             item.description = e.content
             item.categories.new_category do |category|
               3.times.map do |c|
-                category.content = Sham.screen_name
-                category.term = Sham.screen_name
+                category.content = ::Sham.screen_name
+                category.term = ::Sham.screen_name
               end
             end
           end
