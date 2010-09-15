@@ -33,11 +33,8 @@ class User
   def self.find_by_token(t)
     find(:first, :conditions=>{:token=>t}) end
 
-  def summaries
-    histories_at 0 end
-
-  def histories_at(num)
-    sites.map{|s| s.histories.sort_by{|h| h.created_at }.reverse[num] }.compact end
+  def summaries(num=0)
+    sites.map{|s| s.histories.sort_by(&:created_at).reverse[num] }.compact end
 
   def reload_screen_name
 
@@ -46,13 +43,12 @@ class User
   #
   # 過去30日間の遷移を更新。重複した日付のhistoryは削除される
   #
-  def create_histories
-    now = Time.now
+  def create_histories(now=Time.now)
     self.sites.each do |site|
       site.reload_channel rescue next
       todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d')==now.strftime('%Y%m%d')}
       todays.first.delete unless todays.empty?
-      (site.histories.sort_by{|h| h.created_at }.reverse[30..-1] || []).
+      (site.histories.sort_by(&:created_at).reverse[30..-1] || []).
         compact.each{|d| d.delete }
     end
     

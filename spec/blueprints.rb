@@ -9,7 +9,7 @@ Sham.define do
 
   title { Faker::Lorem.sentence[0..50] }
   fixnum25(:unique=>false){ rand(24) }
-  time {|i| Time.now-i }
+  time {|t| t.day.ago.to_time }
 end
 
 User.blueprint do

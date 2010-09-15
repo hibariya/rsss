@@ -2,11 +2,11 @@
 require 'spec_helper'
 
 describe User do
+  before do
+    @target = User.make_unsaved(:after_oauth)
+  end
+  
   context "新規作成" do
-    before do
-      @target = User.make_unsaved(:after_oauth)
-    end
-
     context "screen_nameの幅が60以上のとき" do
       before{ @target.screen_name = 'a'*61 }
       it "invalidになり、errorsにエラーメッセージが含まれている" do
@@ -148,19 +148,68 @@ describe User do
   end
  
   describe ".find_by_token" do
-    it "pending" do pending('pending') end
-  end
+    before do
+      @target = User.make
+    end
 
-  describe "#create_histories" do
-    it "pending" do pending('pending') end
+    it "tokenをもとにUserを取得できること" do
+      User.find_by_token(@target.token).should be_kind_of User
+    end
+    
+    it "存在しないtokenを渡された場合はnilを返すこと" do
+      User.find_by_token('ababababababa').should be_nil
+    end
   end
 
   describe "#summaries" do
-    it "pending" do pending('pending') end
+    it "引数を与えない場合は最新のhistory一覧を返す" do
+      @target.summaries.each do |history|
+        expected = history.site.histories.sort_by(&:created_at)[-1]
+        history._id.should == expected._id
+      end
+    end
+
+    it "第1引数に数値を与えた場合は指定された数値分過去のhistory一覧を返す" do
+      @target.summaries(2).each do |history|
+        expected = history.site.histories.sort_by(&:created_at)[-3]
+        history._id.should == expected._id
+      end
+    end
+
+    it "戻り値はnilを含まない" do
+      @target.sites.first.stub!(:histories).and_return([])
+      @target.summaries.each do |history|
+        history.should_not be_nil
+      end
+    end
+
   end
 
-  describe "#histories_at" do
-    it "pending" do pending('pending') end
+  describe "#create_histories" do
+    before do
+      @target.sites.map{|s| 
+        s.histories = []
+        s.stub!(:reload_channel).and_return(nil)
+      }
+    end
+
+    it "同じ日のヒストリは2つ以上つくることができない" do
+      2.times{ @target.create_histories }
+      @target.sites.map do |site|
+        site.histories.
+          find_all{|h| h.created_at.strftime('%Y%m%d')==Time.now.strftime('%Y%m%d') }.
+          length.should == 1
+      end
+    end
+
+    it "何度呼び出しても30件以上のヒストリが登録されている状態にはならない" do
+      pending('ねむい')
+     #40.downto(0){|t| puts t.days.ago.to_time.inspect; @target.create_histories(t.days.ago.to_time) }
+     #@target.sites.map do |site|
+     #  site.histories.length.should == 30
+     #end
+    end
+
   end
 
   describe "reload_screen_name" do
