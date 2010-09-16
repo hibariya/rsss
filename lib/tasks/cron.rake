@@ -5,6 +5,7 @@ task :cron => :environment do
       user.create_histories!
     rescue
       p $!
+      p $@
     end
   end
 end
