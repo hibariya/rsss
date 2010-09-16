@@ -10,7 +10,7 @@
       = f.submit '変更', :onclick=>'return confirm("Are You Sure?");'
 
 %ul#sites.sites.kdmr{:style=>"width: 800px;"}
-  %h3{:style=>"padding-top: 0em;"} #{@user_info['screen_name']}'s Sites
+  %h3{:style=>"padding-top: 0em;"} #{@user.screen_name}'s Sites
   - @user.sites.reverse.each do |site|
     %li.site
       %div

@@ -3,9 +3,7 @@ class ApplicationController < ActionController::Base
   layout 'application'
 
   def load_user(username)
-    if @user = User.find(:first, :conditions=>{:screen_name=>username})
-      @user_info = Rsss::Oauth.user_info @user.oauth_token, @user.oauth_secret
-    end
+    @user = User.find(:first, :conditions=>{:screen_name=>username})
   end
 
   def self.check_signin

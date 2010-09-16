@@ -9,9 +9,7 @@ class AuthController < ApplicationController
   end
 
   def oauth_callback
-    request_token = OAuth::RequestToken.new(Rsss::Oauth.consumer,
-      session[:request_token], session[:request_token_secret])
-
+    request_token = Rsss::Oauth.request_token(session[:request_token], session[:request_token_secret])
     access_token = request_token.get_access_token({},
       :oauth_token=>params[:oauth_token], :oauth_verifier=>params[:oauth_verifier])
 
@@ -33,6 +31,7 @@ class AuthController < ApplicationController
     user.oauth_token = access_token.token
     user.oauth_secret = access_token.secret
     user.token = (Digest::SHA1.new<<access_token.token).to_s 
+    user.created_at = Time.now
     user.save
 
     session[:token] = user.token

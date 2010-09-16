@@ -13,6 +13,11 @@ module Rsss
         access_token = ::OAuth::AccessToken.new consumer, token, secret
         ::JSON.parse access_token.get('/account/verify_credentials.json').body
       end
+
+      def request_token(request_token, request_token_secret)
+        OAuth::RequestToken.new(consumer, request_token, request_token_secret)
+      end
+
     end
 
   end

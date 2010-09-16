@@ -22,7 +22,7 @@
 
   - if @user.site? || @user.description?
     .profile.kdmr
-      %h3 #{@user_info['screen_name']}(#{@user_info['name']})
+      %h3 #{@user.screen_name}(#{@user.oauth_name})
       - if @user.site?
         .massive
           %a{:href=>@user.site, :target=>"_blank"} #{@user.site}

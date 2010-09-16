@@ -185,7 +185,7 @@ describe User do
 
   end
 
-  describe "#create_histories" do
+  describe "#create_histories!" do
     before do
       @target.sites.map{|s| 
         s.histories = []
@@ -194,7 +194,7 @@ describe User do
     end
 
     it "同じ日のヒストリは2つ以上つくることができない" do
-      2.times{ @target.create_histories }
+      2.times{ @target.create_histories! }
       @target.sites.map do |site|
         site.histories.
           find_all{|h| h.created_at.strftime('%Y%m%d')==Time.now.strftime('%Y%m%d') }.
@@ -204,7 +204,7 @@ describe User do
 
     it "何度呼び出しても30件以上のヒストリが登録されている状態にはならない" do
       pending('ねむい')
-     #40.downto(0){|t| puts t.days.ago.to_time.inspect; @target.create_histories(t.days.ago.to_time) }
+     #40.downto(0){|t| puts t.days.ago.to_time.inspect; @target.create_histories!(t.days.ago.to_time) }
      #@target.sites.map do |site|
      #  site.histories.length.should == 30
      #end
@@ -212,7 +212,7 @@ describe User do
 
   end
 
-  describe "reload_screen_name" do
+  describe "#reload_user_info!" do
     it "pending" do pending('pending') end
   end
 

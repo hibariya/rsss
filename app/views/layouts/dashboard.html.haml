@@ -10,17 +10,17 @@
     %link{:rel=>"icon", :type=>"image/png", :href=>"/favicon.png"}
   %body
     #head
-      %img.icon{:src=>@user_info['profile_image_url']}
+      %img.icon{:src=>@user.profile_image_url}
         %h1 Dashboard
       %div{:style=>"clear: both;"}
-        .description #{@user_info['screen_name']}(#{@user_info['name']})
-        .description #{@user_info['description']}
+        .description #{@user.screen_name}(#{@user.oauth_name})
+        .description #{@user.oauth_description}
 
     .kdmr.note-wide
       %span.menu
         = action_name=='index'? 'Dashboard': link_to('Dashboard', '/dashboard')
       %span.menu
-        = link_to 'My Summaries', '/'+@user_info['screen_name']
+        = link_to 'My Summaries', '/'+@user.screen_name
       %span.menu
         = link_to 'Signout', '/auth/signout'
 
