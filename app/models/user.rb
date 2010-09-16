@@ -49,7 +49,7 @@ class User
     new_screen_name = user_info['screen_name']
     if new_screen_name != screen_name
       yet_another = self.class.find(:first, :conditions=>{:screen_name=>new_screen_name})
-      reload_screen_name yet_another if yet_another
+      reload_user_info! yet_another if yet_another
       self.screen_name = new_screen_name
     end
     self.oauth_description = user_info['description']
