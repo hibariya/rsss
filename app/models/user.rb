@@ -45,11 +45,11 @@ class User
   def user_info
     @user_info ||= Rsss::Oauth.user_info(oauth_token, oauth_secret) end
 
-  def reload_user_info!
+  def reload_user_info!(ignore_user=nil)
     new_screen_name = user_info['screen_name']
     if new_screen_name != screen_name
       yet_another = self.class.find(:first, :conditions=>{:screen_name=>new_screen_name})
-      yet_another.reload_user_info! if yet_another
+      yet_another.reload_user_info!(self) if yet_another && yet_another!=ignore_user
       self.screen_name = new_screen_name
     end
     self.oauth_description = user_info['description']
