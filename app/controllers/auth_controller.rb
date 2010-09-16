@@ -33,6 +33,7 @@ class AuthController < ApplicationController
     user.token = (Digest::SHA1.new<<access_token.token).to_s 
     user.created_at = Time.now
     user.save
+    user.reload_user_info!
 
     session[:token] = user.token
     return redirect_to '/dashboard'
