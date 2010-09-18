@@ -66,7 +66,7 @@ class User
       site.reload_channel rescue next
       todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d')==now.strftime('%Y%m%d')}
       todays.first.delete unless todays.empty?
-      (site.histories.sort_by(&:created_at).reverse[30..-1] || []).
+      (site.histories.sort_by(&:created_at).reverse[29..-1] || []).
         compact.each{|d| d.delete }
     end
     

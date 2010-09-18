@@ -3,9 +3,12 @@ module Rsss
 
     class << self
       def get(uri)
-        u = ::URI.parse(uri)
-        u.query = (u.query.nil?? '' : u.query+'&')+::Time.now.to_i.to_s 
-        u.open{|f| RSS::Parser.parse(f.read, false, true) }
+        RSS::Parser.parse(fetch(uri), false, true) end
+
+      def fetch(uri)
+        u = URI.parse(uri)
+        u.query = (u.query.nil?? '' : u.query+'&')+Time.now.to_i.to_s 
+        u.open{|f| f.read }
       end
     end
 

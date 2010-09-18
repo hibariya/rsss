@@ -32,13 +32,13 @@ class Site
   #
   def reload_channel
     load_channel_info
-    entries.delete_all
     self.entries = (feed.respond_to?(:entries)? feed.entries: feed.items).
       map{|e| Rsss::Rss::Entry.extract(e).to_entry }
     self
   end
 
   def reload_channel!
+    entries.delete_all
     reload_channel.save && self end
 
   def load_channel_info
