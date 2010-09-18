@@ -3,7 +3,7 @@
 Sham.define do
   screen_name { Faker::Internet.user_name }
   description { Faker::Lorem.paragraph[0..190] }
-  site { ['http://', Faker::Internet.domain_name].join }
+  site { ['http://', rand(1000).to_s, Faker::Internet.domain_name].join }
   oauth_user_id {|i| 1000+i }
   token {|i| (Digest::SHA1.new<<i.to_s).to_s }
 

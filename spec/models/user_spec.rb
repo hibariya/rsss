@@ -189,7 +189,7 @@ describe User do
     before do
       @target.sites.map{|s| 
         s.histories = []
-        s.stub!(:reload_channel).and_return(true)
+        s.stub!(:reload_channel!).and_return(true)
       }
     end
 
@@ -211,67 +211,67 @@ describe User do
 
   end
 
-#  describe "#reload_user_info!" do
-#    context "ほぼ同時期に2人のユーザ名が変更され、DB側でユーザ名の重複が発生したとき" do
-#      before do
-#        # {{{ origin
-#        #user_info = {"show_all_inline_media"=>false,
-#        #  "friends_count"=>1317,
-#        #  "description"=>"puts %w(Ruby Vim 永和システムマネジメント オカメインコ ネザーランドドワーフ Bookmark など).map{|me| me.gsub(/./, 'へんないきもの')}.join",
-#        #  "listed_count"=>46,
-#        #  "statuses_count"=>17430,
-#        #  "profile_sidebar_fill_color"=>"F3F3F3",
-#        #  "url"=>"http://rsss.heroku.com/hibariya",
-#        #  "status"=>{"in_reply_to_user_id"=>nil, "geo"=>nil, "in_reply_to_screen_name"=>nil, "retweeted"=>false, "truncated"=>false, "created_at"=>"Sat Sep 18 04:57:16 +0000 2010", "source"=>"<a href="http://termtter.org/" rel="nofollow">Termtter</a>", "retweet_count"=>nil, "contributors"=>nil, "place"=>nil, "favorited"=>false, "id"=>24823301884, "coordinates"=>nil, "in_reply_to_status_id"=>nil, "text"=>"鳥のとまり木を買いに行く"},
-#        #  "notifications"=>false,
-#        #  "time_zone"=>"Tokyo",
-#        #  "favourites_count"=>8593,
-#        #  "contributors_enabled"=>false,
-#        #  "lang"=>"en",
-#        #  "created_at"=>"Wed Feb 20 12:25:50 +0000 2008",
-#        #  "profile_sidebar_border_color"=>"DFDFDF",
-#        #  "location"=>"シェル",
-#        #  "geo_enabled"=>false,
-#        #  "profile_use_background_image"=>false,
-#        #  "following"=>false,
-#        #  "verified"=>false, 
-#        #  "profile_background_color"=>"000000",
-#        #  "follow_request_sent"=>false,
-#        #  "profile_background_image_url"=>"http://s.twimg.com/a/1284661970/images/themes/theme7/bg.gif",
-#        #  "protected"=>false,
-#        #  "profile_image_url"=>"http://a1.twimg.com/profile_images/683335833/hiwaiya3_normal.png",
-#        #  "profile_text_color"=>"333333",
-#        #  "name"=>"pussy_catだった", 
-#        #  "profile_background_tile"=>false,
-#        #  "followers_count"=>1230,
-#        #  "screen_name"=>"hibariya",
-#        #  "id"=>13717532,
-#        #  "utc_offset"=>32400,
-#        #  "profile_link_color"=>"990000"}
-#        #  }}}
-#        puts %w(user1: matsumoto=>yet_another_user_name, user2: metaquery=>matsumoto)
-#        @targets = [User.make(:screen_name=>'matsumoto'), User.make(:screen_name=>'metaquery')]
-#        @targets.first.stub!(:user_info).and_return({
-#        "description"=>"元々まつもとだった",
-#        "profile_image_url"=>"http://a1.twimg.com/profile_images/683335833/hiwaiya3_normal.png",
-#        "name"=>"元祖まつもと", 
-#        "screen_name"=>"yet_another_user_name"})
-#        @targets.last.stub!(:user_info).and_return({
-#        "description"=>"元々メタクエリだった",
-#        "profile_image_url"=>"http://a1.twimg.com/profile_images/683335833/hiwaiya3_normal.png",
-#        "name"=>"ポストまつもと", 
-#        "screen_name"=>"matsumoto"})
-#        User.stub!(:find).and_return(@targets.last)
-#       
-#        @targets.reverse!.map!{|t| t.reload_user_info! && t }.reverse!
-#      end
-#
-#      it "重複するユーザ名を元々所持していたユーザが先に更新され、衝突が発生しない" do
-#        @targets.first.screen_name.should == 'yet_another_user_name'
-#        @targets.last.screen_name.should == 'matsumoto'
-#      end
-#
-#    end
-#  end
+  describe "#reload_user_info!" do
+    context "ほぼ同時期に2人のユーザ名が変更され、DB側でユーザ名の重複が発生したとき" do
+      before do
+        # {{{ origin
+        #user_info = {"show_all_inline_media"=>false,
+        #  "friends_count"=>1317,
+        #  "description"=>"puts %w(Ruby Vim 永和システムマネジメント オカメインコ ネザーランドドワーフ Bookmark など).map{|me| me.gsub(/./, 'へんないきもの')}.join",
+        #  "listed_count"=>46,
+        #  "statuses_count"=>17430,
+        #  "profile_sidebar_fill_color"=>"F3F3F3",
+        #  "url"=>"http://rsss.heroku.com/hibariya",
+        #  "status"=>{"in_reply_to_user_id"=>nil, "geo"=>nil, "in_reply_to_screen_name"=>nil, "retweeted"=>false, "truncated"=>false, "created_at"=>"Sat Sep 18 04:57:16 +0000 2010", "source"=>"<a href="http://termtter.org/" rel="nofollow">Termtter</a>", "retweet_count"=>nil, "contributors"=>nil, "place"=>nil, "favorited"=>false, "id"=>24823301884, "coordinates"=>nil, "in_reply_to_status_id"=>nil, "text"=>"鳥のとまり木を買いに行く"},
+        #  "notifications"=>false,
+        #  "time_zone"=>"Tokyo",
+        #  "favourites_count"=>8593,
+        #  "contributors_enabled"=>false,
+        #  "lang"=>"en",
+        #  "created_at"=>"Wed Feb 20 12:25:50 +0000 2008",
+        #  "profile_sidebar_border_color"=>"DFDFDF",
+        #  "location"=>"シェル",
+        #  "geo_enabled"=>false,
+        #  "profile_use_background_image"=>false,
+        #  "following"=>false,
+        #  "verified"=>false, 
+        #  "profile_background_color"=>"000000",
+        #  "follow_request_sent"=>false,
+        #  "profile_background_image_url"=>"http://s.twimg.com/a/1284661970/images/themes/theme7/bg.gif",
+        #  "protected"=>false,
+        #  "profile_image_url"=>"http://a1.twimg.com/profile_images/683335833/hiwaiya3_normal.png",
+        #  "profile_text_color"=>"333333",
+        #  "name"=>"pussy_catだった", 
+        #  "profile_background_tile"=>false,
+        #  "followers_count"=>1230,
+        #  "screen_name"=>"hibariya",
+        #  "id"=>13717532,
+        #  "utc_offset"=>32400,
+        #  "profile_link_color"=>"990000"}
+        #  }}}
+        puts %w(user1: matsumoto=>yet_another_user_name, user2: metaquery=>matsumoto)
+        @targets = [User.make(:screen_name=>'matsumoto'), User.make(:screen_name=>'metaquery')]
+        @targets.first.stub!(:user_info).and_return({
+        "description"=>"元々まつもとだった",
+        "profile_image_url"=>"http://a1.twimg.com/profile_images/683335833/hiwaiya3_normal.png",
+        "name"=>"元祖まつもと", 
+        "screen_name"=>"yet_another_user_name"})
+        @targets.last.stub!(:user_info).and_return({
+        "description"=>"元々メタクエリだった",
+        "profile_image_url"=>"http://a1.twimg.com/profile_images/683335833/hiwaiya3_normal.png",
+        "name"=>"ポストまつもと", 
+        "screen_name"=>"matsumoto"})
+        User.stub!(:find).and_return(@targets.last)
+       
+        @targets.reverse!.map!{|t| t.reload_user_info! && t }.reverse!
+      end
+
+      it "重複するユーザ名を元々所持していたユーザが先に更新され、衝突が発生しない" do
+        @targets.first.screen_name.should == 'yet_another_user_name'
+        @targets.last.screen_name.should == 'matsumoto'
+      end
+
+    end
+  end
 
 end
