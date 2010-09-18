@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Rsss::Summarize</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../lib/rsss/summarize_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/rsss/summarize.rb">lib/rsss/summarize.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-c-segment">::segment</a></li>
+					
+					<li><a href="#method-i-method_missing">#method_missing</a></li>
+					
+					<li><a href="#method-i-segment">#segment</a></li>
+					
+					<li><a href="#method-i-segment_by_frequency">#segment_by_frequency</a></li>
+					
+					<li><a href="#method-i-segment_by_volume">#segment_by_volume</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../doc/README_FOR_APP.html">README_FOR_APP</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../Rsss.html">Rsss</a></li>
+				
+					<li><a href="../Rsss/Oauth.html">Rsss::Oauth</a></li>
+				
+					<li><a href="../Rsss/Rss.html">Rsss::Rss</a></li>
+				
+					<li><a href="../Rsss/Rss/Entry.html">Rsss::Rss::Entry</a></li>
+				
+					<li><a href="../Rsss/Summarize.html">Rsss::Summarize</a></li>
+				
+					<li><a href="../ApplicationController.html">ApplicationController</a></li>
+				
+					<li><a href="../ApplicationHelper.html">ApplicationHelper</a></li>
+				
+					<li><a href="../AuthController.html">AuthController</a></li>
+				
+					<li><a href="../AuthHelper.html">AuthHelper</a></li>
+				
+					<li><a href="../DashboardController.html">DashboardController</a></li>
+				
+					<li><a href="../DashboardHelper.html">DashboardHelper</a></li>
+				
+					<li><a href="../Entry.html">Entry</a></li>
+				
+					<li><a href="../History.html">History</a></li>
+				
+					<li><a href="../IndexController.html">IndexController</a></li>
+				
+					<li><a href="../IndexHelper.html">IndexHelper</a></li>
+				
+					<li><a href="../Site.html">Site</a></li>
+				
+					<li><a href="../SitesController.html">SitesController</a></li>
+				
+					<li><a href="../SitesHelper.html">SitesHelper</a></li>
+				
+					<li><a href="../User.html">User</a></li>
+				
+					<li><a href="../UsersController.html">UsersController</a></li>
+				
+					<li><a href="../UsersHelper.html">UsersHelper</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Rsss::Summarize</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(sites=[])</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rsss/summarize.rb, line 17</span>
+17:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">sites</span>=[])
+18:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">sites</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Array</span>
+19:       <span class="ruby-ivar">@sites</span>, <span class="ruby-ivar">@summary</span> = <span class="ruby-identifier">sites</span>, {}
+20:       <span class="ruby-identifier">segment_by_volume</span>
+21:       <span class="ruby-identifier">segment_by_frequency</span>
+22:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="segment-method" class="method-detail ">
+				<a name="method-c-segment"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">segment</span><span
+						class="method-args">(levels, step=24)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+24点満点の相対評価を行う
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="segment-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rsss/summarize.rb, line 7</span>
+ 7:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">segment</span>(<span class="ruby-identifier">levels</span>, <span class="ruby-identifier">step</span>=<span class="ruby-value">24</span>)
+ 8:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">l</span>.<span class="ruby-identifier">first</span>, <span class="ruby-identifier">l</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">to_i</span>] } <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> <span class="ruby-identifier">l</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">to_f</span><span class="ruby-operator">==</span><span class="ruby-value">0.0</span> }
+ 9:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">l</span>.<span class="ruby-identifier">first</span>, <span class="ruby-value">24</span>] } <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">last</span><span class="ruby-operator">==</span><span class="ruby-identifier">l</span>.<span class="ruby-identifier">last</span> }
+10:         <span class="ruby-identifier">max</span> = <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sqrt</span> <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">r</span>,<span class="ruby-identifier">c</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">c</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">r</span>)<span class="ruby-operator">?</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">last</span><span class="ruby-operator">:</span> <span class="ruby-identifier">r</span>}
+11:         <span class="ruby-identifier">min</span> = <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sqrt</span> <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-identifier">max</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">r</span>,<span class="ruby-identifier">c</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">c</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">r</span>)<span class="ruby-operator">?</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">last</span><span class="ruby-operator">:</span> <span class="ruby-identifier">r</span>}
+12:         <span class="ruby-identifier">factor</span> = <span class="ruby-identifier">step</span><span class="ruby-operator">/</span>(<span class="ruby-identifier">max</span><span class="ruby-operator">-</span><span class="ruby-identifier">min</span>)
+13:         <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">l</span>.<span class="ruby-identifier">first</span>, ((<span class="ruby-constant">Math</span>.<span class="ruby-identifier">sqrt</span>(<span class="ruby-identifier">l</span>.<span class="ruby-identifier">last</span>)<span class="ruby-operator">-</span><span class="ruby-identifier">min</span>)*<span class="ruby-identifier">factor</span>).<span class="ruby-identifier">round</span>] }
+14:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="method-missing-method" class="method-detail ">
+				<a name="method-i-method_missing"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">method_missing</span><span
+						class="method-args">(name, *args, &block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="method-missing-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rsss/summarize.rb, line 47</span>
+47:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">name</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+48:       <span class="ruby-ivar">@summary</span>.<span class="ruby-identifier">__send__</span> <span class="ruby-identifier">name</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span> <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="segment-method" class="method-detail ">
+				<a name="method-i-segment"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">segment</span><span
+						class="method-args">(levels, step=24)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="segment-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rsss/summarize.rb, line 44</span>
+44:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">segment</span>(<span class="ruby-identifier">levels</span>, <span class="ruby-identifier">step</span>=<span class="ruby-value">24</span>)
+45:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">segment</span>(<span class="ruby-identifier">levels</span>, <span class="ruby-identifier">step</span>) <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="segment-by-frequency-method" class="method-detail ">
+				<a name="method-i-segment_by_frequency"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">segment_by_frequency</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+POST数をみて評価
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="segment-by-frequency-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rsss/summarize.rb, line 37</span>
+37:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">segment_by_frequency</span>
+38:       <span class="ruby-identifier">segment</span>(<span class="ruby-ivar">@sites</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">f</span>, <span class="ruby-identifier">f</span>.<span class="ruby-identifier">frequency</span>] }).<span class="ruby-identifier">map</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">site</span><span class="ruby-operator">|</span>
+39:         <span class="ruby-ivar">@summary</span>[<span class="ruby-identifier">site</span>.<span class="ruby-identifier">first</span>] <span class="ruby-operator">||=</span> {}
+40:         <span class="ruby-ivar">@summary</span>[<span class="ruby-identifier">site</span>.<span class="ruby-identifier">first</span>][<span class="ruby-value">:frequency_level</span>] = <span class="ruby-identifier">site</span>.<span class="ruby-identifier">last</span>
+41:       <span class="ruby-keyword kw">end</span>
+42:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="segment-by-volume-method" class="method-detail ">
+				<a name="method-i-segment_by_volume"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">segment_by_volume</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+POST量をみて評価
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="segment-by-volume-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rsss/summarize.rb, line 27</span>
+27:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">segment_by_volume</span>
+28:       <span class="ruby-identifier">segment</span>(<span class="ruby-ivar">@sites</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">f</span>, <span class="ruby-identifier">f</span>.<span class="ruby-identifier">volume</span>] }).<span class="ruby-identifier">map</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">site</span><span class="ruby-operator">|</span>
+29:         <span class="ruby-ivar">@summary</span>[<span class="ruby-identifier">site</span>.<span class="ruby-identifier">first</span>] <span class="ruby-operator">||=</span> {}
+30:         <span class="ruby-ivar">@summary</span>[<span class="ruby-identifier">site</span>.<span class="ruby-identifier">first</span>][<span class="ruby-value">:volume_level</span>] = <span class="ruby-identifier">site</span>.<span class="ruby-identifier">last</span>
+31:       <span class="ruby-keyword kw">end</span>
+32:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+
