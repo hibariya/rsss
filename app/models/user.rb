@@ -63,7 +63,7 @@ class User
   #
   def create_histories!(now=Time.now)
     self.sites.each do |site|
-      site.reload_channel rescue next
+      site.reload_channel! rescue next
       todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d')==now.strftime('%Y%m%d')}
       todays.first.delete unless todays.empty?
       (site.histories.sort_by(&:created_at).reverse[29..-1] || []).
