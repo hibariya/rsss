@@ -2,9 +2,6 @@
 require 'spec_helper'
 
 describe Rsss::Rss do
-  describe ".get" do
-    it "pending" do pending('pending') end
-  end
 
   describe Rsss::Rss::Entry do
     shared_examples_for 'entry_extractor_extracting' do
