@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title RSSS | RSS Feed Summaries
+    %title= "RSSS | #{@user.screen_name}'s RSS Summaries"
     = stylesheet_link_tag :all
     = javascript_include_tag 'js_class'
     = javascript_include_tag 'bluff'
@@ -20,30 +20,8 @@
         
       .description
         = @user.oauth_description
-
-    - if flash[:note]
-      .kdmr.notice
-        = flash[:notice]
-
+    = render :partial=>'layouts/menu'
     = yield
+    = render :partial=>'layouts/footer'
+    = render :partial=>'layouts/analytics'
 
-    #foot
-      .kdmr.note-wide{:style=>"width: 100%; text-align: right;"}
-        = link_to 'RSSS', '/'
-        Developed by 
-        = link_to 'HIBARIYA', 'http://twitter.com/pussy_cat'
-        ( in 
-        %a{:href=>"http://github.com/hibariya/rsss", :target=>"_blank"} Github )
-
-    %script{:type=>"text/javascript"}
-      //<![CDATA[
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-17476908-3']);
-      _gaq.push(['_trackPageview']);
-    
-      (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-      //]]>

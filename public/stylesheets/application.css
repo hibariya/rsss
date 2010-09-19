@@ -5,7 +5,7 @@
 
 body {
   margin: 0em 0em 0em 0em;
-  padding: 0em 0em 0em 3em;
+  padding: 0em 3em 0em 3em;
   font-size: 12px;
   font-family: Helvetica;
   background: #c3d825;
@@ -42,7 +42,7 @@ p {
 }
 
 #head{
-  height: 3.75em;
+  height: 100%;
   margin: 0em 0em 0em 0em;
   padding: 0.5em 0em 0.25em 0em;
   font-family: Ebit;
@@ -58,8 +58,7 @@ p {
 #foot{
   text-align: right;
   clear: both;
-  height: 1em;
-  padding: 2em 2em 0.25em 0em;
+  padding: 2em 0 0.25em 0em;
   font-family: Ebit;
 }
 
@@ -88,13 +87,14 @@ h3 {
 
 #segmentation {
   padding: 0.25em 0em 0.25em 0em;
+  width: 110%;
 }
 
 #segmentation .gruff {
   background: #FFFFFF;
   margin: 1em 0em 1em 1em;
   padding: 0em 1em 1em 1em;
-  width: 420px;
+  width: 435px;
   list-style-type: none;
   float: left;
 }
@@ -103,7 +103,7 @@ h3 {
   background: #FFFFFF;
   margin: 1em 0em 1em 1em;
   padding: 0em 1em 1em 1em;
-  width: 420px;
+  width: 435px;
   list-style-type: none;
   float: left;
 }
@@ -119,7 +119,15 @@ h3 {
   background: #FFFFFF;
   margin: 1em 0em 1em 0em;
   padding-left: 0em;
-  width: 450px;
+  width: 500px;
+  float: left;
+}
+
+.sites-dashboard {
+  background: #FFFFFF;
+  margin: 1em 0em 1em 0em;
+  padding-left: 0em;
+  width: 100%;
   float: left;
 }
 
@@ -147,7 +155,7 @@ h3 {
 
 #sites {
   background: #FFFFFF;
-  width: 800px;
+  width: 100%;
   font-size: 1.2em;
   margin:0.5em 0.5em 0.5em 0em;
   padding: 1em 1em 1em 1em;
@@ -155,7 +163,7 @@ h3 {
 
 .note-wide {
   background: #FFFFFF;
-  width: 800px;
+  width: 100%;
   font-family: Ebit;
   font-size: 1.2em;
   text-align: center;
@@ -165,7 +173,7 @@ h3 {
 
 .document-wide {
   background: #FFFFFF;
-  width: 800px;
+  width: 100%;
   font-family: Helvetica;
   font-size: 1.2em;
   text-align: left;
@@ -175,7 +183,7 @@ h3 {
 
 .notice {
   background: #FFFFFF;
-  width: 800px;
+  width: 100%;
   font-family: Helvetica;
   font-size: 1.2em;
   color: #FF0000;

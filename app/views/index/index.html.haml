@@ -1,94 +1,55 @@
-!!!
-%html
-  %head
-    %title RSSS | RSS Feed Summaries
-    = stylesheet_link_tag :all
-    = javascript_include_tag 'js_class'
-    = javascript_include_tag 'bluff'
-    = javascript_include_tag 'excanvas'
-    = csrf_meta_tag
-    %link{:rel=>"icon", :type=>"image/png", :href=>"/favicon.png"}
-  %body
-    #head
-      %h1 RSSS: RSS Summaries
-    .kdmr.note-wide
-      - if User.find_by_token(session[:token]).nil?
-        = link_to 'Sign in with Twitter', '/auth'
-      - else
-        = link_to 'Dashboard', '/dashboard'
+.kdmr.document-wide
+  %h2 RSSSについて
+  %p 
+    最近Webのどの辺を彷徨いているのかをリアルタイム(1日ごとに更新)に公開するプロフィールページです。
+    自分のブログなどをいくつか登録しておくことで、最近のブログ更新を可視化します。以下のような特徴があります。
+  %ul
+    %li 登録しているサイト一覧を評価結果順に表示します
+    %li ここ1ヶ月の更新の推移をグラフ表示します
+  %p{:style=>"text-align: center;"}
+    %img{:src=>"/images/sample_summaries.png"}
+  
+  %h3 サイトの評価
+  %p 
+    1日あたりの更新回数と更新量から、最近サイトがどれほど更新されているかを評価します。
+    評価結果はサイトの文字色(更新頻度)と文字サイズ(更新量)、表示順(更新頻度+更新量)に反映されます。
+  %p{:style=>"text-align: center;"}
+    %img{:src=>"/images/sample_activity.png"}
 
-    .kdmr.document-wide
-      %h2 RSSSについて
-      %p 
-        最近Webのどの辺を彷徨いているのかをリアルタイム(1日ごとに更新)に公開するプロフィールページです。
-        自分のブログなどをいくつか登録しておくことで、最近のブログ更新を可視化します。以下のような特徴があります。
-      %ul
-        %li 登録しているサイト一覧を評価結果順に表示します
-        %li ここ1ヶ月の更新の推移をグラフ表示します
-      %p{:style=>"text-align: center;"}
-        %img{:src=>"/images/sample_summaries.png"}
-      
-      %h3 サイトの評価
-      %p 
-        1日あたりの更新回数と更新量から、最近サイトがどれほど更新されているかを評価します。
-        評価結果はサイトの文字色(更新頻度)と文字サイズ(更新量)、表示順(更新頻度+更新量)に反映されます。
-      %p{:style=>"text-align: center;"}
-        %img{:src=>"/images/sample_activity.png"}
+  %h3 ここ1ヶ月の推移
+  %p 
+    1日毎に更新した各サイトの評価結果がグラフ表示されます。
+    数が多いとわかりにくいので今後なおしていきます。
+  %p{:style=>"text-align: center;"}
+    %img{:src=>"/images/sample_graph.png"}
 
-      %h3 ここ1ヶ月の推移
-      %p 
-        1日毎に更新した各サイトの評価結果がグラフ表示されます。
-        数が多いとわかりにくいので今後なおしていきます。
-      %p{:style=>"text-align: center;"}
-        %img{:src=>"/images/sample_graph.png"}
+  %h3 使いかた
+  %p 
+    %a{:href=>"/auth"}ここ
+    からTwitterのOAuthでログインすると、画像のようなページにリダイレクトされます。
+    この設定画面から、プロフィールやサイトを登録します。
+    サイトの登録フォームには、フィードのURIの他にブログのURIをそのまま入れることができます。
+  %p{:style=>"text-align: center;"}
+    %img{:src=>"/images/sample_oauth.png"}
+    %br
+    ↓
+    %br
+    %img{:src=>"/images/sample_dashboard.png"}
 
-      %h3 使いかた
-      %p 
-        %a{:href=>"/auth"}ここ
-        からTwitterのOAuthでログインすると、画像のようなページにリダイレクトされます。
-        この設定画面から、プロフィールやサイトを登録します。
-        サイトの登録フォームには、フィードのURIの他にブログのURIをそのまま入れることができます。
-      %p{:style=>"text-align: center;"}
-        %img{:src=>"/images/sample_oauth.png"}
-        %br
-        ↓
-        %br
-        %img{:src=>"/images/sample_dashboard.png"}
+  %h3 バグ/その他
+  %p
+    %ul
+      %li Twitterで認証しますがTwitterへのPOSTなどはしません
+      %li ときどきフィードの取得に失敗することがあります
+      %li 永遠に取得できないフィードがあるかもしれません
+      %li 実験的なので評価の仕方はバランスがよくないかもしれません
+      %li 
+        バグ報告/その他: 
+        %a{:href=>"http://twitter.com/hibariya"} @hibariya (pussy_cat)
+      %li 
+        使用フォント: 
+        %a{:href=>"http://www.dafont.com/8bit-wonder.font"} 8bit-wonder
+      %li 
+        グラフ生成: 
+        %a{:href=>"http://bluff.jcoglan.com/"} Bluff
 
-      %h3 バグ/その他
-      %p
-        %ul
-          %li Twitterで認証しますがTwitterへのPOSTなどはしません
-          %li ときどきフィードの取得に失敗することがあります
-          %li 永遠に取得できないフィードがあるかもしれません
-          %li 実験的なので評価の仕方はバランスがよくないかもしれません
-          %li 
-            バグ報告/その他: 
-            %a{:href=>"http://twitter.com/hibariya"} @hibariya (pussy_cat)
-          %li 
-            使用フォント: 
-            %a{:href=>"http://www.dafont.com/8bit-wonder.font"} 8bit-wonder
-          %li 
-            グラフ生成: 
-            %a{:href=>"http://bluff.jcoglan.com/"} Bluff
-
-    #foot
-      .kdmr.note-wide{:style=>"width: 100%; text-align: right;"}
-        = link_to 'RSSS', '/'
-        Developed by 
-        = link_to 'HIBARIYA', 'http://twitter.com/hibariya'
-        ( in 
-        %a{:href=>"http://github.com/hibariya/rsss", :target=>"_blank"} Github )
-
-    %script{:type=>"text/javascript"}
-      //<![CDATA[
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-17476908-3']);
-      _gaq.push(['_trackPageview']);
-    
-      (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-      //]]>

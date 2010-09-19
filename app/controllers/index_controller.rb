@@ -4,7 +4,7 @@ class IndexController < ApplicationController
   end
 
   def index
-    render :layout=>false end
+    render :layout=>'application' end
 
   def user
     unless @user

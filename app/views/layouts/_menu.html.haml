@@ -1,0 +1,17 @@
+.kdmr.note-wide
+  %span.menu
+    = controller_name+action_name=='indexindex'? 'About': link_to('About', '/')
+  - if signin?
+    %span.menu
+      = action_name=='user'? 'My Page': link_to('My Page', user_page_path)
+    %span.menu
+      = controller_name+action_name=='dashboardindex'? 'Dashboard': link_to('Dashboard', '/dashboard')
+    %span.menu
+      = link_to 'Signout', '/auth/signout'
+  - else
+    %span.menu
+      = link_to 'Sign in with Twitter', '/auth'
+
+- if flash[:notice]
+  .kdmr.notice
+    = flash[:notice]

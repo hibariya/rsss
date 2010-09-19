@@ -32,10 +32,10 @@
  
   .gruff.kdmr
     %h3 ここ一ヶ月の推移
-    %canvas#histories{:width=>400}
+    %canvas#histories
     %script{:type=>"text/javascript"}
       //<![CDATA[
-      var g = new Bluff.Line('histories', 400);
+      var g = new Bluff.Line('histories', 440);
       g.hide_title = true;
       g.font = 'Helvetica';
       g.hide_dots = true;
