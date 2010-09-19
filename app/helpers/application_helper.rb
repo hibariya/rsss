@@ -3,11 +3,16 @@ module ApplicationHelper
    s.scan(/./)[0..len].join + (s.length>len ? ovrflw: '')
   end
 
+  def session_user
+    controller.session_user
+  end
+  
   def signin?
-    @signin ||= !User.find_by_token(session[:token]).nil?
+    !session_user.nil?
   end
 
   def user_page_path
-    ['/', @user.try(:screen_name)].join
+    ['/', session_user.try(:screen_name)].join
   end
+
 end

@@ -2,12 +2,12 @@ class UsersController < ApplicationController
   before_filter ApplicationController.check_signin
   
   def update
-    @user.site = params[:user][:site]
-    @user.description = params[:user][:description]
-    if @user.valid?
-      @user.save
+    session_user.site = params[:user][:site]
+    session_user.description = params[:user][:description]
+    if session_user.valid?
+      session_user.save
     else
-      flash[:notice] = @user.errors.first.last
+      flash[:notice] = session_user.errors.first.last
     end
     return redirect_to '/dashboard'
   end

@@ -10,11 +10,11 @@
     %link{:rel=>"icon", :type=>"image/png", :href=>"/favicon.png"}
   %body
     #head
-      %img.icon{:src=>@user.profile_image_url}
+      %img.icon{:src=>session_user.profile_image_url}
         %h1 Dashboard
       %div{:style=>"clear: both;"}
-        .description #{@user.screen_name}(#{@user.oauth_name})
-        .description #{@user.oauth_description}
+        .description #{session_user.screen_name}(#{session_user.oauth_name})
+        .description #{session_user.oauth_description}
 
     = render :partial=>'layouts/menu'
     = yield

@@ -4,33 +4,33 @@ class SitesController < ApplicationController
   before_filter ApplicationController.check_signin
   
   def create
-    @user.sites<<Site.new(:uri=>params[:site][:uri])
-    unless @user.sites.last.valid?
-      flash[:notice] = @user.sites.last.errors.first.last
+    session_user.sites<<Site.new(:uri=>params[:site][:uri])
+    unless session_user.sites.last.valid?
+      flash[:notice] = session_user.sites.last.errors.first.last
     else
-      return false unless check_feed @user.sites.last
-      @user.save
-      @user.create_histories rescue nil
+      return false unless check_feed session_user.sites.last
+      session_user.save
+      session_user.create_histories rescue nil
     end
     return redirect_to '/dashboard'
   end
 
   def update
-    if site = @user.sites.select{|s| s.id.to_s==params[:id] }.first
+    if site = session_user.sites.select{|s| s.id.to_s==params[:id] }.first
       site.uri = params[:site][:uri]
       unless site.valid?
         flash[:notice] = site.errors.first
       else
         return false unless check_feed site
         site.save
-        @user.create_histories rescue nil
+        session_user.create_histories rescue nil
       end
     end
     return redirect_to '/dashboard'
   end
 
   def destroy
-    site = @user.sites.select{|s| s.id.to_s==params[:id] }.first
+    site = session_user.sites.select{|s| s.id.to_s==params[:id] }.first
     site.delete if site
     return redirect_to '/dashboard'
   end

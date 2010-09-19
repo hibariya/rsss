@@ -1,7 +1,7 @@
 #segmentation
   %ul.sites.kdmr
     %h3 最近更新しているサイト
-    - @user.summaries.sort_by{|s| s.general_level }.reverse.each do |history|
+    - @focus_user.summaries.sort_by{|s| s.general_level }.reverse.each do |history|
       - site = history.site 
       - last_history = site.history(1) rescue History.new
       %li.site
@@ -20,15 +20,15 @@
                 = string_limit entry.title, 50
                 %br
 
-  - if @user.site? || @user.description?
+  - if @focus_user.site? || @focus_user.description?
     .profile.kdmr
-      %h3 #{@user.screen_name}(#{@user.oauth_name})
-      - if @user.site?
+      %h3 #{@focus_user.screen_name}(#{@focus_user.oauth_name})
+      - if @focus_user.site?
         .massive
-          %a{:href=>@user.site, :target=>"_blank"} #{@user.site}
-      - if @user.description?
+          %a{:href=>@focus_user.site, :target=>"_blank"} #{@focus_user.site}
+      - if @focus_user.description?
         .massive
-          = @user.description
+          = @focus_user.description
  
   .gruff.kdmr
     %h3 ここ一ヶ月の推移
@@ -46,7 +46,7 @@
       g.replace_colors(
       = raw(%w(#f39700 #e60012 #9caeb7 #00a7db #009944 #d7c447 #9b7cb6 #00ada9 #bb641d #e85298 #0079c2 #6cbb5a #b6007a #e5171f #522886 #0078ba #019a66 #e44d93 #814721 #a9cc51 #ee7b1a #00a0de).inspect)
       );
-      - @user.sites.each do |site| 
+      - @focus_user.sites.each do |site| 
         - history = Array.new 31, 0
         - next if site.histories.empty?
         - site.histories.sort_by{|h| h.created_at }.reverse.each_with_index{|h,i| history[i] = h.general_level }
