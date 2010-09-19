@@ -11,8 +11,12 @@ module ApplicationHelper
     !session_user.nil?
   end
 
-  def user_page_path
-    ['/', session_user.try(:screen_name)].join
+  def user_page_path(username=nil)
+    ['/', (username || session_user.try(:screen_name))].join
+  end
+
+  def twitter_uri(username='')
+    ['http://twitter.com/', username].join
   end
 
 end

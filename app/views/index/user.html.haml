@@ -22,7 +22,9 @@
 
   - if @focus_user.site? || @focus_user.description?
     .profile.kdmr
-      %h3 #{@focus_user.screen_name}(#{@focus_user.oauth_name})
+      %h3
+        %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name}
+          = "#{@focus_user.screen_name}(#{@focus_user.oauth_name})"
       - if @focus_user.site?
         .massive
           %a{:href=>@focus_user.site, :target=>"_blank"} #{@focus_user.site}

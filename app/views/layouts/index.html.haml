@@ -10,13 +10,16 @@
     %link{:rel=>"icon", :type=>"image/png", :href=>"/favicon.png"}
   %body
     #head
-      %img.icon{:src=>@focus_user.profile_image_url}
+      %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name}
+        %img.icon{:src=>@focus_user.profile_image_url, :alt=>@focus_user.screen_name, :style=>'border: none;'}
       %h1 
-        #{@focus_user.screen_name}'s RSS Summaries
+        %a{:href=>user_page_path(@focus_user.screen_name), :title=>@focus_user.screen_name}
+          = "#{@focus_user.screen_name}'s RSS Summaries"
       %div{:style=>"clear: both;"}
       .description
-        = @focus_user.screen_name
-        (#{@focus_user.oauth_name})
+        %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name, :style=>'text-decoration:none;'}
+          = @focus_user.screen_name
+          (#{@focus_user.oauth_name})
         
       .description
         = @focus_user.oauth_description
