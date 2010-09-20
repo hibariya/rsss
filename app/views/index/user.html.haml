@@ -8,14 +8,14 @@
         .title{:style=>"font-size: "+(12+history.volume_level).to_s+"px;"}
           %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(history.frequency_level*10).to_s+", 0);"} #{site.title}
           %span.info
-            = ((history.general_level.to_f/24)*100).round.to_s+"pt"
+            = ((history.general_level.to_f/24)*100).round.to_s+"%"
           .info
             in #{raw(URI.parse(site.uri).host)}
             = (history.general_level > last_history.general_level)? '⇧': ''
             = (history.general_level < last_history.general_level)? '⇩': ''
           .info{:style=>"text-align: right;"}
             %div 最近のエントリ
-            - site.entries.sort_by{|e|e.date}.reverse[0..((history.general_level/10).round)].each do |entry|
+            - site.entries.sort_by{|e|e.date}.reverse[0..((history.general_level/5).round)].each do |entry|
               %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content}
                 = string_limit entry.title, 50
                 %br
