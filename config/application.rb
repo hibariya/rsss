@@ -43,7 +43,7 @@ module Rsss
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
+    config.filter_parameters += [:password, :oauth_token, :oauth_verifier, :token]
 
     config.mongoid.logger = Logger.new($stdout, :warn)
 
