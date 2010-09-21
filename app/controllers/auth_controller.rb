@@ -27,12 +27,10 @@ class AuthController < ApplicationController
     end
     
     user = User.find(:first, :conditions=>{:oauth_user_id=>@user_info['id']}) || User.new(:oauth_user_id=>@user_info['id'])
-    user.screen_name = @user_info['screen_name']
     user.oauth_token = access_token.token
     user.oauth_secret = access_token.secret
-    user.token = (Digest::SHA1.new<<access_token.token).to_s 
+    user.token = (Digest::SHA1.new<<[access_token.token, rand(Time.now.to_i)].join).to_s 
     user.created_at = Time.now
-    user.save
     user.reload_user_info!
 
     session[:token] = user.token
