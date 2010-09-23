@@ -6,6 +6,7 @@ class UsersController < ApplicationController
     session_user.description = params[:user][:description]
     if session_user.valid?
       session_user.save
+      flash[:notice] = "Profile has been changed"
     else
       flash[:notice] = session_user.errors.first.last
     end

@@ -9,6 +9,7 @@ class SitesController < ApplicationController
       flash[:notice] = session_user.sites.last.errors.first.last
     else
       return false unless check_feed session_user.sites.last
+      flash[:notice] = "Successfully added: #{session_user.sites.last.uri}"
       session_user.save
       session_user.create_histories rescue nil
     end
@@ -22,6 +23,7 @@ class SitesController < ApplicationController
         flash[:notice] = site.errors.first
       else
         return false unless check_feed site
+        flash[:notice] = "Successfully saved: #{site.uri}"
         site.save
         session_user.create_histories rescue nil
       end
@@ -32,6 +34,7 @@ class SitesController < ApplicationController
   def destroy
     site = session_user.sites.select{|s| s.id.to_s==params[:id] }.first
     site.delete if site
+    flash[:notice] = "Successfully deleted: #{site.uri}"
     return redirect_to '/dashboard'
   end
 
