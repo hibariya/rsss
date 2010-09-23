@@ -16,7 +16,7 @@
           .info{:style=>"text-align: right;"}
             %div 最近のエントリ
             - site.entries.sort_by(&:date).reverse[0..((history.general_level/5).round)].each do |entry|
-              %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content}
+              %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content.gsub(/<[^>]+>/, '')}
                 = string_limit entry.title, 45
                 %br
 
