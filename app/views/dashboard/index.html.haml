@@ -1,16 +1,16 @@
 .kdmr.document-wide
-  %h3 Profile
+  %h3 PROFILE
   .user
     = form_for session_user do |f|
       %div URI
-      = f.text_field :site, :style=>'width: 740px;'
+      = f.text_field :site, :style=>'width: 650px;'
       %br
       %div{:style=>"margin-top: 0.5em;"} Description
-      = f.text_field :description, :style=>'width: 740px;'
+      = f.text_field :description, :style=>'width: 650px;'
       = f.submit '変更', :onclick=>'return confirm("Are You Sure?");'
 
 %ul#sites.sites-dashboard.kdmr
-  %h3 #{session_user.screen_name}'s Sites
+  %h3 #{session_user.screen_name.upcase}'S SITES
   - session_user.sites.reverse.each do |site|
     %li.site
       %div
@@ -18,7 +18,7 @@
         = 'ブログ、またはフィードのURIを追加: ' unless site.uri?
       %div
         = form_for site do |f|
-          = f.text_field :uri, :style=>'width: 740px;'
+          = f.text_field :uri, :style=>'width: 650px;'
           = f.submit site.uri?? '変更': '追加', :onclick=>'return confirm("Are You Sure?");'
         - unless site.uri.nil?
           = form_for site, :html=>{:method=>:delete} do |f|

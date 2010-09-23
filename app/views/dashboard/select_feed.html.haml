@@ -7,5 +7,5 @@
           %a{:href=>feed.last, :target=>"_blank"}
             = feed.first
             %span.info (#{feed.last})
-          = f.hidden_field :uri, :value=>feed.last, :style=>'width: 740px;'
+          = f.hidden_field :uri, :value=>feed.last
           = f.submit '選択', :onclick=>'return confirm("Are You Sure?");'

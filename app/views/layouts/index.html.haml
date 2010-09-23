@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title= "RSSS | #{@focus_user.screen_name}'s RSS Summaries"
+    %title= "RSSS | #{@focus_user.screen_name}"
     = stylesheet_link_tag :all
     = javascript_include_tag 'js_class'
     = javascript_include_tag 'bluff'
@@ -14,7 +14,7 @@
         %img.icon{:src=>@focus_user.profile_image_url, :alt=>@focus_user.screen_name, :style=>'border: none;'}
       %h1 
         %a{:href=>user_page_path(@focus_user.screen_name), :title=>@focus_user.screen_name}
-          = "#{@focus_user.screen_name}'s RSS Summaries"
+          = "#{@focus_user.screen_name.upcase}'S RSS SUMMARIES"
       %div{:style=>"clear: both;"}
       .description
         %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name, :style=>'text-decoration:none;'}
