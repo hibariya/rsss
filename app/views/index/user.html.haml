@@ -17,7 +17,7 @@
             %div 最近のエントリ
             - site.entries.sort_by(&:date).reverse[0..((history.general_level/5).round)].each do |entry|
               %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content}
-                = string_limit entry.title, 50
+                = string_limit entry.title, 45
                 %br
 
   - if @focus_user.site? || @focus_user.description?
