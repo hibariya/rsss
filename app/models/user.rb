@@ -60,7 +60,7 @@ class User
     self.oauth_description = user_info['description']
     self.oauth_name = user_info['name']
     self.profile_image_url = user_info['profile_image_url']
-    self.save
+    self.save!
   end
 
   #
@@ -78,7 +78,7 @@ class User
     Rsss::Summarize.new(self.sites).each do |site, summary|
       site.histories<<History.new(summary.merge({:created_at=>now}))
     end
-    self.save
+    self.save!
   end
 
 end
