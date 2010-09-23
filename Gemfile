@@ -1,15 +1,15 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.0'
-gem 'bson_ext', '1.0.4'
+gem 'bson_ext'
 gem 'mechanize'
-gem 'mongoid', '2.0.0.beta.17'
+gem 'mongoid', '2.0.0.beta.18'
 gem 'oauth'
 gem 'haml'
 gem 'json'
 
 group :development, :test do
-  gem 'rspec-rails', '>= 2.0.0.beta.20'
+  gem 'rspec-rails', '>= 2.0.0.beta.22'
   gem 'mongoid-rspec'
   gem 'machinist'
   gem 'machinist_mongo', :require=>'machinist/mongoid'
