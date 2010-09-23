@@ -2,6 +2,7 @@
 
 class User
   include Mongoid::Document
+  include Mongoid::Timestamps
 
   field :screen_name, :type=>String
 
@@ -15,10 +16,14 @@ class User
   field :description, :type=>String
   field :site, :type=>String
   field :token, :type=>String
-  field :created_at, :type=>Time
 
   embeds_many :sites
 
+  index :token, :unique=>true, :background=>true
+  index :screen_name, :unique=>true, :background=>true
+  index %q(entries.date), :background=>true
+  index %q(sites.uri), :background=>true
+  
   validates :screen_name, :presence=>true, :length=>{:maximum=>60}, :format=>/^[a-zA-Z0-9_\.]*$/
   validates :oauth_user_id, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9]+$/
   validates :oauth_token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z\-]+$/

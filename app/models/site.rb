@@ -25,7 +25,7 @@ class Site
     !unique? end
 
   def history(num=0)
-    histories.sort_by{|h| h.created_at }.reverse[num] || History.new end
+    histories.sort_by(&:created_at).reverse[num] || History.new end
 
   #
   # entriesを最新に更新

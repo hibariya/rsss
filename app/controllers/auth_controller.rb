@@ -30,7 +30,6 @@ class AuthController < ApplicationController
     user.oauth_token = access_token.token
     user.oauth_secret = access_token.secret
     user.token = (Digest::SHA1.new<<[access_token.token, rand(Time.now.to_i)].join).to_s 
-    user.created_at = Time.now
     user.reload_user_info!
 
     session[:token] = user.token
