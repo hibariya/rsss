@@ -47,7 +47,7 @@ class SitesController < ApplicationController
         agent = Mechanize.new
         agent.get site.uri
         agent.page.root.search('link').find_all{|l| l.attributes['rel'].to_s=='alternate' }.each do |link|
-          c = Site.new(:uri=>link.attributes['href'].to_s).load_channel_info
+          c = Site.new(:uri=>URI.join(site.uri, link.attributes['href'].to_s).to_s).load_channel_info
           flash[:feeds]<<[c.title, c.uri] rescue next # 同じくRSSとして読み込めなかった
         end
       rescue
