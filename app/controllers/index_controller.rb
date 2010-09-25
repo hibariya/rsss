@@ -23,10 +23,10 @@ class IndexController < ApplicationController
   private
   def user_feed
     RSS::Maker.make('1.0') do |maker|
-      maker.channel.about = URI.join("http://rsss.be", Rsss::DOMAIN, user_feed_path(@focus_user.screen_name))
+      maker.channel.about = URI.join("http://rsss.be", user_feed_path(@focus_user.screen_name))
       maker.channel.title = ['RSSS | ', @focus_user.screen_name].join
       maker.channel.description = @focus_user.description
-      maker.channel.link = URI.join("http://rsss.be", Rsss::DOMAIN, user_page_path(@focus_user.screen_name))
+      maker.channel.link = URI.join("http://rsss.be", user_page_path(@focus_user.screen_name))
       maker.channel.author = @focus_user.screen_name
       maker.channel.date = @focus_user.updated_at
       maker.items.do_sort = true
