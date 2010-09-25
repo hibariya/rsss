@@ -67,6 +67,6 @@
         - @focus_user.recent_entries[0..9].each do |entry|
           %li.entry
             .title
-              %a{:href=>entry.link, :target=>"_blank", :title=>entry.title}= entry.title
+              %a{:href=>entry.link, :target=>"_blank", :title=>entry.title, :style=>'color: green;'}= entry.title
             %div.info= string_limit entry.content.gsub(/<[^>]+>/, ''), 200
  
