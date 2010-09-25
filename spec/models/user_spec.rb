@@ -147,17 +147,17 @@ describe User do
     end
   end
  
-  describe ".find_by_token" do
+  describe ".by_token" do
     before do
       @target = User.make
     end
 
     it "tokenをもとにUserを取得できること" do
-      User.find_by_token(@target.token).should be_kind_of User
+      User.by_token(@target.token).first.should be_kind_of User
     end
     
-    it "存在しないtokenを渡された場合はnilを返すこと" do
-      User.find_by_token('ababababababa').should be_nil
+    it "存在しないtokenを渡された場合は[]を返すこと" do
+      User.by_token('ababababababa').should be_empty
     end
   end
 
@@ -261,7 +261,7 @@ describe User do
         "profile_image_url"=>"http://a1.twimg.com/profile_images/683335833/hiwaiya3_normal.png",
         "name"=>"ポストまつもと", 
         "screen_name"=>"matsumoto"})
-        User.stub!(:find).and_return(@targets.last)
+        User.stub!(:by_screen_name).and_return(@targets)
        
         @targets.reverse!.map!{|t| t.reload_user_info! && t }.reverse!
       end

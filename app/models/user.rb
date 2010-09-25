@@ -41,8 +41,17 @@ class User
     user.errors.add(:site, 'too long URI') if user.site.to_s.length > 100
   end
 
-  def self.find_by_token(t)
-    find(:first, :conditions=>{:token=>t}) end
+  scope :by_token, lambda{|t|
+    where(:token=>t)
+  }
+
+  scope :by_screen_name, lambda{|s|
+    where(:screen_name=>s)
+  }
+  
+  def recent_entries
+    sites.map(&:entries).flatten.sort_by(&:date).reverse
+  end
 
   def summaries(num=0)
     sites.map{|s| s.histories.sort_by(&:created_at).reverse[num] }.compact end
@@ -53,7 +62,7 @@ class User
   def reload_user_info!(ignore_user=nil)
     new_screen_name = user_info['screen_name']
     if new_screen_name != screen_name
-      yet_another = self.class.find(:first, :conditions=>{:screen_name=>new_screen_name})
+      yet_another = self.class.by_screen_name(new_screen_name).first
       yet_another.reload_user_info!(self) if yet_another && yet_another!=ignore_user
       self.screen_name = new_screen_name
     end

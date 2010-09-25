@@ -13,6 +13,7 @@ Rsss::Application.routes.draw do
   match '/dashboard' => 'dashboard#index', :via=>[:get]
   match '/dashboard/select_feed/:id' => 'dashboard#select_feed', :via=>[:get]
   match '/auth' => 'auth#oauth', :via=>[:get]
+  match '/user/:user' => 'index#user', :via=>[:get]
   resources :sites, :expect=>[:create, :destroy, :update]
   resources :users, :expect=>[:update]
 

@@ -26,7 +26,7 @@ class AuthController < ApplicationController
       raise
     end
     
-    user = User.find(:first, :conditions=>{:oauth_user_id=>@user_info['id']}) || User.new(:oauth_user_id=>@user_info['id'])
+    user = User.where(:oauth_user_id=>@user_info['id']).first || User.new(:oauth_user_id=>@user_info['id'])
     user.oauth_token = access_token.token
     user.oauth_secret = access_token.secret
     user.token = (Digest::SHA1.new<<[access_token.token, rand(Time.now.to_i)].join).to_s 

@@ -39,7 +39,8 @@ class Site
 
   def reload_channel!
     entries.delete_all
-    reload_channel.save! && self end
+    reload_channel.save!
+  end
 
   def load_channel_info
     self.title = (feed.respond_to?(:title)? feed.title.content: feed.channel.title).to_s 
@@ -48,7 +49,7 @@ class Site
   end
 
   def load_channel_info!
-    load_channel_info.save! && self end
+    load_channel_info.save! end
  
   def feed
     @feed ||= Rsss::Rss.get uri end

@@ -107,6 +107,19 @@ h3 {
   float: left;
 }
 
+.recent_entries {
+  background: #FFFFFF;
+  margin: 1em 0em 1em 1em;
+  padding: 0em 1em 1em 1em;
+  width: 400px;
+  list-style-type: none;
+  float: left;
+}
+
+.entry {
+  margin: 0.5em 0em 0.5em 1em
+}
+
 .kdmr {
   border-radius: 20px;
   border: 3px #e0ebaf solid;

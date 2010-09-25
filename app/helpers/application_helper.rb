@@ -12,7 +12,14 @@ module ApplicationHelper
   end
 
   def user_page_path(username=nil)
-    ['/', (username || session_user.try(:screen_name))].join
+    screen_name = username || session_user.try(:screen_name)
+    specified_screen_name?(screen_name)?
+      ['/user/', screen_name].join:
+      ['/', screen_name].join
+  end
+
+  def specified_screen_name?(screen_name)
+    controller.specified_controllers.include?(screen_name)
   end
 
   def twitter_uri(username='')

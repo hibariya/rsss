@@ -15,9 +15,9 @@
             = (history.general_level < last_history.general_level)? '⇩': ''
           .info{:style=>"text-align: right;"}
             %div 最近のエントリ
-            - site.entries.sort_by(&:date).reverse[0..((history.general_level/5).round)].each do |entry|
+            - site.entries.sort_by(&:date).reverse[0..((history.general_level/6).round)].each do |entry|
               %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content.gsub(/(<[^>]+>|\s+)/, '')}
-                = string_limit entry.title, 45
+                = string_limit entry.title, 35
                 %br
 
   - if @focus_user.site? || @focus_user.description?
@@ -33,7 +33,7 @@
           = @focus_user.description
  
   .gruff.kdmr
-    %h3 ここ一ヶ月の推移
+    %h3 ここ一ヶ月の推移(更新量+更新頻度)
     %canvas#histories
     %script{:type=>"text/javascript"}
       //<![CDATA[
@@ -42,7 +42,7 @@
       g.font = 'Helvetica';
       g.hide_dots = true;
       g.hide_line_numbers = true;
-      g.line_width = 2;
+      g.line_width = 3.5;
       g.dot_radius = 0;
       g.theme_pastel();
       g.replace_colors(
@@ -57,3 +57,12 @@
       g.draw();
       //]]>
 
+  - unless @focus_user.sites.empty?
+    %ul.recent_entries.kdmr
+      %h3 最近のエントリ
+      - @focus_user.recent_entries[0..9].each do |entry|
+        %li.entry
+          .title
+            %a{:href=>entry.link, :target=>"_blank", :title=>entry.title}= entry.title
+          %div.info= string_limit entry.content, 200
+ 

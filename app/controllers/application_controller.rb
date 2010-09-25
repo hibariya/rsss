@@ -2,8 +2,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'application'
 
+  def specified_controllers; %w(auth dashboard user sites users index) end
   def session_user
-    @session_user ||= session[:token] && User.find_by_token(session[:token]) rescue nil
+    @session_user ||= session[:token] && User.by_token(session[:token]).first rescue nil
   end
 
   def self.check_signin
