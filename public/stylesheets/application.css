@@ -91,29 +91,26 @@ h3 {
 
 #segmentation .gruff {
   background: #FFFFFF;
-  margin: 1em 0em 1em 1em;
+  margin: 0em 0em 1em 0em;
   padding: 0em 1em 1em 1em;
-  width: 400px;
+  width: 100%;
   list-style-type: none;
-  float: left;
 }
 
 .profile {
   background: #FFFFFF;
-  margin: 1em 0em 1em 1em;
+  margin: 0em 0em 1em 0em;
   padding: 0em 1em 1em 1em;
-  width: 400px;
+  width: 100%;
   list-style-type: none;
-  float: left;
 }
 
 .recent_entries {
   background: #FFFFFF;
-  margin: 1em 0em 1em 1em;
+  margin: 0em 0em 1em 0em;
   padding: 0em 1em 1em 1em;
-  width: 400px;
+  width: 100%;
   list-style-type: none;
-  float: left;
 }
 
 .entry {
@@ -129,9 +126,21 @@ h3 {
 
 .sites {
   background: #FFFFFF;
-  margin: 1em 0em 1em 0em;
+  margin: 0 0 0 0;
   padding-left: 0em;
+  width: 100%;
+}
+
+.sites_cover {
+  margin: 1em 0em 1em 0em;
   width: 440px;
+  height: 600px;
+  float: left;
+}
+
+.sides_cover {
+  margin: 1em 0em 1em 1em;
+  width: 405px;
   float: left;
 }
 
