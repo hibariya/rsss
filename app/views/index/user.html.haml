@@ -64,5 +64,5 @@
         %li.entry
           .title
             %a{:href=>entry.link, :target=>"_blank", :title=>entry.title}= entry.title
-          %div.info= string_limit entry.content, 200
+          %div.info= string_limit entry.content.gsub(/<[^>]+>/, ''), 200
  
