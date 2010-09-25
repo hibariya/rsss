@@ -63,7 +63,10 @@
 
     - unless @focus_user.sites.empty?
       %ul.recent_entries.kdmr
-        %h3 最近のエントリ
+        %h3 
+          最近のエントリ
+          %a{:title=>"RSS Feed", :href=>user_feed_path(@focus_user.screen_name)}
+            %img{:src=>'/images/rss.png', :alt=>'RSS Feed', :style=>'border: none;'}
         - @focus_user.recent_entries[0..9].each do |entry|
           %li.entry
             .title
