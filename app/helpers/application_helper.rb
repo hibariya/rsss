@@ -1,4 +1,6 @@
 module ApplicationHelper
+  extend self
+
   def string_limit(s, len=20, ovrflw='...')
    s.scan(/./)[0..len].join + (s.length>len ? ovrflw: '')
   end
@@ -12,15 +14,10 @@ module ApplicationHelper
   end
 
   def user_page_path(username=nil)
-    screen_name = username || session_user.try(:screen_name)
-    specified_screen_name?(screen_name)?
-      ['/user/', screen_name].join:
-      ['/', screen_name].join
-  end
+    controller.user_page_path(username) end
 
-  def specified_screen_name?(screen_name)
-    controller.specified_controllers.include?(screen_name)
-  end
+  def user_feed_path(username=nil)
+    controller.user_feed_path(username) end
 
   def twitter_uri(username='')
     ['http://twitter.com/', username].join

@@ -36,11 +36,13 @@ class AuthController < ApplicationController
     return redirect_to '/dashboard'
 
   rescue
-    flash[:notice] = 'Authentication failed'
-    return redirect_to :action=>:failure
+    render :action=>:failure
   end
 
-  def failure; end
+  def failure
+    flash[:notice] = 'Authentication failed'
+    render :status=>403
+  end
 
   def signout
     session[:token] = nil

@@ -13,7 +13,7 @@ Rsss::Application.routes.draw do
   match '/dashboard' => 'dashboard#index', :via=>[:get]
   match '/dashboard/select_feed/:id' => 'dashboard#select_feed', :via=>[:get]
   match '/auth' => 'auth#oauth', :via=>[:get]
-  match '/user/:user' => 'index#user', :via=>[:get]
+  match '/user/:user(.:format)' => 'index#user', :via=>[:get]
   resources :sites, :expect=>[:create, :destroy, :update]
   resources :users, :expect=>[:update]
 
@@ -75,5 +75,5 @@ Rsss::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
   #match '/:user(/:controller(/:action(/:id)))' => 'index#index'
-  match '/:user' => 'index#user', :via=>[:get]
+  match '/:user(.:format)' => 'index#user', :via=>[:get]
 end

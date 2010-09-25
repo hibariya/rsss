@@ -8,6 +8,7 @@
     = javascript_include_tag 'excanvas'
     = csrf_meta_tag
     %link{:rel=>"icon", :type=>"image/png", :href=>"/favicon.png"}
+    = yield :head
   %body
     #head
       %img.icon{:src=>session_user.profile_image_url}
