@@ -1,27 +1,5 @@
 #segmentation
   .sites_cover
-    %ul.sites.kdmr
-      %h3 最近更新しているサイト
-      - @focus_user.summaries.sort_by(&:general_level).reverse.each do |history|
-        - site = history.site 
-        - last_history = site.history(1) rescue History.new
-        %li.site
-          .title{:style=>"font-size: "+(12+history.volume_level).to_s+"px;"}
-            %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(history.frequency_level*10).to_s+", 0);"} #{site.title}
-            %span.info
-              = ((history.general_level.to_f/24)*100).round.to_s+"%"
-            .info
-              in #{raw(URI.parse(site.uri).host)}
-              = (history.general_level > last_history.general_level)? '⇧': ''
-              = (history.general_level < last_history.general_level)? '⇩': ''
-            .info{:style=>"text-align: right;"}
-              %div 最近のエントリ
-              - site.entries.sort_by(&:date).reverse[0..((history.general_level/6).round)].each do |entry|
-                %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content.gsub(/(<[^>]+>|\s+)/, '')}
-                  = string_limit entry.title, 35
-                  %br
-
-  .sides_cover
     - if @focus_user.site? || @focus_user.description?
       .profile.kdmr
         %h3
@@ -33,7 +11,28 @@
         - if @focus_user.description?
           .massive
             = @focus_user.description
- 
+    %ul.sites.kdmr
+      %h3 最近更新しているサイト
+      - @focus_user.summaries.sort_by(&:general_level).reverse.each do |history|
+        - site = history.site 
+        - last_history = site.history(1) rescue History.new
+        %li.site
+          .title{:style=>"font-size: "+(12+history.volume_level).to_s+"px;"}
+            %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(history.frequency_level*10).to_s+", 0);"} #{site.title}
+            %span.info
+              = ((history.general_level.to_f/24)*100).round.to_s+"%"
+            .info
+              = raw(URI.parse(site.uri).host)
+              = (history.general_level > last_history.general_level)? '⇧': ''
+              = (history.general_level < last_history.general_level)? '⇩': ''
+            .info{:style=>"text-align: right;"}
+              %div 最近のエントリ
+              - site.entries.sort_by(&:date).reverse[0..((history.general_level/6).round)].each do |entry|
+                %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content.gsub(/(<[^>]+>|\s+)/, '')}
+                  = string_limit entry.title, 35
+                  %br
+
+  .sides_cover 
     .gruff.kdmr
       %h3 ここ一ヶ月の推移(更新量+更新頻度)
       %canvas#histories
