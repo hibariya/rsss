@@ -17,6 +17,7 @@ module Rsss
     # RSSのインスタンスからそれっぽい項目を抽出すう
     #
     class Entry
+      require 'kconv'
       attr_reader :entry
 
       class << self
@@ -47,7 +48,7 @@ module Rsss
             res = @entry.__send__ m 
             res.respond_to?(:content)? res.content: res
           else res end
-        end or ''
+        end.toutf8 or ''
       end
 
       #
@@ -59,7 +60,7 @@ module Rsss
             res = @entry.__send__ m 
             res.respond_to?(:content)? res.content: res
           else res end
-        end or ''
+        end.toutf8 or ''
       end
 
       #
@@ -71,7 +72,7 @@ module Rsss
             res = @entry.__send__ m 
             res.respond_to?(:href)? res.href: res
           else res end
-        end
+        end.toutf8
       end
 
       #
@@ -80,7 +81,7 @@ module Rsss
       def categories
         @categories ||= [:categories, :dc_subjects, :dc_categories].inject([]) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil?
-            (res+@entry.__send__(m).map{|c| (c.respond_to?(:content)? c.content: c) or '' }).uniq
+            (res+@entry.__send__(m).map{|c| ((c.respond_to?(:content)? c.content: c) or '').to_s.toutf8 }).uniq
           else res end
         end or []
       end
