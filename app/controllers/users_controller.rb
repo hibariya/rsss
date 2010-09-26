@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter ApplicationController.check_signin
+  before_filter :check_signin
   
   def update
     session_user.site = params[:user][:site]

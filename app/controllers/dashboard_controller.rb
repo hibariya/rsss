@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  before_filter ApplicationController.check_signin
+  before_filter :check_signin
 
   def index
     session_user.sites<<Site.new end

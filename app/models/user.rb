@@ -50,11 +50,11 @@ class User
   }
   
   def recent_entries
-    sites.map(&:entries).flatten.sort_by(&:date).reverse
+    @recent_entries ||= sites.map(&:entries).flatten.sort_by(&:date).reverse
   end
 
   def summaries(num=0)
-    sites.map{|s| s.histories.sort_by(&:created_at).reverse[num] }.compact end
+    @summaries ||= sites.map{|s| s.histories.sort_by(&:created_at).reverse[num] }.compact end
 
   def user_info
     @user_info ||= Rsss::Oauth.user_info(oauth_token, oauth_secret) end
@@ -98,7 +98,7 @@ class User
     now = Time.now
     self.sites.map do |site|
       if site.entries.length>5
-        site.entries[5..-1].
+        site.entries.sort_by(&:date).reverse[5..-1].
           select{|e| (e.date.to_i+86400) < now.to_i }.
           map(&:delete)
       end

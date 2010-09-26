@@ -1,7 +1,7 @@
 # -*- condig: utf-8 -*-
 
 class SitesController < ApplicationController
-  before_filter ApplicationController.check_signin
+  before_filter :check_signin
   
   def create
     session_user.sites<<Site.new(:uri=>params[:site][:uri])

@@ -20,7 +20,10 @@ class IndexController < ApplicationController
     @focus_user = User.by_screen_name(params[:user]).first
     unless @focus_user
       flash[:notice] = "No such User or Page"
-      return render :status=>404, :action=>'failure', :layout=>'application'
+      respond_to do |format|
+        format.html{ return render :status=>404, :action=>:failure, :layout=>'application' }
+        format.xml{ return render :status=>404, :action=>:failure, :layout=>false }
+      end
     end
     
     respond_to do |format|
@@ -40,12 +43,20 @@ class IndexController < ApplicationController
       maker.channel.date = @focus_user.updated_at || Time.now
       maker.items.do_sort = true
 
-      @focus_user.recent_entries.each do |entry|
-        maker.items.new_item do |item|
-          item.link = entry.link
-          item.title = entry.title
-          item.date = entry.date
-          item.description = entry.content
+      if @focus_user.recent_entries.empty?
+        maker.items.new_item do |item| 
+          item.title = 'Created'
+          item.link = maker.channel.link
+          item.date = maker.channel.date
+        end
+      else
+        @focus_user.recent_entries.each do |entry|
+          maker.items.new_item do |item|
+            item.link = entry.link
+            item.title = entry.title
+            item.date = entry.date
+            item.description = entry.content
+          end
         end
       end
     end

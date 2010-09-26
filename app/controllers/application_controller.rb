@@ -4,7 +4,10 @@ class ApplicationController < ActionController::Base
 
   rescue_from Exception, :with=>:failure if Rails.env=='production'
   def failure
-    render :controller=>:index, :action=>:failure
+    respond_to do |format|
+      format.html{ render :controller=>:index, :action=>:failure }
+      format.xml{ render :controller=>:index, :action=>:failure, :layout=>false }
+    end
   end
 
   def specified_controllers; %w(auth dashboard user sites users index updates) end
@@ -12,13 +15,10 @@ class ApplicationController < ActionController::Base
     @session_user ||= session[:token] && User.by_token(session[:token]).first rescue nil
   end
 
-  def self.check_signin
-    lambda { 
-      if session_user.nil?
-        flash[:notice] = "Authentication failed"
-        return redirect_to :controller=>:auth, :action=>:failure
-      end
-    }
+  def check_signin
+    if session_user.nil?
+      redirect_to :controller=>:auth, :action=>:failure
+    end
   end
 
   def user_page_path(username=nil)

@@ -278,11 +278,13 @@ describe User do
     before do
       @target.sites.map do |site|
         10.downto(0) do |d|
-          site.entries<<Entry.make(:date=>d.days.ago)
+          site.entries<<Entry.make_unsaved(:date=>d.days.ago)
         end
       end
+      @target.save!
       @before_length = @target.recent_entries.length
       @target.be_skinny!
+      @target.instance_variable_set(:@recent_entries, nil) # メモのクリア
       @now = Time.now
     end
 
