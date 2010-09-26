@@ -11,7 +11,7 @@ class SitesController < ApplicationController
       return false unless check_feed session_user.sites.last
       flash[:notice] = "Successfully added: #{session_user.sites.last.uri}"
       session_user.save
-      session_user.create_histories rescue nil
+      session_user.create_histories! rescue nil
     end
     return redirect_to '/dashboard'
   end
@@ -25,7 +25,7 @@ class SitesController < ApplicationController
         return false unless check_feed site
         flash[:notice] = "Successfully saved: #{site.uri}"
         site.save
-        session_user.create_histories rescue nil
+        session_user.create_histories! rescue nil
       end
     end
     return redirect_to '/dashboard'
