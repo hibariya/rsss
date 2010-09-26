@@ -33,10 +33,10 @@ class IndexController < ApplicationController
 
       @focus_user.recent_entries.each do |entry|
         maker.items.new_item do |item|
-          item.link = entry.link
-          item.title = entry.title
+          item.link = entry.link.toutf8
+          item.title = entry.title.toutf8
           item.date = entry.date
-          item.description = entry.content
+          item.description = entry.content.toutf8
         end
       end
     end

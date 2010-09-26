@@ -4,6 +4,7 @@ require 'rubygems'
 require 'nokogiri' #=> ここに書かないと何かロードできないのでとりあえずここに置く後で調べる
 require 'open-uri'
 require 'rss'
+require 'kconv'
 
 # Set up gems listed in the Gemfile.
 gemfile = File.expand_path('../../Gemfile', __FILE__)
