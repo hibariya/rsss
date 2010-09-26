@@ -11,6 +11,7 @@
 
 %ul#sites.sites-dashboard.kdmr
   %h3 #{session_user.screen_name.upcase}'S SITES
+  %p いくつか登録することで、どのサイトをよく更新しているかを可視化することができます。
   - session_user.sites.reverse.each do |site|
     %li.site
       %div

@@ -1,3 +1,5 @@
+# -*- condig: utf-8 -*-
+
 class DashboardController < ApplicationController
   before_filter :check_signin
 
