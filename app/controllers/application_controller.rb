@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     render :controller=>:index, :action=>:failure
   end
 
-  def specified_controllers; %w(auth dashboard user sites users index) end
+  def specified_controllers; %w(auth dashboard user sites users index updates) end
   def session_user
     @session_user ||= session[:token] && User.by_token(session[:token]).first rescue nil
   end

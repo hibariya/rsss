@@ -1,6 +1,15 @@
 class IndexController < ApplicationController
   def index
     render :layout=>'application' end
+ 
+  #
+  # プロダクトのアップデートをリアルタイム表示
+  #
+  def updates
+    @entries = Rsss::Rss.get('http://github.com/hibariya.atom').
+      items.map{|item| Rsss::Rss::Entry.new(item) } rescue []
+    render :layout=>'application'
+  end
 
   def failure
     flash[:notice] = "Application Error"

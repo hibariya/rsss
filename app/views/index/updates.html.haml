@@ -1,0 +1,9 @@
+.kdmr.document-wide
+  %h3 最近のアップデート
+  %p bugfixや拡張などのログを表示。
+  %ul
+    - @entries.each do |entry|
+      %li
+        = raw entry.date.strftime("[%Y/%m/%d %H:%M] ")
+        = raw entry.content.gsub(/<[^>]+>/, '').gsub(/\s+/, ' ').strip
+
