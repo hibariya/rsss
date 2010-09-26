@@ -2,6 +2,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'application'
 
+  before_filter do
+    if request.env['SERVER_NAME']=='rsss.heroku.com'
+      redirect_to ['http://rsss.be/', params[:user] || ''].join, :status=>301
+      return false
+    end
+  end
+
   rescue_from Exception, :with=>:failure if Rails.env=='production'
   def failure
     respond_to do |format|
