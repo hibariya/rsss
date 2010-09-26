@@ -15,4 +15,9 @@ class Entry
   validates :content, :length=>{:maximum=>5000}
   validates :link, :presence=>true, :length=>{:maximum=>400}, :format=>URI.regexp(['http'])
 
+  def image_sources
+    @image_sources ||= self.content.scan(/(<img[^>]+>)/).
+      flatten.compact.map{|m| m.scan(/src=['"]([^'"]+)['"]/) }.
+      flatten.compact
+  end
 end

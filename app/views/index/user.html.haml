@@ -71,5 +71,9 @@
           %li.entry
             .title
               %a{:href=>entry.link, :target=>"_blank", :title=>entry.title, :style=>'color: green;'}= entry.title
-            %div.info= string_limit entry.content.gsub(/<[^>]+>/, ''), 200
+            %div.info
+              - unless entry.image_sources.empty?
+                %div
+                  %img{:src=>entry.image_sources.first}
+              = string_limit entry.content.gsub(/<[^>]+>/, ''), 200
  
