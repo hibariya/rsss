@@ -37,12 +37,6 @@ class IndexController < ApplicationController
           item.title = entry.title
           item.date = entry.date
           item.description = entry.content
-          item.categories.new_category do |category|
-            entry.categories.each do |c|
-              category.content = c
-              category.term = c
-            end
-          end
         end
       end
     end
