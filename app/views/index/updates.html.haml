@@ -5,5 +5,5 @@
     - @entries.each do |entry|
       %li
         = raw entry.date.strftime("[%Y/%m/%d %H:%M] ")
-        = raw entry.content.gsub(/<[^>]+>/, '').gsub(/\s+/, ' ').strip
+        = raw entry.title.strip
 
