@@ -43,36 +43,36 @@ module Rsss
       # エントリのタイトルに相当しそうな部分を取得
       #
       def title
-        @title ||= [:title].inject(nil) do |res, m|
+        @title ||= ([:title].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
             res.respond_to?(:content)? res.content: res
           else res end
-        end.toutf8 or ''
+        end or '').toutf8
       end
 
       #
       # エントリのコンテンツ本体に相当しそうな部分
       #
       def content
-        @content ||= [:content_encoded, :content, :description, :summary, :subtitle].inject(nil) do |res, m|
+        @content ||= ([:content_encoded, :content, :description, :summary, :subtitle].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
             res.respond_to?(:content)? res.content: res
           else res end
-        end.toutf8 or ''
+        end or '').toutf8
       end
 
       #
       # エントリのURIに相当しそうな部分
       #
       def link
-        @link ||= [:about, :link].inject(nil) do |res, m|
+        @link ||= ([:about, :link].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
             res.respond_to?(:href)? res.href: res
           else res end
-        end.toutf8
+        end or '').toutf8
       end
 
       #
