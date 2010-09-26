@@ -70,7 +70,9 @@ class Site
   # 全体の量を日数で割って1日あたりどれくらいかなんとなく出す
   #
   def count_daily(param, now=Time.now)
-    param.to_f/day_length(now) end
+    param.to_f/day_length(now) 
+  rescue ZeroDivisionError
+    0.0 end
 
   #
   # そのフィードが何秒分に相当するか
