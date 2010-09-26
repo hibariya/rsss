@@ -90,4 +90,18 @@ class User
     self.save!
   end
 
+  #
+  # DBの容量を節約(集計以外に必要のないデータを削除)
+  # create_histories!が終わった直後に
+  #
+  def be_skinny!
+    now = Time.now
+    self.sites.map do |site|
+      if site.entries.length>5
+        site.entries[5..-1].
+          select{|e| (e.date.to_i+86400) < now.to_i }.
+          map(&:delete)
+      end
+    end
+  end
 end

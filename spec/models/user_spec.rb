@@ -274,4 +274,25 @@ describe User do
     end
   end
 
+  describe "#be_skinny!" do
+    before do
+      @target.sites.map do |site|
+        10.downto(0) do |d|
+          site.entries<<Entry.make(:date=>d.days.ago)
+        end
+      end
+      @before_length = @target.recent_entries.length
+      @target.be_skinny!
+      @now = Time.now
+    end
+
+    it "1日以上たったエントリで6以上昔のエントリは削除されている" do
+       @target.recent_entries.length.should < @before_length
+       @target.sites.each do |site|
+          site.entries.sort_by(&:date).reverse[5..-1].
+            select{|entry| entry.date.to_i > (@now.to_i-86400) }.
+            should be_empty
+       end
+    end
+  end
 end
