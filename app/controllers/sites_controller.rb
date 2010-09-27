@@ -12,7 +12,7 @@ class SitesController < ApplicationController
       flash[:notice] = "Successfully added: #{session_user.sites.last.uri}"
       session_user.save
       session_user.create_histories!
-      session_user.be_skinny!
+      #session_user.be_skinny!
     end
     return redirect_to '/dashboard'
   end
@@ -27,7 +27,7 @@ class SitesController < ApplicationController
         flash[:notice] = "Successfully saved: #{site.uri}"
         site.save
         site.user.create_histories!
-        site.user.be_skinny!
+        #site.user.be_skinny!
       end
     end
     return redirect_to '/dashboard'
