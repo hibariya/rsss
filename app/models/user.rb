@@ -62,6 +62,8 @@ class User
   def reload_user_info!(ignore_user=nil)
     new_screen_name = user_info['screen_name']
     if new_screen_name != screen_name
+      # 応急処置
+      return if new_screen_name.nil?
       yet_another = self.class.by_screen_name(new_screen_name).first
       yet_another.reload_user_info!(self) if yet_another && yet_another!=ignore_user
       self.screen_name = new_screen_name
