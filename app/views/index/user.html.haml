@@ -35,6 +35,14 @@
                   = string_limit entry.title, 35
                   %br
 
+    - unless @focus_user.categories_summary.empty?
+      .categories.kdmr
+        %h3 最近言及したキーワード
+        %div 
+          - @focus_user.categories_summary.sort_by(&:first).each do |category|
+            %span{:style=>"font-size: #{12+category.last}px;"}
+              = category.first
+
   .sides_cover 
     .gruff.kdmr
       %h3 ここ一ヶ月の推移(更新量+更新頻度)

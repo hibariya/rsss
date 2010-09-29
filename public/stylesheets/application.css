@@ -109,8 +109,14 @@ p {
 
 .sites {
   background: #FFFFFF;
-  margin: 0 0 0 0;
+  margin: 0 0 1em 0;
   padding-left: 0.5em;
+}
+
+.categories {
+  background: #FFFFFF;
+  margin: 0 0 1em 0;
+  padding: 0 0.5em 0.5em 0.5em;
 }
 
 .gruff {

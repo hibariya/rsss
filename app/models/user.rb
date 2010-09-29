@@ -48,6 +48,12 @@ class User
   scope :by_screen_name, lambda{|s|
     where(:screen_name=>s)
   }
+
+  def categories_summary
+    @categories_summary ||= Rsss::Summarize.
+      segment(sites.map(&:categories).flatten.
+        inject({}){|r,c| r[c]||=0; r[c]+=1; r}.to_a)
+  end
   
   def recent_entries
     @recent_entries ||= sites.map(&:entries).flatten.sort_by(&:date).reverse

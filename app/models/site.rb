@@ -27,6 +27,9 @@ class Site
   def history(num=0)
     histories.sort_by(&:created_at).reverse[num] || History.new end
 
+  def categories
+    entries.map(&:categories).flatten end
+
   #
   # entriesを最新に更新
   #
