@@ -3,7 +3,7 @@
   %p bugfixや拡張など
   %ul
     - @entries.each do |entry|
-      %li
+      %li{:id=>entry.date.strftime('%Y%m%d%H%M')}
         = raw entry.date.strftime("[%Y/%m/%d %H:%M] ")
         = raw entry.title.strip
 
