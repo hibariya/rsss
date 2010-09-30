@@ -41,7 +41,7 @@
         %h3 最近つけたタグ
         %div 
           - @focus_user.categories_summary.sort_by(&:first).each do |category|
-            %a{:href=>[user_page_path(@focus_user.screen_name), "/#{CGI.escape(category.first)}"].join}
+            %a{:href=>[user_page_path(@focus_user.screen_name), "/#{rails_safe_param(category.first)}"].join}
               %span{:style=>"font-size: #{12+(category.last/2).round}px;"}
                 = category.first
 

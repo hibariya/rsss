@@ -23,4 +23,8 @@ module ApplicationHelper
     ['http://twitter.com/', username].join
   end
 
+  def rails_safe_param(str)
+    CGI.escape(str).gsub(/\./, '%2E')
+  end
+
 end
