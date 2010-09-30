@@ -81,7 +81,7 @@ module Rsss
       def categories
         @categories ||= [:categories, :dc_subjects, :dc_categories].inject([]) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil?
-            (res+@entry.__send__(m).map{|c| ((c.respond_to?(:content)? c.content: c) or '').to_s.toutf8 }).uniq
+            (res+@entry.__send__(m).map{|c| ((c.respond_to?(:content)? c.content: c.respond_to?(:term)? c.term: c) or '').to_s.toutf8 }).uniq
           else res end
         end or []
       end
@@ -90,12 +90,12 @@ module Rsss
       # 日付っぽいもの
       #
       def date
-        @date ||= [:published, :pubDate, :date, :updated, :dc_date].inject(nil) do |res, m|
+        @date ||= [:published, :pubDate, :date, :updated, :dc_date, :issued].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
             res.respond_to?(:content)? res.content: res
           else res end
-        end
+        end or Time.now # でっちあげる
       end
     end
 

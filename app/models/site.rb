@@ -31,11 +31,11 @@ class Site
     entries.map(&:categories).flatten end
 
   #
-  # entriesを最新に更新
+  # entriesを最新に更新(100件までfetch)
   #
   def reload_channel
     load_channel_info
-    self.entries = (feed.respond_to?(:entries)? feed.entries: feed.items).
+    self.entries = ((feed.respond_to?(:entries)? feed.entries: feed.items)||[])[0..99].
       map{|e| Rsss::Rss::Entry.extract(e).to_entry }
     self
   end

@@ -42,7 +42,7 @@
         %div 
           - @focus_user.categories_summary.sort_by(&:first).each do |category|
             %a{:href=>[user_page_path(@focus_user.screen_name), "/#{category.first}"].join}
-              %span{:style=>"font-size: #{12+category.last}px;"}
+              %span{:style=>"font-size: #{12+(category.last/2).round}px;"}
                 = category.first
 
   .sides_cover 

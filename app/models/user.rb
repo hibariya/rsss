@@ -56,7 +56,7 @@ class User
   end
   
   def recent_entries
-    @recent_entries ||= sites.map(&:entries).flatten.sort_by(&:date).reverse
+    @recent_entries ||= sites.map(&:entries).flatten.sort_by{|e| e.date || e.created_at }.reverse
   end
 
   def summaries(num=0)
