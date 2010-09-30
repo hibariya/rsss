@@ -49,10 +49,14 @@ class User
     where(:screen_name=>s)
   }
 
+  #
+  # ドット(.)の含まれていないすべてのカテゴリをサマる
+  #
   def categories_summary
     @categories_summary ||= Rsss::Summarize.
       segment(sites.map(&:categories).flatten.
-        map(&:downcase).inject({}){|r,c| r[c]||=0; r[c]+=1; r}.to_a)
+        reject{|c| c =~ /\./ }.map(&:downcase).
+        inject({}){|r,c| r[c]||=0; r[c]+=1; r}.to_a)
   end
   
   def recent_entries
