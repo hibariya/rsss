@@ -6,7 +6,7 @@ module Rsss
         @consumer ||= ::OAuth::Consumer.new(
           Rsss::OAUTH_CONSUER_KEY,
           Rsss::OAUTH_CONSUMER_SECRET,
-          {:site=>'http://twitter.com'})
+          {:site=>'https://twitter.com'})
       end
 
       def user_info(token, secret)
