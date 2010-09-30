@@ -101,6 +101,11 @@ p {
   float: left;
 }
 
+.category_cover {
+  margin: 0em 0em 0em 0em;
+  width: 92%;
+}
+
 .profile {
   background: #FFFFFF;
   margin: 0 0 1em 0;
@@ -116,7 +121,7 @@ p {
 .categories {
   background: #FFFFFF;
   margin: 0 0 1em 0;
-  padding: 0 0.5em 0.5em 0.5em;
+  padding: 0 0.5em 0.5em 1em;
 }
 
 .gruff {

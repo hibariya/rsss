@@ -9,13 +9,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from Exception, :with=>:failure if Rails.env=='production'
-  def failure
+  rescue_from Exception do |e|
+    logger.debug e.class
+    logger.debug e.message
+    logger.debug e.backtrace
     respond_to do |format|
       format.html{ render :controller=>:index, :action=>:failure }
       format.xml{ render :controller=>:index, :action=>:failure, :layout=>false }
     end
-  end
+  end if Rails.env=='production'
 
   def specified_controllers; %w(auth dashboard user sites users index updates) end
   def session_user
