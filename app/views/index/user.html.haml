@@ -38,7 +38,7 @@
 
     - unless @focus_user.categories_summary.empty?
       .categories.kdmr
-        %h3 最近つけたタグ
+        %h3 最近つけたタグ/カテゴリ
         %div 
           - @focus_user.categories_summary.sort_by(&:first).each do |category|
             %a{:href=>[user_page_path(@focus_user.screen_name), "/#{rails_safe_param(category.first)}"].join}
