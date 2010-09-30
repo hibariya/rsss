@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def rails_safe_param(str)
-    CGI.escape(str).gsub(/\./, '%2E')
+    CGI.escape(str).gsub(/\./, '%2E').gsub(/\+/, '%20')
   end
 
 end
