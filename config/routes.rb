@@ -17,7 +17,7 @@ Rsss::Application.routes.draw do
   match '/user/:user/:category(.:format)' => 'index#category', :via=>[:get]
   match '/updates' => 'index#updates', :via=>[:get]
   resources :sites, :expect=>[:create, :destroy, :update]
-  resources :users, :expect=>[:update]
+  resources :users, :expect=>[:index, :update]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

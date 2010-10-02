@@ -40,6 +40,10 @@ a {
   text-decoration: none;
 }
 
+img {
+  border: none;
+}
+
 ul {
   list-style-type: none;
 }
@@ -89,6 +93,10 @@ p {
   width: 110%;
 }
 
+#segmentation a {
+  color: green;
+}
+
 .sites_cover {
   margin: 1em 0em 1em 0em;
   width: 440px;
@@ -102,6 +110,11 @@ p {
 }
 
 .category_cover {
+  margin: 0em 0em 0em 0em;
+  width: 92%;
+}
+
+.users_cover {
   margin: 0em 0em 0em 0em;
   width: 92%;
 }
@@ -124,6 +137,14 @@ p {
   padding: 0 0.5em 0.5em 1em;
 }
 
+.users {
+  background: #FFFFFF;
+  margin: 0em 0em 1em 0em;
+  padding: 0em 1em 1em 1em;
+  width: 100%;
+  list-style-type: none;
+}
+
 .gruff {
   background: #FFFFFF;
   margin: 0em 0em 1em 0em;
@@ -141,7 +162,28 @@ p {
 }
 
 .entry {
-  margin: 0.5em 0em 0.5em 1em
+  margin: 0.5em 0em 0.5em 1em;
+}
+
+.user {
+  margin: 0.5em 0em 0.5em 1em;
+  clear: both;
+  height: 50px;
+}
+
+.pager {
+  text-align: right;
+  font-family: Ebit;
+}
+
+li.user .icon {
+  float: left;
+  margin: 0 0.5em 0 0;
+}
+
+li.user .icon img {
+  width: 48px;
+  height: 48px;
 }
 
 .kdmr {

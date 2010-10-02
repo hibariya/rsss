@@ -1,0 +1,30 @@
+- content_for :pager do
+  .pager
+    - if @page>1
+      = link_to '<<BACK', users_path(:page=>(@page==2? nil: @page-1))
+    - if @page*@par_page < @users_count && @page>1
+      |
+    - if @page*@par_page < @users_count
+      = link_to 'NEXT>>', users_path(:page=>@page+1)
+ 
+#segmentation
+  .users_cover
+    %ul.users.kdmr
+      %h3 ユーザー
+      = yield :pager
+      - @users.each do |user|
+        %li.user
+          .icon
+            %img{:src=>user.profile_image_url, :alt=>user.screen_name}
+          .title
+            %a{:href=>user_page_path(user.screen_name), :title=>user.screen_name, :title=>user.screen_name}
+              = user.screen_name
+              (
+              = user.oauth_name
+              )
+          .info
+            = link_to "#{user.sites.length} 個のフィード", user_page_path(user.screen_name), :title=>user.screen_name
+          .info
+            = user.oauth_description
+      = yield :pager
+
