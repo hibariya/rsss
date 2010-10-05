@@ -10,7 +10,7 @@
             = "#{@focus_user.screen_name}(#{@focus_user.oauth_name})"
         - if @focus_user.site?
           .massive
-            %a{:href=>@focus_user.site, :target=>"_blank"} #{@focus_user.site}
+            %a{:href=>@focus_user.site, :target=>"_blank"}= @focus_user.site
         - if @focus_user.description?
           .massive
             = @focus_user.description
@@ -22,7 +22,7 @@
         - last_history = site.history(1) rescue History.new
         %li.site
           .title{:style=>"font-size: "+(12+history.volume_level).to_s+"px;"}
-            %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(history.frequency_level*10).to_s+", 0);"} #{site.title}
+            %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(history.frequency_level*10).to_s+", 0);"}= site.title
             %span.info
               = ((history.general_level.to_f/24)*100).round.to_s+"%"
             .info

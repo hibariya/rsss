@@ -5,5 +5,5 @@
     - @entries.each do |entry|
       %li{:id=>entry.date.strftime('%Y%m%d%H%M')}
         = raw entry.date.strftime("[%Y/%m/%d %H:%M] ")
-        = raw entry.title.strip
+        = entry.title.strip
 
