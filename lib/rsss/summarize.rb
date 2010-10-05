@@ -10,7 +10,7 @@ module Rsss
         max = Math.sqrt levels.inject(0){|r,c| (c.last > r)? c.last: r}
         min = Math.sqrt levels.inject(max){|r,c| (c.last < r)? c.last: r}
         factor = step/(max-min)
-        levels.map{|l| [l.first, ((Math.sqrt(l.last)-min)*factor).round] }
+        levels.map{|l| [l.first, (((Math.sqrt(l.last)-min)*factor).round rescue 0)] }
       end
     end
 
