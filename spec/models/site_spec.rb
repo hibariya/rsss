@@ -156,6 +156,7 @@ describe Site do
     before do
       @target_rss = RSS::Parser.parse(Rsss::Rss.sample_feed('2.0'))
       @target = User.make(:sites=>[Site.make])
+      @target.updated_at = nil
       @target.sites.first.stub!(:feed).and_return(@target_rss)
       @target.sites.first.reload_channel
     end

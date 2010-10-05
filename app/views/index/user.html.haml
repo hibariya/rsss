@@ -36,14 +36,21 @@
                   = string_limit entry.title, 35
                   %br
 
-    - unless @focus_user.categories_summary.empty?
+    - unless @focus_user.summarized_categories.empty?
       .categories.kdmr
         %h3 最近つけたタグ/カテゴリ
         %div 
-          - @focus_user.categories_summary.sort_by(&:first).each do |category|
-            %a{:href=>[user_page_path(@focus_user.screen_name), "/#{rails_safe_param(category.first)}"].join}
-              %span{:style=>"font-size: #{12+(category.last/2).round}px;"}
-                = category.first
+          - @focus_user.summarized_categories.sort_by(&:category).each do |s|
+            %a{:href=>[user_page_path(@focus_user.screen_name), "/#{rails_safe_param(s.category)}"].join, :title=>s.category}
+              %span.cloud{:style=>"font-size: #{12+(s.level/2).round}px;"}= s.category
+
+    - unless @focus_user.summarized_near_users.empty?
+      .near_users.kdmr
+        %h3 近くのRSSS
+        %div 
+          - @focus_user.summarized_near_users.sort_by(&:screen_name).each do |s|
+            %a{:href=>user_page_path(s.screen_name), :title=>s.screen_name}
+              %span.cloud{:style=>"font-size: #{12+(s.level/2).round}px;"}= s.screen_name
 
   .sides_cover 
     .gruff.kdmr
@@ -86,4 +93,4 @@
                 %div
                   %img{:src=>entry.image_sources.first}
               = string_limit entry.content.gsub(/<[^>]+>/, ''), 200
- 
+

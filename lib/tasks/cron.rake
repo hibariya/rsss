@@ -15,5 +15,8 @@ task :cron => :environment do
       end
     end
   end
+
+  User.all.each{|user| user.update_summarized_categories! rescue nil }
+  User.all.each{|user| user.update_summarized_near_users! rescue nil }
 end
 

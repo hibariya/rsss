@@ -186,6 +186,7 @@ describe User do
   end
 
   describe "#create_histories!" do
+    class RsssTmpExeption < Exception; end
     before do
       @target.sites.map{|s| 
         s.histories = []
@@ -203,15 +204,72 @@ describe User do
     end
 
     it "何度呼び出しても30件以上のヒストリが登録されている状態にはならない" do
-     40.downto(0){|t| @target.create_histories!(t.days.ago.to_time) }
-     @target.sites.map do |site|
-       site.histories.length.should == 30
-     end
+      40.downto(0){|t| @target.create_histories!(t.days.ago.to_time) }
+      @target.sites.map do |site|
+        site.histories.length.should == 30
+      end
+    end
+
+    context "sitesの最終更新日時が12時間以内の場合" do
+      before do
+        @target.sites.map{|s| 
+          s.updated_at = (0.4).days.ago
+          s.histories = []
+        }
+        @target.create_histories!
+        @target.sites.map{|s| 
+          s.stub!(:reload_channel!).and_raise(RsssTmpExeption)
+       }
+      end
+
+      it "reload_channel!はコールされない" do
+        begin
+          @target.create_histories!
+          true
+        rescue RsssTmpExeption => e
+          false
+        end.should be_true
+      end
+    end
+
+    context "sitesの最終更新日時が12時間以上の場合" do
+      before do
+        @target.sites.map{|s| 
+          s.updated_at = (0.7).days.ago
+          s.histories = []
+        }
+        @target.create_histories!
+        @target.sites.map{|s| 
+          s.stub!(:reload_channel!).and_raise(RsssTmpExeption)
+        }
+      end
+
+      it "reload_channel!はコールされない" do
+        begin
+          @target.create_histories!
+          true
+        rescue RsssTmpExeption => e
+          false
+        end.should be_false
+      end
     end
 
   end
 
   describe "#reload_user_info!" do
+    context "OAuth認証に失敗したとき" do
+      before do
+        @target.updated_at = 1.day.ago
+        @before_time = @target.updated_at
+        @target.stub!(:user_info).and_return({})
+      end
+
+      it "更新されず、falseを返す" do
+        @target.reload_user_info!.should be_false
+        @target.updated_at.should == @before_time
+      end
+    end
+
     context "ほぼ同時期に2人のユーザ名が変更され、DB側でユーザ名の重複が発生したとき" do
       before do
         # {{{ origin

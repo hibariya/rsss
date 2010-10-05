@@ -6,6 +6,8 @@ class Site
   field :uri, :type=>String
   field :site_uri, :type=>String
   field :title, :type=>String
+  field :updated_at, :type=>Time # entries の最終更新日時
+
   embeds_many :histories
   embeds_many :entries
   embedded_in :user, :inverse_of=>:sites
@@ -37,6 +39,7 @@ class Site
     load_channel_info
     self.entries = ((feed.respond_to?(:entries)? feed.entries: feed.items)||[])[0..99].
       map{|e| Rsss::Rss::Entry.extract(e).to_entry }
+    self.updated_at = Time.now
     self
   end
 

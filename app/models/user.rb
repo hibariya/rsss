@@ -18,6 +18,8 @@ class User
   field :token, :type=>String
 
   embeds_many :sites
+  embeds_many :summarized_categories
+  embeds_many :summarized_near_users
 
   index :token, :unique=>true, :background=>true
   index :screen_name, :unique=>true, :background=>true
@@ -51,11 +53,42 @@ class User
 
   #
   # ドット(.)の含まれていないすべてのカテゴリをサマる
+  # 大文字小文字は区別しない
   #
-  def categories_summary
-    @categories_summary ||= Rsss::Summarize.
-      segment(sites.map(&:categories).flatten.
-        map(&:downcase).inject({}){|r,c| r[c]||=0; r[c]+=1; r}.to_a)
+  def update_summarized_categories!
+    self.summarized_categories.delete_all
+    self.summarized_categories = Rsss::Summarize.
+      segment(categories.inject({}){|r,c| r[c]||=0; r[c]+=1; r}.to_a).
+      map{|su| SummarizedCategory.new(:category=>su.first, :level=>su.last) }
+    self.save!
+  end
+
+  #
+  # カテゴリ一覧
+  # 大文字小文字は区別しない
+  # 出現回数も知りたいのでユニークではない
+  #
+  def categories
+    @categories ||= sites.map(&:categories).flatten.map(&:downcase)
+  end
+
+  #
+  # 嗜好の近いユーザをn人
+  #
+  def update_summarized_near_users!(limit=20)
+    mycats = self.summarized_categories
+    scores = (self.class.any_in(:'summarized_categories.category'=>mycats.map(&:category)).to_a-[self]).
+      map do |user|
+      mycats.inject([]) do |r, cat|
+        if match = user.summarized_categories.select{|ancat| cat.category==ancat.category}.first
+          [user.screen_name, r.last.to_i+(match.level+1)*(cat.level+1)]
+        else r end
+      end
+    end
+    self.summarized_near_users.delete_all
+    self.summarized_near_users = Rsss::Summarize.segment(scores.sort_by(&:last).reverse[0..(limit-1)]).
+      map{|su| SummarizedNearUser.new(:screen_name=>su.first,:level=>su.last) }
+    self.save!
   end
   
   def recent_entries
@@ -70,9 +103,9 @@ class User
 
   def reload_user_info!(ignore_user=nil)
     new_screen_name = user_info['screen_name']
+    # OAuthでDenyされていたときはnilになるので何もしない(応急処置)
+    return false if new_screen_name.nil?
     if new_screen_name != screen_name
-      # 応急処置
-      return if new_screen_name.nil?
       yet_another = self.class.by_screen_name(new_screen_name).first
       yet_another.reload_user_info!(self) if yet_another && yet_another!=ignore_user
       self.screen_name = new_screen_name
@@ -85,10 +118,13 @@ class User
 
   #
   # 過去30日間の遷移を更新。重複した日付のhistoryは削除される
+  # siteの最終更新日時が12時間以内の場合はフィードのfetchは行わない
   #
   def create_histories!(now=Time.now)
     self.sites.each do |site|
-      site.reload_channel! rescue next
+      if (now.to_i-site.updated_at.to_i)>(3600*12)
+        site.reload_channel! rescue next
+      end
       todays = site.histories.select{|h| h.created_at.strftime('%Y%m%d')==now.strftime('%Y%m%d')}
       todays.first.delete unless todays.empty?
       (site.histories.sort_by(&:created_at).reverse[29..-1] || []).
