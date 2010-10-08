@@ -88,9 +88,10 @@ class Site
     now = now.to_i
     blank_limit = 86400*15
     # entry間の秒数を足していく。ただし(15*86400)より長ければ(15*86400)として扱う
-    entries.sort_by{|e| e.date }.reverse.map{|e| e.date.to_i }.inject([now, 0]) do |cur, time|
+    entries.sort_by(&:date).reverse.map{|e| e.date.to_i }.inject([now, 0]) do |cur, time|
       cur ||= [now, 0]
       draft = cur.first-time
+      draft = 0 if draft<0 # 現在よりも未来の日付があればひとつめのそれを基準にする
       [time, cur.last+((draft > blank_limit)? blank_limit: draft)]
     end.last
   end
