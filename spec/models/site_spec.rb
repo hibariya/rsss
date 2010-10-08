@@ -209,7 +209,8 @@ describe Site do
 
     context "Constantな(15日以上ブランクがない)投稿が行われている場合" do
       before do
-        Time.stub!(:now).and_return(Time.now)
+        now = Time.now
+        Time.stub!(:now).and_return(now)
       end
 
       it "現在のUnixTimeから一番古いEntryのUnixTimeを引いた値になる" do
@@ -220,7 +221,8 @@ describe Site do
     context "15日以上ブランクがある場合" do
       before do
         @target.entries<<Entry.make(:date=>60.days.ago.to_time)
-        Time.stub!(:now).and_return(Time.now)
+        now = Time.now
+        Time.stub!(:now).and_return(now)
       end
 
       it "ブランクは15日として扱われ、15日以上のブランクは無視される" do
