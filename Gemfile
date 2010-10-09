@@ -14,6 +14,7 @@ group :development, :test do
   gem 'machinist'
   gem 'machinist_mongo', :require=>'machinist/mongoid'
   gem 'faker'
+  gem 'fabrication'
   gem 'wirble'
   gem 'spork'
 end

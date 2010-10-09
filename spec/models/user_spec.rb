@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe User do
   before do
-    @target = User.make_unsaved(:after_oauth)
+    @target = Fabricate.build(:authorized_user)
   end
   
   context "新規作成" do
@@ -112,7 +112,7 @@ describe User do
     end
 
     context "それら意外のとき" do
-      before { @target = User.make_unsaved(:after_oauth) }
+      before { @target = Fabricate.build(:authorized_user) }
 
       it "validationエラーにはならなない" do
         @target.should be_valid
@@ -126,7 +126,7 @@ describe User do
 
     context "descriptionが空のとき" do
       before do
-        @target = User.make_unsaved(:after_oauth)
+        @target = Fabricate.build(:authorized_user)
         @target.description = ''
       end
 
@@ -137,7 +137,7 @@ describe User do
 
     context "siteが空のとき" do
       before do
-        @target = User.make_unsaved(:after_oauth)
+        @target = Fabricate.build(:authorized_user)
         @target.site = ''
       end
 
@@ -149,7 +149,7 @@ describe User do
  
   describe ".by_token" do
     before do
-      @target = User.make
+      @target = Fabricate(:user)
     end
 
     it "tokenをもとにUserを取得できること" do
@@ -188,6 +188,7 @@ describe User do
   describe "#create_histories!" do
     class RsssTmpExeption < Exception; end
     before do
+      @target = Fabricate(:user)
       @target.sites.map{|s| 
         s.histories = []
         s.stub!(:reload_channel!).and_return(true)
@@ -308,7 +309,7 @@ describe User do
         #  "profile_link_color"=>"990000"}
         #  }}}
         puts %w(user1: matsumoto=>yet_another_user_name, user2: metaquery=>matsumoto)
-        @targets = [User.make(:screen_name=>'matsumoto'), User.make(:screen_name=>'metaquery')]
+        @targets = [Fabricate(:user, :screen_name=>'matsumoto'), Fabricate(:user, :screen_name=>'metaquery')]
         @targets.first.stub!(:user_info).and_return({
         "description"=>"元々まつもとだった",
         "profile_image_url"=>"http://a1.twimg.com/profile_images/683335833/hiwaiya3_normal.png",
@@ -334,9 +335,10 @@ describe User do
 
   describe "#be_skinny!" do
     before do
+      @target = Fabricate(:user)
       @target.sites.map do |site|
         10.downto(0) do |d|
-          site.entries<<Entry.make_unsaved(:date=>d.days.ago)
+          site.entries<<Fabricate.build(:entry, :date=>d.days.ago)
         end
       end
       @target.save!

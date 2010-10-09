@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Site do
   context "新規作成" do
     before do
-      @target = (User.make.sites<<Site.make_unsaved).last
+      @target = (Fabricate(:user).sites<<Fabricate.build(:site)).last
     end
 
     context "uriがhttpから始まらないとき" do
@@ -62,9 +62,9 @@ describe Site do
   describe "#unique?" do
     context "そのユーザが既に重複するURIを登録しているとき" do
       before do
-        @target = User.make
-        @target.sites<<Site.make
-        @target.sites<<Site.make(:uri=>@target.sites.last.uri)
+        @target = Fabricate(:user)
+        @target.sites<<Fabricate.build(:site)
+        @target.sites<<Fabricate.build(:site, :uri=>@target.sites.last.uri)
       end
       
       it "falseを返す" do
@@ -74,8 +74,8 @@ describe Site do
 
     context "そのユーザが初めて登録するURIのとき" do
       before do
-        @target = User.make
-        @target.sites<<Site.make(:uri=>'http://hibariya.org/rss')
+        @target = Fabricate(:user)
+        @target.sites<<Fabricate.build(:site, :uri=>'http://hibariya.org/rss')
       end
       
       it "trueを返す" do
@@ -86,10 +86,10 @@ describe Site do
   
   describe "#history" do
     before do
-      user = User.make(:sites=>[])
-      user.sites<<Site.make(:histories=>[])
+      user = Fabricate(:user, :sites=>[])
+      user.sites<<Fabricate.build(:site, :histories=>[])
       @target = user.sites.last
-      10.times{|t| @target.histories<<History.make(:created_at=>t.days.ago.to_time) }
+      10.times{|t| @target.histories<<Fabricate.build(:history, :created_at=>t.days.ago.to_time) }
     end
 
     context "引数なしで呼び出したとき" do
@@ -115,7 +115,7 @@ describe Site do
   describe "#reload_channel_info" do
     before do
       @expecteds = {:title=> 'Example', :site_uri=>'http://example.com/'}
-      @target = User.make(:sites=>[Site.make])
+      @target = Fabricate(:user, :sites=>[Fabricate.build(:site)])
       @target.sites.first.stub!(:feed).
         and_return(RSS::Parser.parse(Rsss::Rss.sample_feed('1.0')))
       @target.sites.first.load_channel_info
@@ -135,7 +135,7 @@ describe Site do
   describe "#reload_channel_info!" do
     before do
       @expecteds = {:title=> 'Example', :site_uri=>'http://example.com/'}
-      @target = User.make(:sites=>[Site.make])
+      @target = Fabricate(:user, :sites=>[Fabricate.build(:site)])
       @target.sites.first.stub!(:feed).
         and_return(RSS::Parser.parse(Rsss::Rss.sample_feed('1.0')))
       @target.sites.first.load_channel_info!
@@ -155,7 +155,7 @@ describe Site do
   describe "#reload_channel" do
     before do
       @target_rss = RSS::Parser.parse(Rsss::Rss.sample_feed('2.0'))
-      @target = User.make(:sites=>[Site.make])
+      @target = Fabricate(:user, :sites=>[Fabricate.build(:site)])
       @target.updated_at = nil
       @target.sites.first.stub!(:feed).and_return(@target_rss)
       @target.sites.first.reload_channel
@@ -180,7 +180,7 @@ describe Site do
   describe "#reload_channel!" do
     before do
       @target_rss = RSS::Parser.parse(Rsss::Rss.sample_feed('2.0'))
-      @target = User.make(:sites=>[Site.make])
+      @target = Fabricate(:user, :sites=>[Fabricate.build(:site)])
       @target.sites.first.stub!(:feed).and_return(@target_rss)
       @target.sites.first.reload_channel!
     end
@@ -203,8 +203,8 @@ describe Site do
 
   describe "#time_length" do
     before do
-      @target = Site.make(:histories=>[], :entries=>[])
-      30.times{|t| @target.entries<<Entry.make(:date=>t.days.ago.to_time) }
+      @target = Fabricate.build(:site, :histories=>[], :entries=>[])
+      30.times{|t| @target.entries<<Fabricate.build(:entry, :date=>t.days.ago.to_time) }
     end
 
     context "Constantな(15日以上ブランクがない)投稿が行われている場合" do
@@ -220,7 +220,7 @@ describe Site do
 
     context "15日以上ブランクがある場合" do
       before do
-        @target.entries<<Entry.make(:date=>60.days.ago.to_time)
+        @target.entries<<Fabricate.build(:entry, :date=>60.days.ago.to_time)
         now = Time.now
         Time.stub!(:now).and_return(now)
       end
@@ -234,8 +234,8 @@ describe Site do
 
   describe "#day_length" do
     before do
-      @target = Site.make(:histories=>[], :entries=>[])
-      30.times{|t| @target.entries<<Entry.make(:date=>t.days.ago.to_time) }
+      @target = Fabricate.build(:site, :histories=>[], :entries=>[])
+      30.times{|t| @target.entries<<Fabricate.build(:entry, :date=>t.days.ago.to_time) }
       Time.stub!(:now).and_return(Time.now)
     end
 
@@ -246,8 +246,8 @@ describe Site do
 
   describe "#count_daily" do
     before do
-      @target = Site.make(:histories=>[], :entries=>[])
-      30.times{|t| @target.entries<<Entry.make(:date=>t.days.ago.to_time) }
+      @target = Fabricate.build(:site, :histories=>[], :entries=>[])
+      30.times{|t| @target.entries<<Fabricate.build(:entry, :date=>t.days.ago.to_time) }
       Time.stub!(:now).and_return(Time.now)
     end
 
@@ -258,7 +258,7 @@ describe Site do
 
   describe "#volume" do
     before do
-      @target = Site.make
+      @target = Fabricate.build(:site)
     end
 
     it "全てのEntryのtitleとcontentを元に、1日あたりのバイト数を返す" do
@@ -269,7 +269,7 @@ describe Site do
 
   describe "#frequency" do
     before do
-      @target = Site.make
+      @target = Fabricate.build(:site)
     end
 
     it "Entryの数を元に、1日あたりのバイト数を返す" do
@@ -279,7 +279,7 @@ describe Site do
 
   describe "#byte_length" do
     before do
-      @target = Site.make
+      @target = Fabricate.build(:site)
     end
 
     it "全てのEntryのtitleとcontentを連結した結果のバイト数を返す" do
@@ -289,7 +289,7 @@ describe Site do
 
   describe "#length" do
     before do
-      @target = Site.make
+      @target = Fabricate.build(:site)
     end
 
     it "全てのEntryの数を返す" do

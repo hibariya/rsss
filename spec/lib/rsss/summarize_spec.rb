@@ -6,20 +6,20 @@ describe Rsss::Summarize do
     before do
       # 予め計算しておいた値
       @sites = [
-        {:site=>Site.make_unsaved,
+        {:site=>Fabricate.build(:site),
          :input=>{:volume=>10.0, :frequency=>0.5},
          :expect=>{:volume_level=>15, :frequency_level=>14},
          :got=>{}},
-        {:site=>Site.make_unsaved,
+        {:site=>Fabricate.build(:site),
          :input=>{:volume=>15.0, :frequency=>0.75},
          :expect=>{:volume_level=>24, :frequency_level=>24},
          :got=>{}},
-        {:site=>Site.make_unsaved,
+        {:site=>Fabricate.build(:site),
          :input=>{:volume=>5.0, :frequency=>0.25},
          :expect=>{:volume_level=>3, :frequency_level=>0},
          :got=>{}}
       ]
-      @user = User.make_unsaved(:sites=>@sites.map{|site|
+      @user = Fabricate.build(:user, :sites=>@sites.map{|site|
         site[:site].stub!(:volume).and_return(site[:input][:volume])
         site[:site].stub!(:frequency).and_return(site[:input][:frequency])
         site[:site]

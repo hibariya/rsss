@@ -4,7 +4,7 @@ require 'spec_helper'
 describe History do
   context "新規作成" do
     before do
-      @target = (User.make.sites.first.histories<<History.make_unsaved).last
+      @target = (Fabricate(:user).sites.first.histories<<Fabricate.build(:history)).last
     end
 
     context "volume_levelが0から24以外のとき" do
@@ -37,7 +37,7 @@ describe History do
 
   describe "History#general_level" do
     before do
-      @target = History.make_unsaved(:volume_level=>10, :frequency_level=>20)
+      @target = Fabricate.build(:history, :volume_level=>10, :frequency_level=>20)
     end
     
     it "戻り値はFloatであること" do

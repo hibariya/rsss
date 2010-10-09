@@ -59,6 +59,7 @@ RSpec.configure do |config|
     Mongoid.master.collections.
       select { |c| c.name != 'system.indexes' }.each(&:drop)
   end
-  require "#{File.dirname(__FILE__)}/blueprints"
+  require "#{File.dirname(__FILE__)}/fabricators"
+  #require "#{File.dirname(__FILE__)}/blueprints"
 end
 

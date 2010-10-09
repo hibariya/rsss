@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Entry do
   context "新規作成" do
     before(:each) do
-      @target = (User.make.sites.first.entries<<Entry.make_unsaved).last
+      @target = (Fabricate(:user).sites.first.entries<<Fabricate.build(:entry)).last
     end
 
     context "titleの幅が200以上のとき" do
