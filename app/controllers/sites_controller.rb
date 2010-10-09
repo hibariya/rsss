@@ -1,4 +1,4 @@
-# -*- condig: utf-8 -*-
+# -*- encoding: utf-8 -*-
 
 class SitesController < ApplicationController
   before_filter :check_signin
@@ -6,10 +6,10 @@ class SitesController < ApplicationController
   def create
     session_user.sites<<Site.new(:uri=>params[:site][:uri])
     unless session_user.sites.last.valid?
-      flash[:notice] = session_user.sites.last.errors.first.last
+      flash[:notice] = session_user.sites.last.errors.to_a.join
     else
       return false unless check_feed session_user.sites.last
-      flash[:notice] = "Successfully added: #{session_user.sites.last.uri}"
+      flash[:notice_volatile] = "#{session_user.sites.last.uri} を追加しました"
       session_user.save
       session_user.create_histories!
       #session_user.be_skinny!
@@ -21,10 +21,10 @@ class SitesController < ApplicationController
     if site = session_user.sites.select{|s| s.id.to_s==params[:id] }.first
       site.uri = params[:site][:uri]
       unless site.valid?
-        flash[:notice] = site.errors.first
+        flash[:notice] = site.errors.to_a.join
       else
         return false unless check_feed site
-        flash[:notice] = "Successfully saved: #{site.uri}"
+        flash[:notice_volatile] = "#{site.uri} を保存しました"
         site.save
         site.user.create_histories!
         #site.user.be_skinny!
@@ -36,7 +36,7 @@ class SitesController < ApplicationController
   def destroy
     site = session_user.sites.select{|s| s.id.to_s==params[:id] }.first
     site.delete if site
-    flash[:notice] = "Successfully deleted: #{site.uri}"
+    flash[:notice_volatile] = "#{site.uri} を削除しました"
     return redirect_to '/dashboard'
   end
 
@@ -60,7 +60,7 @@ class SitesController < ApplicationController
       end
 
       if flash[:feeds].empty?
-        flash[:notice] = 'LoadError'
+        flash[:notice] = 'フィードの取得に失敗しました'
         redirect_to '/dashboard'
       else
         redirect_to '/dashboard/select_feed/'+site.id.to_s unless flash[:feeds].empty?

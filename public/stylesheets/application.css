@@ -24,6 +24,7 @@ h3 {
   font-size: 1.2em;
   padding: 0.5em 0.5em 0.5em 0.5em;
   margin: 0em 0em 0em 0em;
+  font-family: Ebit;
 }
 
 form {
@@ -94,7 +95,7 @@ p {
 }
 
 #segmentation a {
-  color: green;
+  color: #008000;
 }
 
 .sites_cover {
@@ -264,6 +265,10 @@ li.user .icon img {
   text-align: center;
   margin:0.5em 0.5em 0.5em 0em;
   padding: 1em 1em 1em 1em;
+}
+
+.volatile {
+  color: #008000;
 }
 
 .clear {

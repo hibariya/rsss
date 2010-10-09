@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class IndexController < ApplicationController
   def index
     render :layout=>'application' end
@@ -19,7 +21,7 @@ class IndexController < ApplicationController
   def user
     @focus_user = User.by_screen_name(params[:user]).first
     unless @focus_user
-      flash[:notice] = "No such User or Page"
+      flash[:notice] = "ユーザまたはページが見つかりませんでした"
       respond_to do |format|
         format.html{ return render :status=>404, :action=>:failure, :layout=>'application' }
         format.xml{ return render :status=>404, :action=>:failure, :layout=>false }
@@ -35,7 +37,7 @@ class IndexController < ApplicationController
   def category
     @focus_user = User.by_screen_name(params[:user]).first
     unless @focus_user
-      flash[:notice] = "No such User or Page"
+      flash[:notice] = "ユーザまたはページが見つかりませんでした"
       respond_to do |format|
         format.html{ return render :status=>404, :action=>:failure, :layout=>'application' }
         format.xml{ return render :status=>404, :action=>:failure, :layout=>false }

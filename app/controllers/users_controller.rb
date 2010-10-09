@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class UsersController < ApplicationController
 
   def index
@@ -15,9 +17,9 @@ class UsersController < ApplicationController
     session_user.description = params[:user][:description]
     if session_user.valid?
       session_user.save
-      flash[:notice] = "Profile has been changed"
+      flash[:notice_volatile] = "RSSSのプロフィールを変更しました"
     else
-      flash[:notice] = session_user.errors.first.last
+      flash[:notice] = session_user.errors.to_a.join
     end
     return redirect_to '/dashboard'
   end

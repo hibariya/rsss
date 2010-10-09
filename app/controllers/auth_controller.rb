@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 class AuthController < ApplicationController
 
   def oauth
@@ -40,7 +42,7 @@ class AuthController < ApplicationController
   end
 
   def failure
-    flash[:notice] = 'Authentication failed'
+    flash[:notice] = '認証に失敗しました'
     render :status=>403
   end
 

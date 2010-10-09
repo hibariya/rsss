@@ -2,10 +2,10 @@
   %h3 PROFILE
   .user-dashboard
     = form_for session_user do |f|
-      %div URI
+      %div{:style=>'font-family: Ebit;'} SITE
       = f.text_field :site, :style=>'width: 650px;'
       %br
-      %div{:style=>"margin-top: 0.5em;"} Description
+      %div{:style=>"font-family: Ebit; margin-top: 0.5em;"} Description
       = f.text_field :description, :style=>'width: 650px;'
       = f.submit '変更', :onclick=>'return confirm("Are You Sure?");'
 

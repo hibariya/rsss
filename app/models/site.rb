@@ -1,4 +1,4 @@
-# -*- condig: utf-8 -*-
+# -*- encoding: utf-8 -*-
 
 class Site
   include Mongoid::Document

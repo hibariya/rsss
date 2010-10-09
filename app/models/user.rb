@@ -1,4 +1,4 @@
-# -*- condig: utf-8 -*-
+# -*- encoding: utf-8 -*-
 
 class User
   include Mongoid::Document
@@ -37,11 +37,6 @@ class User
   validates :token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
   validates :description, :length=>{:maximum=>200}
   validates :site, :length=>{:maximum=>400}, :format=>URI.regexp(['http']), :allow_blank=>true
-
-  validate do |user|
-    user.errors.add(:description, 'too long Description') if user.description.to_s.length > 500
-    user.errors.add(:site, 'too long URI') if user.site.to_s.length > 100
-  end
 
   scope :by_token, lambda{|t|
     where(:token=>t)

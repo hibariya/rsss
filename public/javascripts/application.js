@@ -2,6 +2,11 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 $(function(){
+
+  // for /*
+  $('.volatile').ready(function(){
+    setTimeout(function(){$('.volatile').hide(150)}, 3500);
+  });
  
   // for /:user route
   var max_width = 100;
