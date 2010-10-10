@@ -29,9 +29,9 @@ end
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'machinist'
+#require 'machinist'
 require 'mongoid'
-require 'machinist/mongoid'
+#require 'machinist/mongoid'
 require 'mongoid-rspec'
 
 # Requires supporting files with custom matchers and macros, etc,
