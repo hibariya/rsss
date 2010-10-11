@@ -48,9 +48,9 @@ module Rsss
         @title ||= ([:title].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
-            res.respond_to?(:content)? res.content: res
+            CGI.unescapeHTML(CGI.unescapeHTML(res.respond_to?(:content)? res.content: res).toutf8)
           else res end
-        end or '').toutf8
+        end or '')
       end
 
       #
@@ -60,9 +60,9 @@ module Rsss
         @content ||= ([:content_encoded, :content, :description, :summary, :subtitle].inject(nil) do |res, m|
           if @entry.respond_to?(m)  && !@entry.__send__(m).nil? && res.nil?
             res = @entry.__send__ m 
-            res.respond_to?(:content)? res.content: res
+            CGI.unescapeHTML(CGI.unescapeHTML(res.respond_to?(:content)? res.content: res).toutf8)
           else res end
-        end or '').toutf8
+        end or '')
       end
 
       #
