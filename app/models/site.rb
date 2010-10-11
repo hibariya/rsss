@@ -82,17 +82,15 @@ class Site
 
   #
   # そのフィードが何秒分に相当するか
-  # 15日以上のブランクは影響が大きすぎるのでカウントしないでやってみる
   #
   def time_length(now=Time.now)
     now = now.to_i
-    blank_limit = 86400*15
-    # entry間の秒数を足していく。ただし(15*86400)より長ければ(15*86400)として扱う
+    # entry間の秒数を足していく
     entries.sort_by(&:date).reverse.map{|e| e.date.to_i }.inject([now, 0]) do |cur, time|
       cur ||= [now, 0]
-      draft = cur.first-time
-      draft = 0 if draft<0 # 現在よりも未来の日付があればひとつめのそれを基準にする
-      [time, cur.last+((draft > blank_limit)? blank_limit: draft)]
+      term = cur.first-time
+      term = 0 if term<0 # 現在よりも未来の日付があればひとつめのそれを基準にする
+      [time, (cur.last+term)]
     end.last
   end
 

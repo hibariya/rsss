@@ -225,9 +225,9 @@ describe Site do
         Time.stub!(:now).and_return(now)
       end
 
-      it "ブランクは15日として扱われ、15日以上のブランクは無視される" do
-        @target.time_length.should_not == Time.now.to_i-@target.entries.last.date.to_time.to_i
-        @target.time_length.should == Time.now.to_i-(@target.entries.last.date.to_time.to_i+(16*86400))
+      # it "ブランクは15日として扱われ、15日以上のブランクは無視される" do
+      it "ブランクが15日に読み替えられたりはしない" do
+        @target.time_length.should == Time.now.to_i-(@target.entries.last.date.to_time.to_i)
       end
     end
   end
