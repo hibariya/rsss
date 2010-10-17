@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 $KCODE = 'u' unless RUBY_VERSION > '1.9'
 require 'rubygems'
-require 'nokogiri' #=> ここに書かないと何かロードできないのでとりあえずここに置く後で調べる
 require 'open-uri'
 require 'rss'
 require 'kconv'
