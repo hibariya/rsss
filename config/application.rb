@@ -49,7 +49,7 @@ module Rsss
 
     config.generators do |g|
       g.template_engine :haml
-      #g.orm             :mongoid
+      g.orm             :mongoid
       g.test_framework  :rspec
     end
 

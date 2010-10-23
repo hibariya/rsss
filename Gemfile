@@ -17,6 +17,7 @@ group :development, :test do
   gem 'fabrication'
   gem 'wirble'
   gem 'spork'
+  gem 'thin'
 end
 
 # Bundle edge Rails instead:
