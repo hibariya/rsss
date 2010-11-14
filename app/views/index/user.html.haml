@@ -70,11 +70,11 @@
         = raw(%w(#f39700 #e60012 #9caeb7 #00a7db #009944 #d7c447 #9b7cb6 #00ada9 #bb641d #e85298 #0079c2 #6cbb5a #b6007a #e5171f #522886 #0078ba #019a66 #e44d93 #814721 #a9cc51 #ee7b1a #00a0de).inspect)
         );
         - @focus_user.sites.each do |site| 
-          - history = Array.new 31, 0
+          - history = Array.new 30, 0
           - next if site.histories.empty?
           - site.histories.sort_by(&:created_at).reverse.each_with_index{|h,i| history[i] = h.general_level }
           = raw('g.data("'+ URI.parse(site.uri).host + '", ' + history.reverse[0...30].inspect + ');')
-        g.labels = {1: '30 days ago', 30: 'now'};
+        g.labels = {1: '30 days ago', 29: 'now'};
         g.draw();
         //]]>
 

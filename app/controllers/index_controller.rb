@@ -8,7 +8,7 @@ class IndexController < ApplicationController
   # プロダクトのアップデートをリアルタイム表示
   #
   def updates
-    @entries = Rsss::Rss.get('http://github.com/hibariya/rsss/commits/master.atom').
+    @entries = Rsss::Rss.get('https://github.com/hibariya/rsss/commits/master.atom').
       items.map{|item| Rsss::Rss::Entry.new(item) } rescue []
     render :layout=>'application'
   end
