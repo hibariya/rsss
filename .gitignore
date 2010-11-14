@@ -1,4 +1,8 @@
 .bundle
+.rspec
+autotest/*
+tmp/*
+vendor/*
 db/*.sqlite3
 log/*.log
 tmp/**/*

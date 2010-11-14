@@ -73,7 +73,7 @@
           - history = Array.new 31, 0
           - next if site.histories.empty?
           - site.histories.sort_by(&:created_at).reverse.each_with_index{|h,i| history[i] = h.general_level }
-          = raw('g.data("'+ URI.parse(site.uri).host + '", ' + history.reverse.inspect + ');')
+          = raw('g.data("'+ URI.parse(site.uri).host + '", ' + history.reverse[0...30].inspect + ');')
         g.labels = {1: '30 days ago', 30: 'now'};
         g.draw();
         //]]>

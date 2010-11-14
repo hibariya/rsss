@@ -7,6 +7,7 @@ gem 'mongoid', '2.0.0.beta.18'
 gem 'oauth'
 gem 'haml'
 gem 'json'
+gem 'feedzirra'
 
 group :development, :test do
   gem 'rspec-rails', '>= 2.0.0'
@@ -18,6 +19,8 @@ group :development, :test do
   gem 'wirble'
   gem 'spork'
   gem 'thin'
+  gem 'autotest'
+  gem 'autotest-growl'
 end
 
 # Bundle edge Rails instead:

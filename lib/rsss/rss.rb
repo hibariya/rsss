@@ -10,7 +10,7 @@ module Rsss
       def fetch(uri)
         u = URI.parse(uri)
         u.query = (u.query.nil?? '' : u.query+'&')+Time.now.to_i.to_s 
-        u.open{|f| f.read }
+        Mechanize.new.get u
       end
     end
 
