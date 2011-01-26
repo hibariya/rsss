@@ -1,5 +1,5 @@
 defaults: &defaults
-  #host: localhost
+  host: localhost
   # slaves:
   #   - host: slave1.local
   #     port: 27018
@@ -7,22 +7,18 @@ defaults: &defaults
   #     port: 27019
 
 development:
-  #host: localhost
-  host: 127.0.0.1
+  <<: *defaults
   database: rsss_development
-  #<<: *defaults
-  #database: rsss_development
+
+migrate:
+  <<: *defaults
+  database: rsss_migrate
 
 test:
-  host: 127.0.0.1
+  <<: *defaults
   database: rsss_test
 
 # set these environment variables on your prod server
 production:
   uri: <%= ENV['MONGOHQ_URL'] %>
-  #<<: *defaults
-  #host: <%= ENV['MONGOID_HOST'] %>
-  #port: <%= ENV['MONGOID_PORT'] %>
-  #username: <%= ENV['MONGOID_USERNAME'] %>
-  #password: <%= ENV['MONGOID_PASSWORD'] %>
-  #database: <%= ENV['MONGOID_DATABASE'] %>
+

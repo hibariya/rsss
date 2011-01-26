@@ -1,79 +1,62 @@
-# -*- condig: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 Fabricator(:authorized_user, :class_name=>:user) do
-  screen_name { Fabricate.sequence(:screen_name){|i| [Faker::Internet.user_name, i.to_s].join } }
-  created_at { Time.now }
-  updated_at { Time.now }
-  oauth_user_id { Fabricate.sequence :user_id, 1000 }
-  oauth_token { Fabricate.sequence(:token){|i| (Digest::SHA1.new<<i.to_s).to_s } }
-  oauth_secret { Fabricate.sequence(:token){|i| (Digest::SHA1.new<<i.to_s).to_s } }
-  token { Fabricate.sequence(:token){|i| (Digest::SHA1.new<<i.to_s).to_s } }
+  created_at   { Time.now }
+  updated_at   { Time.now }
+  token        { Fabricate.sequence(:token){|i| (Digest::SHA1.new<<i.to_s).to_s } }
+  auth_profile { Fabricate.build :auth_profile }
+end
+
+Fabricator(:auth_profile) do
+  screen_name       { Fabricate.sequence(:screen_name){|i| Faker::Internet.user_name + i.to_s } }
+  user_id           { Fabricate.sequence :user_id, 1000 }
+  token             { Fabricate.sequence(:token){|i| (Digest::SHA1.new<<i.to_s).to_s } }
+  secret            { Fabricate.sequence(:token){|i| (Digest::SHA1.new<<i.to_s).to_s } }
+  description       { Faker::Lorem.paragraph[0..190] }
+  name              { 'fabricate' }
+  profile_image_url { Fabricate.sequence(:uri){|i| "http://#{i}#{Faker::Internet.domain_name}" } }
 end
 
 Fabricator(:user, :from=>:authorized_user) do
   description { Faker::Lorem.paragraph[0..190] }
-  site { Fabricate.sequence(:uri){|i| ['http://', i.to_s, Faker::Internet.domain_name].join } }
-  sites { (0..rand(10)).to_a.map{|i| Fabricate.build(:site) } }
+  site        { Fabricate.sequence(:uri){|i| "http://#{i}#{Faker::Internet.domain_name}" } }
+  sites       { 5.times.map{|t| Fabricate :site } }
+end
+
+Fabricator(:example_user, :from=>:authorized_user) do
+  description { Faker::Lorem.paragraph[0..190] }
+  site        { Fabricate.sequence(:uri){|i| "http://#{i}#{Faker::Internet.domain_name}" } }
+  sites       { [Fabricate.build(:example_site)] }
 end
 
 Fabricator(:site) do
-  uri { Fabricate.sequence(:uri){|i| ['http://', i.to_s, Faker::Internet.domain_name].join } }
-  site_uri { Fabricate.sequence(:uri){|i| ['http://', i.to_s, Faker::Internet.domain_name, '/feed'].join } }
-  title { Faker::Lorem.sentence[0..50] }
-  histories {(0..30).to_a.map{|i| Fabricate.build(:history) }}
-  entries {(0..30).to_a.map{|i| Fabricate.build(:entry) }}
+  uri      { Fabricate.sequence(:uri){|i| "http://#{i}#{Faker::Internet.domain_name}" } }
+  site_uri { Fabricate.sequence(:uri){|i| "http://#{i}#{Faker::Internet.domain_name}/feed" } }
+  title    { Faker::Lorem.sentence[0..50] }
+  entries  { 30.times.map{|i| Fabricate.build(:entry) } }
 end
 
-Fabricator(:history) do
-  volume_level { rand(24) }
-  frequency_level { rand(24) }
-  created_at { Time.now }
+Fabricator(:example_site, :class_name=>:site) do
+  title     { 'site for stub' }
+  uri       { 'http://example.com/feed' }
+  site_uri  { 'http://example.com/' }
+  failed_at { nil }
+  entries   { [Fabricate.build(:example_entry)] }
 end
 
 Fabricator(:entry) do
-  title { Faker::Lorem.sentence[0..50] }
-  content { Faker::Lorem.paragraph }
-  link { Fabricate.sequence(:uri){|i| ['http://', Faker::Internet.domain_name, '/entry/', i.to_s].join } }
-  date { Fabricate.sequence(:time){|t| t.day.ago.to_time } }
+  title      { Faker::Lorem.sentence[0..50] }
+  content    { Faker::Lorem.paragraph }
+  link_uri   { Fabricate.sequence(:uri){|i| "http://#{Faker::Internet.domain_name}/entry/#{i}" } }
+  date       { Fabricate.sequence(:time){|t| t.day.ago.to_time } }
+  categories { Faker::Lorem.paragraph.split.sort{ rand }[0..3] }
 end
 
-#5.times{ User.make }
-
-class << Rsss::Rss #{{{ rss1.0 2.0 atom のサンプルを生成するテスト用メソッド
-  def sample_feed(version)
-    begin
-      raise unless ::RSS::Maker::MAKERS.include?(version)
-      rss = ::RSS::Maker.make(version) do |maker|
-        maker.channel.about = "http://example.com/index.rss"
-        maker.channel.title = "Example"
-        maker.channel.description = "Example Site"
-        maker.channel.link = "http://example.com/"
-        maker.channel.author = "Bob"
-        maker.channel.date = Time.now
-        maker.items.do_sort = true
-
-        20.times do |t|
-          maker.items.new_item do |item|
-            e = Fabricate.build(:entry)
-            item.link = e.link
-            item.title = e.title
-            item.date = e.date
-            item.description = e.content
-            item.categories.new_category do |category|
-              3.times.map do |c|
-                category.content = ::Faker::Internet.user_name
-                category.term = ::Faker::Internet.user_name
-              end
-            end
-          end
-        end
-      end
-      rss.to_s
-    rescue
-      STDERR.puts "#{version}: #{$!}"
-    end
-  end
+Fabricator(:example_entry, :class_name=>:entry) do
+  title      { 'entry for stub' }
+  content    { 'content for stub' }
+  categories { %w(category for stub) }
+  link_uri   { 'http://example.com/entries/stub' }
+  date       { 1.day.ago.to_time }
 end
-#}}}
-#puts Site::EntryExtractor.sample_feed('atom')
 

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
@@ -12,9 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Exception do |e|
-    logger.debug e.class
-    logger.debug e.message
-    logger.debug e.backtrace
+    ErrorLog.add e
     respond_to do |format|
       format.html{ render :controller=>:index, :action=>:failure }
       format.xml{ render :controller=>:index, :action=>:failure, :layout=>false }
@@ -23,7 +21,9 @@ class ApplicationController < ActionController::Base
 
   def specified_controllers; %w(auth dashboard user sites users index updates) end
   def session_user
-    @session_user ||= session[:token] && User.by_token(session[:token]).first rescue nil
+    User.where('auth_profile.screen_name = ?', 'example').first
+    # TODO: fixme
+    #@session_user ||= session[:token] && User.by_token(session[:token]).first rescue nil
   end
 
   def check_signin

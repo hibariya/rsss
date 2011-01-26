@@ -1,8 +1,12 @@
+# -*- encoding: utf-8 -*-
 
 module Rsss
   __here = File.dirname __FILE__
-  require File.join __here, 'rsss', 'oauth'
-  require File.join __here, 'rsss', 'rss'
-  require File.join __here, 'rsss', 'summarize'
+  require File.join __here, 'rsss', 'twitter'
+  require File.join __here, 'rsss', 'analyzer'
+  require File.join __here, 'rsss', 'analyzable'
+  require File.join __here, 'rsss', 'summary'
+
+  class RSSInvalidDate < Exception; end
 end
 

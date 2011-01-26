@@ -1,6 +1,7 @@
+# -*- encoding: utf-8 -*-
 
 module Rsss
-  class Oauth
+  class Twitter
     class << self
       def consumer
         @consumer ||= ::OAuth::Consumer.new(

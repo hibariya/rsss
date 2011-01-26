@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Entry do
+describe ErrorLog do
 end
 

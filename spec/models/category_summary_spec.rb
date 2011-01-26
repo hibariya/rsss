@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Entry do
+describe CategorySummary do
 end
 
