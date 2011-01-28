@@ -69,7 +69,7 @@ module MigrationUtility
     end
 
 
-    def strict_to_user(struct)
+    def struct_to_user(struct)
       user = ::User.new :description => struct.description,
                         :site        => struct.site,
                         :token       => struct.token
@@ -82,24 +82,25 @@ module MigrationUtility
                                           :name              => struct.oauth_name,
                                           :profile_image_url => struct.profile_image_url
       user.save
-      s.sites.each do |s|
-        ::Site.create :uri      => struct.uri,
-                      :site_uri => struct.site_uri,
-                      :title    => struct.title,
+      struct.sites.each do |s|
+        ::Site.create :uri      => s.uri,
+                      :site_uri => s.site_uri,
+                      :title    => s.title,
                       :user     => user
       end
 
-      user.histories.each do |history|
-        s.site_summaries<< SiteSummary.create(:site            => ::Site.where(:uri => history.site_uri).first,
+      struct.histories.each do |history|
+        user.site_summaries<< SiteSummary.new(:site            => ::Site.where(:uri => history.site_uri).first,
                                               :date            => history.created_at,
                                               :frequency_score => history.frequency_level,
                                               :volume_score    => history.volume_level)
       end
+      user.save
 
-      user.summarized_categories.each do |summarized_category|
+      struct.summarized_categories.each do |summarized_category|
         Category.create(:name      => summarized_category.category,
                         :frequency => summarized_category.level,
-                        :date      => summarized_category.date)
+                        :user      => user)
       end
 
       # CategorySummary  => 1世代分しかないのでmigrate後に再度計算しなおす
