@@ -81,27 +81,27 @@ module MigrationUtility
                                           :description       => struct.oauth_description,
                                           :name              => struct.oauth_name,
                                           :profile_image_url => struct.profile_image_url
-      user.save
+      user.save!
       struct.sites.each do |s|
-        ::Site.create :uri      => s.uri,
-                      :site_uri => s.site_uri,
-                      :title    => s.title,
-                      :user     => user
+        ::Site.create! :uri      => s.uri.strip,
+                       :site_uri => s.site_uri.strip,
+                       :title    => s.title,
+                       :user     => user
+      end
+
+      struct.summarized_categories.each do |summarized_category|
+        Category.create!(:name      => summarized_category.category,
+                         :frequency => summarized_category.level,
+                         :user      => user)
       end
 
       struct.histories.each do |history|
-        user.site_summaries<< SiteSummary.new(:site            => ::Site.where(:uri => history.site_uri).first,
+        user.site_summaries<< SiteSummary.new(:site_id         => user.sites.where(:uri => history.site_uri).first.id,
                                               :date            => history.created_at,
                                               :frequency_score => history.frequency_level,
                                               :volume_score    => history.volume_level)
       end
-      user.save
-
-      struct.summarized_categories.each do |summarized_category|
-        Category.create(:name      => summarized_category.category,
-                        :frequency => summarized_category.level,
-                        :user      => user)
-      end
+      user.save!
 
       # CategorySummary  => 1世代分しかないのでmigrate後に再度計算しなおす
       # Associate        => 同上
