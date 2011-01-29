@@ -14,10 +14,18 @@ class Site
   embeds_many :entries
   referenced_in :user
 
-  validates :uri, :presence=>true, :length=>{:maximum=>400}, :format=>URI.regexp(['http'])
-  validates :site_uri, :length=>{:maximum=>400}, :format=>URI.regexp(['http']), :allow_blank=>true
-  validates :title, :length=>{:maximum=>200}
-  validates :uri, :uniqueness=>{:scope=>:user}
+  validates :uri,
+    :presence => true,
+    :length => {:maximum => 400},
+    :format => URI.regexp(%w[http https]),
+    :uniqueness => {:scope => :user_id}
+  validates :site_uri,
+    :length => {:maximum => 400},
+    :format => URI.regexp(%w[http https]),
+    :uniqueness => {:scope => :user_id},
+    :allow_blank => true
+  validates :title,
+    :length => {:maximum=>200}
 
   # failed_at を更新
   def failed!
