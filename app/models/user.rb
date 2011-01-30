@@ -5,40 +5,46 @@ class User
   include Mongoid::Timestamps
   include Rsss::Analyzable
 
-  field :description, :type=>String
-  field :site, :type=>String
-  field :token, :type=>String
+  field :description, :type => String
+  field :site,        :type => String
+  field :token,       :type => String
 
   embeds_one :auth_profile
   def screen_name; auth_profile.screen_name end
   def screen_name=(name); auth_profile.screen_name = name end
 
   references_many :sites
-  embeds_many :site_summaries
+  embeds_many     :site_summaries
 
   references_many :categories
-  embeds_many :category_summaries
+  embeds_many     :category_summaries
 
   references_many :associates
-  embeds_many :associate_summaries
+  embeds_many     :associate_summaries
 
-  index :token, :unique=>true, :background=>true
-  index %q(entries.date), :background=>true
-  index %q(sites.uri), :background=>true
+  index :token, :unique => true, :background => true
+  index %q(entries.date), :background => true
+  index %q(sites.uri), :background => true
 
-  validates :token, :presence=>true, :length=>{:within=>1..100}, :format=>/^[0-9a-zA-Z]+$/
-  validates :description, :length=>{:maximum=>200}
-  validates :site, :length=>{:maximum=>400}, :format=>URI.regexp(['http']), :allow_blank=>true
+  validates :token,
+    :presence => true,
+    :length   => {:within => 0..100},
+    :format   => /^[0-9a-zA-Z]+$/
+  validates :site,
+    :length      => {:maximum => 400},
+    :format      => URI.regexp(['http']),
+    :allow_blank => true
+  validates :description, :length => {:maximum => 200}
 
   validate do
     self.errors.add :auth_profile, 'invalid auth profile' if auth_profile && auth_profile.invalid?
   end
 
-  scope :by_screen_name do |screen_name|
-    User.where(:'auth_profile.screen_name' => screen_name)
-  end
+  scope :by_screen_name, lambda{|name| where(:'auth_profile.screen_name' => name) }
 
-  def reload_profile; auth_profile.reload_and_save_profile end
+  def reload_profile
+    auth_profile.reload_and_save_profile
+  end
 
   def reload_sites
     sites.each &:reload_and_save
@@ -59,8 +65,8 @@ class User
   def reload_categories
     cats = sites.map{|site| site.entries.map &:categories }.flatten
     cats.uniq.each do |cat_name|
-      cat = categories.where(:name=>cat_name).first 
-      cat ||= Category.new(:user=>self, :name=>cat_name)
+      cat = categories.where(:name => cat_name).first 
+      cat ||= Category.new(:user => self, :name => cat_name)
       cat.frequency = cats.select{|c| c == cat_name }.length
       cat.save
     end
@@ -69,9 +75,9 @@ class User
   def reload_category_summaries
     category_scores = analyze_by :categories, :frequency
     category_scores.each do |category, score|
-      self.category_summaries<< CategorySummary.create(:user=>self,
-                                                       :category_id=>category.id,
-                                                       :frequency_score=>score)
+      self.category_summaries<< CategorySummary.create(:user            => self,
+                                                       :category_id     => category.id,
+                                                       :frequency_score => score)
     end
     save
   end
