@@ -22,10 +22,10 @@
       .description
         %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name, :style=>'text-decoration:none;'}
           = @focus_user.screen_name
-          = "(#{@focus_user.oauth_name})"
+          = "(#{@focus_user.name})"
         
       .description
-        = @focus_user.oauth_description
+        = @focus_user.description
     = render :partial=>'layouts/menu'
     = yield
     = render :partial=>'layouts/footer'

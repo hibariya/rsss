@@ -7,7 +7,7 @@
       .profile.kdmr
         %h3
           %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name}
-            = "#{@focus_user.screen_name}(#{@focus_user.oauth_name})"
+            = "#{@focus_user.screen_name}(#{@focus_user.name})"
         - if @focus_user.site?
           .massive
             %a{:href=>@focus_user.site, :target=>"_blank"}= @focus_user.site
@@ -17,40 +17,39 @@
 
     %ul.sites.kdmr
       %h3 最近更新しているサイト
-      - @focus_user.summaries.sort_by(&:general_level).reverse.each do |history|
-        - site = history.site 
-        - last_history = site.history(1) rescue History.new
+      - @focus_user.sites_by_score.each do |site|
         %li.site
-          .title{:style=>"font-size: "+(12+history.volume_level).to_s+"px;"}
-            %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(history.frequency_level*10).to_s+", 0);"}= site.title
+          .title{:style=>"font-size: "+(12+site.volume_score).to_s+"px;"}
+            %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(site.frequency_score*10).to_s+", 0);"}= site.title
             %span.info
-              = ((history.general_level.to_f/24)*100).round.to_s+"%"
+              = ((site.score.to_f/24)*100).round.to_s+"%"
             .info
               = raw(URI.parse(site.uri).host)
-              = (history.general_level > last_history.general_level)? '⇧': ''
-              = (history.general_level < last_history.general_level)? '⇩': ''
+              =# (history.general_level > last_history.general_level)? '⇧': ''
+              =# (history.general_level < last_history.general_level)? '⇩': ''
             .info{:style=>"text-align: right;"}
               %div
-              - site.entries.sort_by(&:date).reverse[0..((history.general_level/6).round)].each do |entry|
+              = h site.site.class
+              - site.entries.sort_by(&:date).reverse[0..((site.score/6).round)].each do |entry|
                 %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content.gsub(/(<[^>]+>|\s+)/, '')}
                   = string_limit entry.title, 35
                   %br
 
-    - unless @focus_user.summarized_categories.empty?
+    - unless @focus_user.categories.empty?
       .categories.kdmr
         %h3 最近つけたタグ/カテゴリ
         %div 
-          - @focus_user.summarized_categories.sort_by(&:category).each do |s|
-            %a{:href=>[user_page_path(@focus_user.screen_name), "/#{rails_safe_param(s.category)}"].join, :title=>s.category}
-              %span.cloud{:style=>"font-size: #{12+(s.level/2).round}px;"}= s.category
+          - @focus_user.categories_by_frequency(10).each do |s|
+            %a{:href=>[user_page_path(@focus_user.screen_name), "/#{rails_safe_param(s.name)}"].join, :title=>s.name}
+              %span.cloud{:style=>"font-size: #{12+(s.score/2).round}px;"}= s.name
 
-    - unless @focus_user.summarized_near_users.empty?
+    - unless @focus_user.associates.empty?
       .near_users.kdmr
         %h3 近くのRSSS
         %div 
-          - @focus_user.summarized_near_users.sort_by(&:screen_name).each do |s|
-            %a{:href=>user_page_path(s.screen_name), :title=>s.screen_name}
-              %span.cloud{:style=>"font-size: #{12+(s.level/2).round}px;"}= s.screen_name
+          - @focus_user.associates_by_score(10).each do |s|
+            %a{:href=>user_page_path(s.associate_user.screen_name), :title=>s.associate_user.screen_name}
+              %span.cloud{:style=>"font-size: #{12+(s.score/2).round}px;"}= s.associate_user.screen_name
 
   .sides_cover 
     .gruff.kdmr
@@ -71,9 +70,9 @@
         );
         - @focus_user.sites.each do |site| 
           - history = Array.new 30, 0
-          - next if site.histories.empty?
-          - site.histories.sort_by(&:created_at).reverse.each_with_index{|h,i| history[i] = h.general_level }
-          = raw('g.data("'+ URI.parse(site.uri).host + '", ' + history.reverse[0...30].inspect + ');')
+          - next if site.summaries.empty?
+          - site.summaries.each_with_index{|s,i| history[i] = s.score }
+          = raw('g.data("'+ URI.parse(site.uri).host + '", ' + history[0...30].inspect + ');')
         g.labels = {1: '30 days ago', 29: 'now'};
         g.draw();
         //]]>
@@ -84,7 +83,7 @@
           最近のエントリ
           %a{:title=>"RSS Feed", :href=>user_feed_path(@focus_user.screen_name)}
             %img{:src=>'/images/rss.png', :alt=>'RSS Feed', :style=>'border: none;'}
-        - @focus_user.recent_entries[0..9].each do |entry|
+        - @focus_user.recent_entries(10).each do |entry|
           %li.entry
             .title
               %a{:href=>entry.link, :target=>"_blank", :title=>entry.title, :style=>'color: green;'}= entry.title

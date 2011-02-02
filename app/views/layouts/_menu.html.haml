@@ -1,16 +1,16 @@
 .kdmr.note-wide
   %span.menu
     = controller_name+action_name=='indexindex'? 'ABOUT': link_to('ABOUT', '/')
-  - if signin?
+  -# if signin?
     %span.menu
-      = action_name=='user' && session_user==@focus_user? 'MY PAGE': link_to('MY PAGE', user_page_path)
+      =# action_name=='user' && session_user==@focus_user.user ? 'MY PAGE': link_to('MY PAGE', user_page_path)
     %span.menu
-      = controller_name+action_name=='dashboardindex'? 'DASHBOARD': link_to('DASHBOARD', '/dashboard')
+      =# controller_name+action_name=='dashboardindex'? 'DASHBOARD': link_to('DASHBOARD', '/dashboard')
     %span.menu
-      = link_to 'SIGNOUT', '/auth/signout'
-  - else
+      =# link_to 'SIGNOUT', '/auth/signout'
+  -# else
     %span.menu
-      = link_to 'SIGN IN WITH TWITTER', '/auth'
+      =# link_to 'SIGN IN WITH TWITTER', '/auth'
 
 - if flash[:notice_volatile]
   .kdmr.notice.volatile

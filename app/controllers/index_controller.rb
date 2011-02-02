@@ -19,7 +19,7 @@ class IndexController < ApplicationController
   end
 
   def user
-    @focus_user = User.by_screen_name(params[:user]).first
+    @focus_user = UserPresenter.load params[:user]
     unless @focus_user
       flash[:notice] = "ユーザまたはページが見つかりませんでした"
       respond_to do |format|
