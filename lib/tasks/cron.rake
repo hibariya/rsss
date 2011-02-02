@@ -6,7 +6,6 @@ desc "update feeds, categories and account information."
 task :reload_users=>:environment do
   User.all.each do |user|
     %w(profile 
-       unavailable_sites 
        sites 
        site_summaries 
        categories 

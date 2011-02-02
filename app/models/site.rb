@@ -6,10 +6,10 @@ class Site
 
   require 'feedzirra'
   
-  field :uri, :type=>String
-  field :site_uri, :type=>String
-  field :title, :type=>String
-  field :failed_at, :type=>Time
+  field :uri,       :type => String
+  field :site_uri,  :type => String
+  field :title,     :type => String
+  field :failed_at, :type => Time
 
   embeds_many :entries
   referenced_in :user

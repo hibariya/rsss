@@ -3,8 +3,8 @@
 class Associate
   include Mongoid::Document
 
-  field :associate_user_id, :type=>BSON::ObjectId
-  field :score, :type=>Float
+  field :associate_user_id, :type => BSON::ObjectId
+  field :score,             :type => Float
 
   referenced_in :user
 

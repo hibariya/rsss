@@ -63,7 +63,7 @@ class User
   end
 
   def reload_categories
-    cats = sites.map{|site| site.entries.map &:categories }.flatten
+    cats = sites.map(&:categories).flatten.map(&:downcase)
     cats.uniq.each do |cat_name|
       cat = categories.where(:name => cat_name).first 
       cat ||= Category.new(:user => self, :name => cat_name)
@@ -86,7 +86,7 @@ class User
     (User.all.to_a-[self]).each do |user|
       asc   = associates.where(:associate_user_id => user.id).first 
       asc ||= Associate.new(:user => self, :associate_user_id => user.id)
-      asc.score = (user.categories.to_a & categories.to_a).length
+      asc.score = (user.categories.map(&:name) & categories.map(&:name)).length
       asc.save
     end
     self
@@ -95,9 +95,9 @@ class User
   def reload_associate_summaries
     associate_scores = analyze_by :associates, :score
     associate_scores.each do |associate, score|
-      self.associate_summaries<< AssociateSummary.create(:user=>self,
-                                                         :associate_id=>associate.id,
-                                                         :score=>score)
+      self.associate_summaries<< AssociateSummary.create(:user         => self,
+                                                         :associate_id => associate.id,
+                                                         :score        => score)
     end
     save
   end

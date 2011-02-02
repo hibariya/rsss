@@ -54,5 +54,6 @@ module Rsss
 
   end
   
-  require File.join Rails.root, "lib/rsss"
+  require Rails.root.join("lib", "rsss")
+  require Rails.root.join("lib", "migration_utility")
 end
