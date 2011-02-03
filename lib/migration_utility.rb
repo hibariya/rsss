@@ -66,6 +66,15 @@ module MigrationUtility
                        :title    => s.title,
                        :user     => user
       end
+
+      struct.histories.each do |history|
+        user.site_summaries<< SiteSummary.new(:site_id         => user.sites.where(:uri => history.site_uri).first.id,
+                                              :date            => history.created_at,
+                                              :frequency_score => history.frequency_level,
+                                              :volume_score    => history.volume_level)
+      end
+      user.save!
+
     end
   end
 end
