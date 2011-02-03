@@ -10,9 +10,7 @@ module MigrationUtility
                        :oauth_name,
                        :profile_image_url,
                        :sites,
-                       :histories,
-                       :summarized_near_users,
-                       :summarized_categories
+                       :histories
 
   Site    = Struct.new :uri,
                        :site_uri,
@@ -22,9 +20,6 @@ module MigrationUtility
                        :frequency_level,
                        :created_at,
                        :site_uri
-
-  SummarizedCategory = Struct.new :category, :level, :date
-  SummarizedNearUser = Struct.new :screen_name, :level, :date
 
   class << self
     def user_to_struct(user)
@@ -41,14 +36,6 @@ module MigrationUtility
 
       migrate_user.sites     = user.sites.map{|s| site_to_struct s }
       migrate_user.histories = user.sites.map(&:histories).flatten.map{|h| history_to_struct h }
-
-      migrate_user.summarized_near_users = user.summarized_near_users.map do |s| 
-        summarized_near_user_to_struct s
-      end
-
-      migrate_user.summarized_categories = user.summarized_categories.map do |s|
-        summarized_category_to_struct s unless s.strip.empty?
-      end
       migrate_user
     end
 
@@ -59,15 +46,6 @@ module MigrationUtility
     def history_to_struct(h)
       History.new h.volume_level, h.frequency_level, h.created_at, h.site.uri
     end
-
-    def summarized_near_user_to_struct(s)
-      SummarizedNearUser.new s.screen_name, s.level, Date.today
-    end
-
-    def summarized_category_to_struct(s)
-      SummarizedCategory.new s.category, s.level, Date.today
-    end
-
 
     def struct_to_user(struct)
       user = ::User.new :description => struct.description,
@@ -88,24 +66,6 @@ module MigrationUtility
                        :title    => s.title,
                        :user     => user
       end
-
-      struct.summarized_categories.each do |summarized_category|
-        Category.create!(:name      => summarized_category.category,
-                         :frequency => summarized_category.level,
-                         :user      => user)
-      end
-
-      struct.histories.each do |history|
-        user.site_summaries<< SiteSummary.new(:site_id         => user.sites.where(:uri => history.site_uri).first.id,
-                                              :date            => history.created_at,
-                                              :frequency_score => history.frequency_level,
-                                              :volume_score    => history.volume_level)
-      end
-      user.save!
-
-      # CategorySummary  => 1世代分しかないのでmigrate後に再度計算しなおす
-      # Associate        => 同上
-      # AssociateSummary => 同上
     end
   end
 end
