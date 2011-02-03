@@ -47,7 +47,7 @@ module MigrationUtility
       end
 
       migrate_user.summarized_categories = user.summarized_categories.map do |s|
-        summarized_category_to_struct s
+        summarized_category_to_struct s unless s.strip.empty?
       end
       migrate_user
     end
