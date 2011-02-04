@@ -22,6 +22,10 @@ describe 'User#reload_associate_summary', :clear => true do
     target.associate_summaries.length.should eql target.associates.length
   end
 
+  it "日付が登録されていること" do
+    target.associate_summaries.should be_all &:date
+  end
+
   it "更新されたsummaryが保存されていること" do
     target.associates.each do |asc|
       last_summary = target.associate_summaries.select{|a| a.associate_id == asc.id }.last

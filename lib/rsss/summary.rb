@@ -57,12 +57,12 @@ module Rsss::Summary
   def self.included model
     model.instance_eval do
       include Mongoid::Document
-      field :date, :type=>Date
+      field :date, :type => Date
 
       extend  ClassMethods
       include Methods
 
-      before_create :load_duplicates,   :set_default_date
+      before_create :set_default_date,  :load_duplicates
       after_create  :delete_duplicates, :delete_overflows
     end
   end
@@ -88,7 +88,7 @@ module Rsss::Summary
 
     def load_duplicates
       @duplicates = where(references_key=>attributes[references_key]).
-                    where(:date=>date).reject{|d| d==self }
+                    where(:date => date).reject{|d| d == self }
     end
 
     def delete_duplicates

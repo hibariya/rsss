@@ -20,6 +20,10 @@ describe 'User#reload_category_summary' do
     user.category_summaries.length.should eql user.categories.length
   end
 
+  it "日付が登録されていること" do
+    user.category_summaries.should be_all &:date
+  end
+
   it "更新されたsummaryが保存されていること" do
     user.categories.each do |cat|
       last_summary = user.category_summaries.select{|c| c.category_id == cat.id }.last

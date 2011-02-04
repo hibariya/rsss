@@ -31,7 +31,7 @@
               %div
               = h site.site.class
               - site.entries.sort_by(&:date).reverse[0..((site.score/6).round)].each do |entry|
-                %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content.gsub(/(<[^>]+>|\s+)/, '')}
+                %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content.to_s.gsub(/(<[^>]+>|\s+)/, '')}
                   = string_limit entry.title, 35
                   %br
 
@@ -88,8 +88,8 @@
             .title
               %a{:href=>entry.link, :target=>"_blank", :title=>entry.title, :style=>'color: green;'}= entry.title
             %div.info
-              - unless entry.image_sources.empty?
+              -# unless entry.image_sources.empty?
                 %div
                   %img{:src=>entry.image_sources.first}
-              = string_limit entry.content.gsub(/<[^>]+>/, ''), 200
+              = string_limit entry.content.to_s.gsub(/<[^>]+>/, ''), 200
 

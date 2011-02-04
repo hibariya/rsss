@@ -49,13 +49,14 @@ class Site
 
   # フィードを取得しEntriesを更新
   def reload_entries
-    self.entries = feed.entries.map do |entry|
-      Entry.new :title      => entry.title,
-                :content    => entry.summary,
-                :categories => (entry.categories || []),
-                :link       => entry.url,
-                :date       => entry.published,
-                :site       => self
+    feed.entries.map do |entry|
+      e = entries.where(:link => entry.url).first || Entry.new(:site => self)
+      e.title      = entry.title
+      e.content    = entry.summary
+      e.categories = entry.categories || []
+      e.link       = entry.url
+      e.date       = entry.published
+      e.save
     end
   end
 
@@ -70,7 +71,7 @@ class Site
 
   # フィードをメモ
   def feed
-    @feed ||= open(uri){|p| Feedzirra::Feed.parse p.read }
+    @feed ||= Feedzirra::Feed.parse Mechanize.new.get(uri).body
   end
 
   def categories

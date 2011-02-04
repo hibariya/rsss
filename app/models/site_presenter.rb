@@ -10,7 +10,7 @@ class SitePresenter
   end
 
   def summaries
-    site_summaries.sort_by{|s| s.date }
+    site_summaries.sort_by(&:date)
   end
 
   def method_missing(name, *args)

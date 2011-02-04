@@ -67,10 +67,11 @@ describe Rsss::Summary, :clear => true do
   end
 
   context "同じ日にドキュメントを作成すると古い方が削除される" do
-    let!(:todays_summary){ ColorSummary.create :color_id => color.id, :score => 0, :date => Date.today }
+    let!(:todays_summary){ ColorSummary.create :color_id => color.id, :score => 0 }
 
     it "新たなドキュメントを保存したときには最も古いドキュメントが削除される" do
-      ColorSummary.create :color_id => color.id, :score => 100, :date => Date.today
+      todays_summary.date.should eql Date.today
+      ColorSummary.create :color_id => color.id, :score => 100
       ColorSummary.all.should_not be_any {|cs| cs == todays_summary }
     end
   end

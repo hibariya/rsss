@@ -53,11 +53,12 @@ class User
   def reload_site_summaries
     volume_scores    = analyze_by :sites, :volume
     frequency_scores = analyze_by :sites, :frequency
+
     (volume_scores.zip frequency_scores).map(&:flatten).each do |site, volume, _, frequency|
-      self.site_summaries<< SiteSummary.new(:user            => self,
-                                            :site_id         => site.id,
+      self.site_summaries<< SiteSummary.new(:site_id         => site.id,
                                             :volume_score    => volume,
-                                            :frequency_score => frequency)
+                                            :frequency_score => frequency,
+                                            :date            => Date.today)
     end
     save!
   end
