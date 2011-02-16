@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 class AuthProfile
+
   include Mongoid::Document
 
   field :screen_name,       :type=>String
@@ -10,6 +11,8 @@ class AuthProfile
   field :description,       :type=>String
   field :name,              :type=>String
   field :profile_image_url, :type=>String
+
+  attr_writer :user_info
 
   embedded_in :user, :inverse_of=>:auth_profile
   
@@ -25,8 +28,8 @@ class AuthProfile
   validates :name,              :length=>{:maximum=>60}
   validates :profile_image_url, :length=>{:maximum=>400}, :format=>URI.regexp(['http']), :allow_blank=>true
 
-  def remote
-    @remote_profile ||= Rsss::Twitter.user_info token, secret
+  def user_info
+    @user_info ||= Rsss::Twitter.user_info token, secret
   end
   
   # 指定されたログイン名を既に使用しているユーザを更新
@@ -38,13 +41,13 @@ class AuthProfile
 
   # ユーザログイン、description, 名前、プロフィール画像の更新
   def reload_and_save_profile
-    return false unless new_screen_name = remote['screen_name']
+    return false unless new_screen_name = user_info['screen_name']
     swap new_screen_name unless screen_name==new_screen_name
 
     self.screen_name       = new_screen_name
-    self.profile_image_url = remote['profile_image_url']
-    self.name              = remote['name']
-    self.description       = remote['description']
+    self.profile_image_url = user_info['profile_image_url']
+    self.name              = user_info['name']
+    self.description       = user_info['description']
     self.save!
   end
 

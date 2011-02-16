@@ -19,15 +19,15 @@ class IndexController < ApplicationController
   end
 
   def user
-    @focus_user = UserPresenter.load params[:user]
-    unless @focus_user
+    @user = UserPresenter.load params[:user]
+    unless @user
       flash[:notice] = "ユーザまたはページが見つかりませんでした"
       respond_to do |format|
         format.html{ return render :status=>404, :action=>:failure, :layout=>'application' }
         format.xml{ return render :status=>404, :action=>:failure, :layout=>false }
       end
     end
-    
+   
     respond_to do |format|
       format.html
       format.xml  { render :text=>user_feed.to_s }

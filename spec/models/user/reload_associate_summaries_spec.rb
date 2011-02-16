@@ -8,17 +8,18 @@ describe 'User#reload_associate_summary', :clear => true do
   before :all do
     10.times.map{ Fabricate :user }.each do |user|
       user.reload_categories
+      user.reload_category_summaries
       user.save
     end
 
     target.reload_associates
     @scores = target.analyze_by :associates, :score
     target.associate_summaries.map &:destroy
+    target.associate_summaries.clear
     target.reload_associate_summaries
-    target.save
   end
 
-  it "カテゴリの数と同じだけsummaryが保存されていること" do
+  it "関連するユーザの数と同じだけsummaryが保存されていること" do
     target.associate_summaries.length.should eql target.associates.length
   end
 

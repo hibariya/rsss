@@ -5,8 +5,8 @@ class AssociateSummary
   include Rsss::Summary
   max_documents 30
 
-  field :associate_id, :type=>BSON::ObjectId
-  field :score, :type=>Fixnum
+  field :associate_id, :type => BSON::ObjectId
+  field :score, :type => Fixnum
 
-  embedded_in :user, :inverse_of=>:associate_summaries
+  embedded_in :user, :inverse_of => :associate_summaries
 end

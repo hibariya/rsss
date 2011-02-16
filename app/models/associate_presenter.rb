@@ -1,8 +1,8 @@
 class AssociatePresenter
   attr_accessor :associate
 
-  def initialize(associate)
-    @associate = associate
+  def initialize(associate, user=nil)
+    @associate, @user = associate, user
   end
 
   def summary
@@ -13,18 +13,19 @@ class AssociatePresenter
     associate_summaries.sort_by{|s| s.date }
   end
 
-  def method_missing(name, *args)
-    summary.send name, *args rescue @associate.send name, *args
+  def user
+    @user ||= associate.user
   end
 
-  class << self
-    def method_missing(name, *args)
-      Associate.send name, *args
-    end
+  # TODO: remove 
+  def method_missing(name, *args)
+    @associate.respond_to?(name)?
+      @associate.send(name, *args):
+      summary.send(name, *args)
   end
 
   private
     def associate_summaries
-      @associate.user.associate_summaries.where(:associate_id => @associate.id)
+      user.associate_summaries.where(:associate_id => @associate.id)
     end
 end

@@ -5,9 +5,13 @@ class User
   include Mongoid::Timestamps
   include Rsss::Analyzable
 
+  paginates_per 20
+
   field :description, :type => String
   field :site,        :type => String
   field :token,       :type => String
+
+  default_scope desc(:created_at)
 
   embeds_one :auth_profile
   def screen_name; auth_profile.screen_name end
@@ -40,7 +44,17 @@ class User
     self.errors.add :auth_profile, 'invalid auth profile' if auth_profile && auth_profile.invalid?
   end
 
-  scope :by_screen_name, lambda{|name| where(:'auth_profile.screen_name' => name) }
+  scope :by_screen_name, lambda{|name|
+    where :'auth_profile.screen_name' => name
+  }
+
+  scope :by_user_id, lambda{|user_id|
+    where :'auth_profile.user_id' => user_id
+  }
+
+  def update_token
+    self.token = (Digest::SHA1.new<<[auth_profile.token, rand(Time.now.to_i)].join).to_s 
+  end
 
   def reload_profile
     auth_profile.reload_and_save_profile
@@ -55,10 +69,7 @@ class User
     frequency_scores = analyze_by :sites, :frequency
 
     (volume_scores.zip frequency_scores).map(&:flatten).each do |site, volume, _, frequency|
-      self.site_summaries<< SiteSummary.new(:site_id         => site.id,
-                                            :volume_score    => volume,
-                                            :frequency_score => frequency,
-                                            :date            => Date.today)
+      site_summaries<< SiteSummary.new(:site_id => site.id, :volume_score => volume, :frequency_score => frequency)
     end
     save!
   end
@@ -69,26 +80,24 @@ class User
       cat = categories.where(:name => cat_name).first 
       cat ||= Category.new(:user => self, :name => cat_name)
       cat.frequency = cats.select{|c| c == cat_name }.length
-      cat.save
+      cat.save!
     end
   end
 
   def reload_category_summaries
     category_scores = analyze_by :categories, :frequency
     category_scores.each do |category, score|
-      self.category_summaries<< CategorySummary.create(:user            => self,
-                                                       :category_id     => category.id,
-                                                       :frequency_score => score)
+      category_summaries<< CategorySummary.new(:category_id => category.id, :frequency_score => score)
     end
-    save
+    save!
   end
 
   def reload_associates
     (User.all.to_a-[self]).each do |user|
-      asc   = associates.where(:associate_user_id => user.id).first 
+      asc = associates.where(:associate_user_id => user.id).first 
       asc ||= Associate.new(:user => self, :associate_user_id => user.id)
       asc.score = (user.categories.map(&:name) & categories.map(&:name)).length
-      asc.save
+      asc.save!
     end
     self
   end
@@ -96,11 +105,9 @@ class User
   def reload_associate_summaries
     associate_scores = analyze_by :associates, :score
     associate_scores.each do |associate, score|
-      self.associate_summaries<< AssociateSummary.create(:user         => self,
-                                                         :associate_id => associate.id,
-                                                         :score        => score)
+      associate_summaries<< AssociateSummary.new(:associate_id => associate.id, :score => score)
     end
-    save
+    save!
   end
 
 end

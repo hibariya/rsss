@@ -4,21 +4,21 @@ class SitesController < ApplicationController
   before_filter :check_signin
   
   def create
-    session_user.sites<<Site.new(:uri=>params[:site][:uri])
-    unless session_user.sites.last.valid?
-      flash[:notice] = session_user.sites.last.errors.to_a.join
+    current_user.sites<<Site.new(:uri=>params[:site][:uri])
+    unless current_user.sites.last.valid?
+      flash[:notice] = current_user.sites.last.errors.to_a.join
     else
-      return false unless check_feed session_user.sites.last
-      flash[:notice_volatile] = "#{session_user.sites.last.uri} を追加しました"
-      session_user.save
-      session_user.create_histories!
-      #session_user.be_skinny!
+      return false unless check_feed current_user.sites.last
+      flash[:notice_volatile] = "#{current_user.sites.last.uri} を追加しました"
+      current_user.save
+      current_user.create_histories!
+      #current_user.be_skinny!
     end
     return redirect_to '/dashboard'
   end
 
   def update
-    if site = session_user.sites.select{|s| s.id.to_s==params[:id] }.first
+    if site = current_user.sites.select{|s| s.id.to_s==params[:id] }.first
       site.uri = params[:site][:uri]
       unless site.valid?
         flash[:notice] = site.errors.to_a.join
@@ -34,7 +34,7 @@ class SitesController < ApplicationController
   end
 
   def destroy
-    site = session_user.sites.select{|s| s.id.to_s==params[:id] }.first
+    site = current_user.sites.select{|s| s.id.to_s==params[:id] }.first
     site.delete if site
     flash[:notice_volatile] = "#{site.uri} を削除しました"
     return redirect_to '/dashboard'

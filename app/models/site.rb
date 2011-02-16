@@ -29,8 +29,9 @@ class Site
 
   # failed_at を更新
   def failed!
+    self.reload
     self.failed_at = Time.now
-    save!
+    save!(:validate => false)
   end
 
   def reload_and_save
@@ -49,14 +50,15 @@ class Site
 
   # フィードを取得しEntriesを更新
   def reload_entries
+    entries.clear
     feed.entries.map do |entry|
-      e = entries.where(:link => entry.url).first || Entry.new(:site => self)
+      e = Entry.new :site => self
       e.title      = entry.title
-      e.content    = entry.summary
-      e.categories = entry.categories || []
+      e.content    = (entry.content || entry.summary).to_s[0..4000] 
+      e.categories = (entry.categories || []).uniq.compact.reject(&:empty?)
       e.link       = entry.url
-      e.date       = entry.published
-      e.save
+      e.date       = entry.published || entry.updated
+      e.save!
     end
   end
 
@@ -101,26 +103,27 @@ class Site
     diffs.to_f
   end
 
-  def clean_histories(offset=30)
-    histories.sort_by(&:created_at)[offset..-1].map(&:delete)
-  end
-
   def to_feed(version='1.0')
     RSS::Maker.make version do |maker|
-      maker.channel.title  = maker.channel.description = title
-      maker.channel.about  = uri
-      maker.channel.link   = site_uri
-      maker.channel.date   = Time.now #
-      maker.channel.author = user.screen_name
-      maker.items.do_sort  = true
+      maker.channel.title    = maker.channel.description = title
+      maker.channel.about    = uri
+      maker.channel.link     = site_uri
+      maker.channel.date     = Time.now #
+      maker.channel.author   = user.screen_name
+      maker.channel.language = 'ja' # TDOO
+      maker.image.url        = ''
+      maker.image.title      = ''
+      maker.items.do_sort    = true
 
       entries.each do |entry|
         maker.items.new_item do |item|
           %w(link title date description).each do |attr|
             item.send "#{attr}=", entry.send(attr)
           end
+
           entry.categories.each do |category_name|
             item.categories.new_category{|c| c.content = c.term = category_name }
+            item.dc_subjects.new_subject{|c| c.value = category_name }
           end
         end
       end

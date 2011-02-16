@@ -62,8 +62,8 @@ module Rsss::Summary
       extend  ClassMethods
       include Methods
 
-      before_create :set_default_date,  :load_duplicates
-      after_create  :delete_duplicates, :delete_overflows
+      before_save :set_default_date,  :load_duplicates
+      after_save  :delete_duplicates, :delete_overflows
     end
   end
 
@@ -83,11 +83,11 @@ module Rsss::Summary
   private
 
     def where *args
-      self.class.where *args
+      _parent.send(self.metadata.name).where *args
     end
 
     def load_duplicates
-      @duplicates = where(references_key=>attributes[references_key]).
+      @duplicates = where(references_key => attributes[references_key]).
                     where(:date => date).reject{|d| d == self }
     end
 
@@ -96,7 +96,7 @@ module Rsss::Summary
     end
 
     def delete_overflows
-      summaries = where references_key=>attributes[references_key]
+      summaries = where references_key => attributes[references_key]
       overflow = summaries.reverse[max_documents..-1]
       overflow.map &:delete if overflow
     end
@@ -106,8 +106,11 @@ module Rsss::Summary
     end
 
     def method_missing m, *args
-      return references if m.to_s.classify == self.class.references_name
-      super
+      if m.to_s.classify == self.class.references_name
+        references 
+      else
+        super
+      end
     end
   end
 

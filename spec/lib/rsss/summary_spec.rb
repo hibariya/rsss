@@ -4,19 +4,31 @@ require 'spec_helper'
 describe Rsss::Summary, :clear => true do
   class Color
     include Mongoid::Document
-    field :name, :type => String
+    field :content, :type => String
+  end
+
+  class Area
+    include Mongoid::Document
+    embeds_many :color_summaries
+    field :mayor, :type => String
   end
 
   class ColorSummary
     include Mongoid::Document
     include Rsss::Summary
+    embedded_in :areas, :inverse_of => :color_summaries
+
     field :color_id, :type => BSON::ObjectId
     field :score,    :type => Fixnum
     max_documents 30
   end
 
   let!(:color){ Color.create! :content => 'foo' }
-  let!(:color_summary){ ColorSummary.create! :color_id => color.id, :score => 5, :date => 30.days.ago }
+  let!(:area) do
+    Area.create! :mayor => 'w00t!',
+      :color_summaries => [ColorSummary.new(:color_id => color.id, :score => 5, :date => 30.days.ago)]
+  end
+  let!(:color_summary){ area.color_summaries.first }
 
   describe "includeしたクラス" do
     it "#references_key で参照モデルのキー名を取得できる" do
@@ -52,27 +64,34 @@ describe Rsss::Summary, :clear => true do
 
   context "ドキュメント数がmax_documentsに達したとき" do
     before :all do
-      color_summaries = [color_summary]
-      color_summaries += 29.downto(1).map do |t|
-        ColorSummary.create :color_id => color.id,
-                            :score    => t,
-                            :date     => t.days.ago.to_date
+      29.downto(1).map do |t|
+        area.color_summaries<< ColorSummary.new(:color_id => color.id, :score => t, :date => t.days.ago.to_date)
+        area.save
       end
     end
 
     it "新たなドキュメントを保存したときには最も古いドキュメントが削除される" do
-      ColorSummary.create! :color_id => color.id, :score => 1
-      ColorSummary.all.should_not be_any {|cs| cs == color_summary }
+      area.color_summaries<< ColorSummary.new(:color_id => color.id, :score => 1)
+      area.save
+      area.color_summaries.should_not be_any {|cs| cs == color_summary }
     end
   end
 
   context "同じ日にドキュメントを作成すると古い方が削除される" do
-    let!(:todays_summary){ ColorSummary.create :color_id => color.id, :score => 0 }
+    let!(:today) do
+      area.color_summaries<< ColorSummary.new(:color_id => color.id, :score => 0)
+      area.save
+      area.color_summaries.last
+    end
 
     it "新たなドキュメントを保存したときには最も古いドキュメントが削除される" do
-      todays_summary.date.should eql Date.today
-      ColorSummary.create :color_id => color.id, :score => 100
-      ColorSummary.all.should_not be_any {|cs| cs == todays_summary }
+      today.date.should eql Date.today
+
+      area.color_summaries<< ColorSummary.new(:color_id => color.id, :score => 100)
+      area.save
+
+      area.color_summaries.should_not be_all {|cs| cs == today }
+      area.color_summaries.should_not be_any {|cs| cs == today }
     end
   end
 

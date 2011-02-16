@@ -4,46 +4,37 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'application'
 
-  before_filter do
-    if request.env['SERVER_NAME']=='rsss.heroku.com'
-      redirect_to ['http://rsss.be/', params[:user] || ''].join, :status=>301
+  #rescue_from :with => :application_error
+
+  def current_user
+    @current_user ||= User.where(:token => session[:user_token]).first
+  end
+
+  def current_user=(user)
+    session[:user_token] = user.token
+    @current_user = user
+  end
+
+  def signed_in?
+    !!current_user
+  end
+
+  def require_user
+    unless signed_in?
+      render :controller => :sessions,
+             :action     => :failure,
+             :status     => 403
       return false
     end
   end
 
-  rescue_from Exception do |e|
-    ErrorLog.add e
-    respond_to do |format|
-      format.html{ render :controller=>:index, :action=>:failure }
-      format.xml{ render :controller=>:index, :action=>:failure, :layout=>false }
+  private
+  
+    def application_error(e)
+      ErrorLog.add e
+      respond_to do |format|
+        format.html{ render :controller => :index, :action => :failure }
+        format.xml{ render :controller => :index, :action => :failure, :layout => false }
+      end
     end
-  end if Rails.env=='production'
-
-  def specified_controllers; %w(auth dashboard user sites users index updates) end
-  def session_user
-    User.where('auth_profile.screen_name = ?', 'example').first
-    # TODO: fixme
-    #@session_user ||= session[:token] && User.by_token(session[:token]).first rescue nil
-  end
-
-  def check_signin
-    if session_user.nil?
-      redirect_to :controller=>:auth, :action=>:failure
-    end
-  end
-
-  def user_page_path(username=nil)
-    screen_name = username || session_user.try(:screen_name)
-    specified_screen_name?(screen_name)?
-      ['/user/', screen_name].join:
-      ['/', screen_name].join
-  end
-
-  def user_feed_path(username=nil)
-    [user_page_path(username), '.xml'].join
-  end
-
-  def specified_screen_name?(screen_name)
-    specified_controllers.include?(screen_name)
-  end
 end

@@ -1,7 +1,7 @@
 .kdmr.document-wide
   %h3 PROFILE
   .user-dashboard
-    = form_for session_user do |f|
+    = form_for current_user do |f|
       %div{:style=>'font-family: Ebit;'} SITE
       = f.text_field :site, :style=>'width: 650px;'
       %br
@@ -10,9 +10,9 @@
       = f.submit '変更', :onclick=>'return confirm("Are You Sure?");'
 
 %ul#sites.sites-dashboard.kdmr
-  %h3 #{session_user.screen_name.upcase}'S SITES
+  %h3 #{current_user.screen_name.upcase}'S SITES
   %p 自分のサイトをいくつか登録することで、どのサイトをよく更新しているかを可視化することができます。
-  - session_user.sites.reverse.each do |site|
+  - current_user.sites.reverse.each do |site|
     %li.site
       %div
         = site.title

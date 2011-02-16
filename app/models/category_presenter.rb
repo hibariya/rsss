@@ -1,8 +1,8 @@
 class CategoryPresenter
   attr_accessor :category
 
-  def initialize(category)
-    @category = category
+  def initialize(category, user=nil)
+    @category, @user = category, user
   end
 
   def summary
@@ -13,18 +13,19 @@ class CategoryPresenter
     category_summaries.sort_by{|s| s.date }
   end
 
-  def method_missing(name, *args)
-    summary.send name, *args rescue @category.send name, *args
+  def user
+    @user ||= category.user
   end
 
-  class << self
-    def method_missing(name, *args)
-      Category.send name, *args
-    end
+  # TODO: remove 
+  def method_missing(name, *args)
+    @category.respond_to?(name)?
+      @category.send(name, *args):
+      summary.send(name, *args)
   end
 
   private
     def category_summaries
-      @category.user.category_summaries.where(:category_id => @category.id)
+      user.category_summaries.where(:category_id => @category.id)
     end
 end

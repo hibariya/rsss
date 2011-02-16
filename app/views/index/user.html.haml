@@ -1,95 +1,82 @@
 - content_for :head do
-  %link{:rel=>"alternate", :type=>"application/rss+xml", :title=>"RSS", :href=>user_feed_path(@focus_user.screen_name)}
+  %link{:href => user_page_path(@user, 'xml'), :title => "RSS", :rel => "alternate", :type => "application/rss+xml"}
 
-#segmentation
+#content
   .sites_cover
-    - if @focus_user.site? || @focus_user.description?
+    - if @user.has_profile?
       .profile.kdmr
         %h3
-          %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name}
-            = "#{@focus_user.screen_name}(#{@focus_user.name})"
-        - if @focus_user.site?
+          = twitter_link @user
+        - if @user.site?
           .massive
-            %a{:href=>@focus_user.site, :target=>"_blank"}= @focus_user.site
-        - if @focus_user.description?
-          .massive
-            = @focus_user.description
+            = user_site_link @user
+        .massive= @user.description
 
     %ul.sites.kdmr
       %h3 最近更新しているサイト
-      - @focus_user.sites_by_score.each do |site|
+      - @user.sites_by_score.each do |site|
         %li.site
-          .title{:style=>"font-size: "+(12+site.volume_score).to_s+"px;"}
-            %a{:href=>site.site_uri, :target=>"_blank", :title=>site.title, :style=>"color: rgb(0, "+(site.frequency_score*10).to_s+", 0);"}= site.title
-            %span.info
-              = ((site.score.to_f/24)*100).round.to_s+"%"
+          .title{:class => "size_as_#{site.volume_score}"}
+            = site_link site
+            %span.info= "#{score(site.score)}%"
             .info
-              = raw(URI.parse(site.uri).host)
-              =# (history.general_level > last_history.general_level)? '⇧': ''
-              =# (history.general_level < last_history.general_level)? '⇩': ''
-            .info{:style=>"text-align: right;"}
+              = site.domain
+              = upbeat_or_downbeat site
+            .info.right
               %div
-              = h site.site.class
-              - site.entries.sort_by(&:date).reverse[0..((site.score/6).round)].each do |entry|
-                %a{:href=>entry.link, :style=>"color: green;", :target=>"_blank", :title=>entry.content.to_s.gsub(/(<[^>]+>|\s+)/, '')}
-                  = string_limit entry.title, 35
+                - site.entries[0..3].each do |entry|
+                  = entry_link entry
                   %br
 
-    - unless @focus_user.categories.empty?
+    - if @user.categories?
       .categories.kdmr
         %h3 最近つけたタグ/カテゴリ
-        %div 
-          - @focus_user.categories_by_frequency(10).each do |s|
-            %a{:href=>[user_page_path(@focus_user.screen_name), "/#{rails_safe_param(s.name)}"].join, :title=>s.name}
-              %span.cloud{:style=>"font-size: #{12+(s.score/2).round}px;"}= s.name
+        %div
+          - @user.categories_by_frequency(30).each do |category|
+            = category_link category
 
-    - unless @focus_user.associates.empty?
-      .near_users.kdmr
+    - if @user.associates?
+      .associates.kdmr
         %h3 近くのRSSS
-        %div 
-          - @focus_user.associates_by_score(10).each do |s|
-            %a{:href=>user_page_path(s.associate_user.screen_name), :title=>s.associate_user.screen_name}
-              %span.cloud{:style=>"font-size: #{12+(s.score/2).round}px;"}= s.associate_user.screen_name
+        %ul
+          - @user.associates_by_score(10).each do |associate|
+            %li
+              .associate= associate_link associate
+              .info= "#{associate.associate.score.round}個のカテゴリが一致"
 
   .sides_cover 
     .gruff.kdmr
       %h3 ここ一ヶ月の推移(更新量+更新頻度)
       %canvas#histories
-      %script{:type=>"text/javascript"}
-        //<![CDATA[
-        var g = new Bluff.Line('histories', '410x280');
-        g.hide_title = true;
-        g.font = 'Helvetica';
-        g.hide_dots = true;
-        g.hide_line_numbers = true;
-        g.line_width = 3.5;
-        g.dot_radius = 0;
-        g.theme_pastel();
-        g.replace_colors(
-        = raw(%w(#f39700 #e60012 #9caeb7 #00a7db #009944 #d7c447 #9b7cb6 #00ada9 #bb641d #e85298 #0079c2 #6cbb5a #b6007a #e5171f #522886 #0078ba #019a66 #e44d93 #814721 #a9cc51 #ee7b1a #00a0de).inspect)
-        );
-        - @focus_user.sites.each do |site| 
-          - history = Array.new 30, 0
-          - next if site.summaries.empty?
-          - site.summaries.each_with_index{|s,i| history[i] = s.score }
-          = raw('g.data("'+ URI.parse(site.uri).host + '", ' + history[0...30].inspect + ');')
-        g.labels = {1: '30 days ago', 29: 'now'};
-        g.draw();
-        //]]>
 
-    - unless @focus_user.sites.empty?
+    - if @user.sites?
       %ul.recent_entries.kdmr
         %h3 
           最近のエントリ
-          %a{:title=>"RSS Feed", :href=>user_feed_path(@focus_user.screen_name)}
-            %img{:src=>'/images/rss.png', :alt=>'RSS Feed', :style=>'border: none;'}
-        - @focus_user.recent_entries(10).each do |entry|
+          %a{:title => "RSS Feed", :href => user_page_path(@user, 'xml')}
+            %img{:src => '/images/rss.png', :alt => 'RSS Feed'}
+        - @user.entries[0..10].each do |entry|
           %li.entry
             .title
-              %a{:href=>entry.link, :target=>"_blank", :title=>entry.title, :style=>'color: green;'}= entry.title
+              = entry_link entry
             %div.info
               -# unless entry.image_sources.empty?
                 %div
                   %img{:src=>entry.image_sources.first}
-              = string_limit entry.content.to_s.gsub(/<[^>]+>/, ''), 200
+              = string_head html_to_tooltip(entry.content), 200
+
+:javascript
+  var g               = new Bluff.Line('histories', '410x280');
+  g.hide_title        = true;
+  g.font              = 'Helvetica';
+  g.hide_dots         = true;
+  g.hide_line_numbers = true;
+  g.line_width        = 3.5;
+  g.dot_radius        = 0;
+  g.theme_pastel();
+  g.replace_colors(#{raw(color_codes.inspect)});
+
+  #{raw(graph_data_codes(@user.sites))}
+  g.labels = {1: '30 days ago', 29: 'now'};
+  g.draw();
 

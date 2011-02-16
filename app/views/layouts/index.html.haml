@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title= "RSSS | #{@focus_user.screen_name}"
+    %title= "RSSS | #{@user.screen_name}"
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'
     = javascript_include_tag 'js_class'
@@ -13,19 +13,15 @@
     = yield :head
   %body
     #head
-      %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name}
-        %img.icon{:src=>@focus_user.profile_image_url, :alt=>@focus_user.screen_name, :style=>'border: none;'}
+      %a{:href => twitter_uri(@user), :title => @user.screen_name}
+        %img.icon{:src => @user.auth_profile.profile_image_url, :alt => @user.screen_name}
       %h1 
-        %a{:href=>user_page_path(@focus_user.screen_name), :title=>@focus_user.screen_name}
-          = "#{@focus_user.screen_name.upcase}'S RSS SUMMARIES"
+        = link_to "#{@user.screen_name.upcase}'S RSS SUMMARIES", user_page_path(@user), :title => @user.screen_name
       %div{:style=>"clear: both;"}
       .description
-        %a{:href=>twitter_uri(@focus_user.screen_name), :title=>@focus_user.screen_name, :style=>'text-decoration:none;'}
-          = @focus_user.screen_name
-          = "(#{@focus_user.name})"
-        
+        = link_to "#{@user.screen_name}(#{@user.name})", twitter_uri(@user), :title => @user.screen_name, :style => 'text-decoration:none;'
       .description
-        = @focus_user.description
+        = @user.auth_profile.description
     = render :partial=>'layouts/menu'
     = yield
     = render :partial=>'layouts/footer'

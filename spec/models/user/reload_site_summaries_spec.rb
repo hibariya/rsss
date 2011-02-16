@@ -13,7 +13,7 @@ describe 'User#reload_site_summaries', :clear => true do
   end
 
   it "サイトの数と同じだけsummaryが保存されていること" do
-    user.site_summaries.length.should eql user.sites.length
+    user.site_summaries.should have(user.sites.length).summaries
   end
 
   it "日付が登録されていること" do

@@ -11,14 +11,14 @@ describe 'User#reload_profile', :clear=>true do
     let!(:new_name_for_duplicate_user){ 'new_name_for_dup' }
 
     it "順番に解決される" do
-      target.auth_profile.instance_variable_set :@remote_profile, {
+      target.auth_profile.instance_variable_set :@user_info, {
         'screen_name'       =>duplicate_name,
         'description'       =>target.auth_profile.description,
         'name'              =>target.auth_profile.name,
         'profile_image_url' =>target.auth_profile.profile_image_url
       }
 
-      duplicate_user.auth_profile.instance_variable_set :@remote_profile, {
+      duplicate_user.auth_profile.instance_variable_set :@user_info, {
         'screen_name'       =>new_name_for_duplicate_user,
         'description'       =>duplicate_user.auth_profile.description,
         'name'              =>duplicate_user.auth_profile.name,
@@ -39,7 +39,7 @@ describe 'User#reload_profile', :clear=>true do
 
   context "ふつうの更新" do
     it "対象のユーザのみ更新される" do
-      target.auth_profile.instance_variable_set :@remote_profile, {
+      target.auth_profile.instance_variable_set :@user_info, {
         'screen_name'       => 'new_screen_name',
         'description'       => 'new_description',
         'name'              => 'new_name',
@@ -48,10 +48,10 @@ describe 'User#reload_profile', :clear=>true do
 
       target.reload_profile
       auth_profile = target.auth_profile
-      auth_profile.screen_name.should       eql auth_profile.remote['screen_name']
-      auth_profile.name.should              eql auth_profile.remote['name']
-      auth_profile.description.should       eql auth_profile.remote['description']
-      auth_profile.profile_image_url.should eql auth_profile.remote['profile_image_url']
+      auth_profile.screen_name.should       eql auth_profile.user_info['screen_name']
+      auth_profile.name.should              eql auth_profile.user_info['name']
+      auth_profile.description.should       eql auth_profile.user_info['description']
+      auth_profile.profile_image_url.should eql auth_profile.user_info['profile_image_url']
     end
   end
 
