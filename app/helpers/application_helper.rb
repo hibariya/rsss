@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 module ApplicationHelper
-  extend self
 
   def signed_in?
     controller.signed_in?
@@ -9,16 +8,6 @@ module ApplicationHelper
 
   def string_head(s, len=20, ovrflw='...')
    s.scan(/./)[0..len].join + (s.length>len ? ovrflw: '')
-  end
-
-  def specified_screen_names
-    @specified_screen_names ||= begin
-      names = Rsss::Application.routes.named_routes.to_a.map do |route|
-        dirname = route.last.path.split(/\//)[1]
-        dirname.match(/[a-zA-Z0-9_]+/).to_s
-      end
-      names.uniq.reject(&:empty?)
-    end
   end
 
   def specified_screen_name?(screen_name)
@@ -32,8 +21,11 @@ module ApplicationHelper
       user_path(:user => part, :format => format)
   end
 
-  def user_category_path(user, category)
-    "#{user_path(user)}/#{escape_param(category)}"
+  def user_category_page_path(user, category, format = nil)
+    part = screen_name user
+    specified_screen_name?(part)?
+      specified_user_category_path(:user => part, :category => category, :format => format):
+      user_category_path(:user => part, :category => category, :format => format)
   end
 
   def twitter_uri(user=nil)
@@ -91,7 +83,9 @@ module ApplicationHelper
   end
 
   def color_codes
-    %w(#f39700 #e60012 #9caeb7 #00a7db #009944 #d7c447 #9b7cb6 #00ada9 #bb641d #e85298 #0079c2 #6cbb5a #b6007a #e5171f #522886 #0078ba #019a66 #e44d93 #814721 #a9cc51 #ee7b1a #00a0de)
+    %w(#f39700 #e60012 #9caeb7 #00a7db #009944 #d7c447 #9b7cb6 #00ada9
+       #bb641d #e85298 #0079c2 #6cbb5a #b6007a #e5171f #522886 #0078ba
+       #019a66 #e44d93 #814721 #a9cc51 #ee7b1a #00a0de)
   end
 
   def graph_data_codes(sites)
@@ -111,5 +105,16 @@ module ApplicationHelper
     def escape_param(str)
       CGI.escape(str).gsub(/\./, '%2E').gsub(/\+/, '%20')
     end
+
+    def specified_screen_names
+      @specified_screen_names ||= begin
+        names = Rsss::Application.routes.named_routes.to_a.map do |route|
+          dirname = route.last.path.split(/\//)[1]
+          dirname.match(/[a-zA-Z0-9_]+/).to_s
+        end
+        names.uniq.reject(&:empty?)
+      end
+    end
+
 
 end

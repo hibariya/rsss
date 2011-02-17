@@ -130,7 +130,7 @@ class Site
     end
   end
 
-  private
+ private
   def strip_tags_and_spaces(s)
     s.gsub(/<\/?[^>]+>|\s/, '')
   end

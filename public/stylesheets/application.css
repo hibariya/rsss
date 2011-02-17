@@ -320,6 +320,7 @@ li.user .icon img {
 
 .right { text-align: right; }
 .center { text-align: center; }
+.error { color: #F00; }
 
 .size_as_0  { font-size: 1.0em; }
 .size_as_1  { font-size: 1.1em; }

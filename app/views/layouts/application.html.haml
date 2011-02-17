@@ -3,20 +3,20 @@
   %head
     %title RSSS | RSSフィードサマリ
     = stylesheet_link_tag 'application'
-    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'
+    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js'
     = javascript_include_tag 'js_class'
     = javascript_include_tag 'bluff'
     = javascript_include_tag 'excanvas'
     = javascript_include_tag 'application'
     = csrf_meta_tag
-    %link{:rel=>"icon", :type=>"image/png", :href=>"/favicon.png"}
+    %link{:rel => "icon", :type => "image/png", :href => "/favicon.png"}
     = yield :head
   %body
     #head
       %h1 RSSS: RSS SUMMARIES
-      %div{:style=>"clear: both;"}
-    = render :partial=>'layouts/menu'
+    %div.clear
+    = render :partial => 'layouts/menu'
     = yield
-    = render :partial=>'layouts/footer'
-    = render :partial=>'layouts/analytics'
+    = render :partial => 'layouts/footer'
+    = render :partial => 'layouts/analytics'
 
