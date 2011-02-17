@@ -16,7 +16,7 @@ Rsss::Application.routes.draw do
   match '/dashboard/select_feed/:id' => 'dashboard#select_feed',
         :via => :get
 
-  match '/updates' => 'index#updates',
+  match '/updates' => 'misc#updates',
         :via => :get,
         :as  => :updates
 
@@ -40,5 +40,5 @@ Rsss::Application.routes.draw do
         :via => :get,
         :as  => :user_category
 
-  root :to => 'index#index'
+  root :to => 'misc#about'
 end

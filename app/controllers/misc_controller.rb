@@ -1,7 +1,9 @@
 # coding: utf-8
 
-class IndexController < ApplicationController
-  def index
+class MiscController < ApplicationController
+  skip_before_filter :require_user
+
+  def about
     render :layout=>'application' end
  
   #
