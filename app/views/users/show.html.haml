@@ -42,7 +42,7 @@
           - @user.associates_by_score(10).each do |associate|
             %li
               .associate= associate_link associate
-              .info= "#{associate.associate.score.round}個のカテゴリが一致"
+              .info #{associate.associate.score.round}個のカテゴリが一致
 
   .sides_cover 
     .gruff.kdmr
@@ -60,9 +60,9 @@
             .title
               = entry_link entry
             %div.info
-              -# unless entry.image_sources.empty?
+              - unless entry.image_sources.empty?
                 %div
-                  %img{:src=>entry.image_sources.first}
+                  %img{:src => entry.image_sources.first}
               = string_head html_to_tooltip(entry.content), 200
 
 :javascript

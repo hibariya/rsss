@@ -5,16 +5,16 @@
   .category_cover
     %ul.recent_entries.kdmr
       %h3 
-        = "#{h(@category)} に関連するエントリ"
+        #{h(@category)} に関連するエントリ
         %a{:title => "RSS Feed", :href => user_category_page_path(@user, @category, 'xml')}
-          %img{:src=>'/images/rss.png', :alt=>'RSS Feed'}
+          %img{:src => '/images/rss.png', :alt => 'RSS Feed'}
       - @entries[0..10].each do |entry|
         %li.entry
           .title
             = entry_link entry
           %div.info
-            -# unless entry.image_sources.empty?
+            - unless entry.image_sources.empty?
               %div
-                %img{:src=>entry.image_sources.first}
+                %img{:src => entry.image_sources.first}
             = string_head html_to_tooltip(entry.content), 200
  

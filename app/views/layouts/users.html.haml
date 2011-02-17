@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title= "RSSS | #{@user.screen_name}"
+    %title RSSS | #{@user.screen_name}
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'
     = javascript_include_tag 'js_class'
@@ -17,9 +17,9 @@
         %img.icon{:src => @user.auth_profile.profile_image_url, :alt => @user.screen_name}
       %h1 
         = link_to "#{@user.screen_name.upcase}'S RSS SUMMARIES", user_page_path(@user), :title => @user.screen_name
-      %div{:style=>"clear: both;"}
+      %div.clear
       .description
-        = link_to "#{@user.screen_name}(#{@user.name})", twitter_uri(@user), :title => @user.screen_name, :style => 'text-decoration:none;'
+        = link_to "#{@user.screen_name}(#{@user.name})", twitter_uri(@user), :title => @user.screen_name
       .description
         = @user.auth_profile.description
     = render :partial=>'layouts/menu'

@@ -26,5 +26,11 @@ class Entry
   alias link_uri link
   alias description content
 
+  def image_sources
+    @image_sources ||= self.content.scan(/(<img[^>]+>)/).
+      flatten.compact.map{|m| m.scan(/src=['"]([^'"]+)['"]/) }.
+      flatten.compact
+  end
+
 end
 

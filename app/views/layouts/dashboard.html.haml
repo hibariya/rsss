@@ -13,10 +13,10 @@
     = yield :head
   %body
     #head
-      %img.icon{:src=>current_user.profile_image_url}
+      %img.icon{:src => current_user.profile_image_url}
         %h1 DASHBOARD
-      %div{:style=>"clear: both;"}
-        .description= "#{current_user.screen_name}(#{current_user.oauth_name})"
+      %div.clear
+        .description #{current_user.screen_name}(#{current_user.oauth_name})
         .description= current_user.oauth_description
 
     = render :partial=>'layouts/menu'
