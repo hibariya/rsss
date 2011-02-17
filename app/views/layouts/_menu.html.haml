@@ -1,13 +1,15 @@
 .kdmr.note-wide
   %span.menu
-    = controller_name+action_name=='indexindex'? 'ABOUT': link_to('ABOUT', '/')
-  - if signed_in?
+    = menu_about_link
+
+  - if signed_in? 
     %span.menu
-      = action_name=='user' && current_user==@focus_user.user ? 'MY PAGE': link_to('MY PAGE', user_page_path)
+      = menu_mypage_link
     %span.menu
-      = controller_name+action_name=='dashboardindex'? 'DASHBOARD': link_to('DASHBOARD', '/dashboard')
+      = menu_dashboard_link
     %span.menu
       = link_to 'SIGNOUT', '#'
+
   - else
     %span.menu
       = link_to 'SIGN IN WITH TWITTER', '/auth/twitter'

@@ -1,9 +1,37 @@
 # -*- encoding: utf-8 -*-
 
 module ApplicationHelper
+ 
+  def menu_about_link
+    if [controller_name, action_name] == %w(misc about)
+      'ABOUT'
+    else
+      link_to 'ABOUT', root_path
+    end
+  end
+
+  def menu_mypage_link
+    if [controller_name, action_name] == %w(user show) && @user == current_user
+      'MY PAGE'
+    else
+      link_to 'MY PAGE', user_page_path(current_user)
+    end
+  end
+
+  def menu_dashboard_link
+    if [controller_name, action_name] == %w(dashboard index)
+      'DASHBOARD'
+    else
+      link_to 'DASHBOARD', dashboard_path
+    end
+  end
 
   def signed_in?
     controller.signed_in?
+  end
+
+  def current_user
+    controller.current_user
   end
 
   def string_head(s, len=20, ovrflw='...')
