@@ -78,7 +78,7 @@ class UserPresenter
     category.downcase!
     category_page_base = "http://rsss.be/users/#{screen_name}/#{category}"
     RSS::Maker.make('1.0') do |maker|
-      maker.channel.about = "#{category_name_base}.xml"
+      maker.channel.about = "#{category_page_base}.xml"
       maker.channel.title = "RSSS | #{screen_name} | #{category}"
       maker.channel.description =  "RSSS Feed: #{screen_name} #{category}"
       maker.channel.link = category_page_base
@@ -86,7 +86,7 @@ class UserPresenter
       maker.channel.date = updated_at || Time.now
       maker.items.do_sort = true
 
-      feed_entries maker, recent_entries_by_category[0..99]
+      feed_entries maker, recent_entries_by_category(category)[0..99]
     end
   end
 
