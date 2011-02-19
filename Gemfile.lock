@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/amatsuda/kaminari.git
+  revision: 3d92ccb811ddbf843d163aab1b1809a4946b5466
+  specs:
+    kaminari (0.9.13)
+      rails (>= 3.0.0)
+
+GIT
   remote: git://github.com/shingara/mongoid-rspec.git
   revision: 3c9c68c3b9a82915f839dac8d3974e3a58f82ac6
   branch: mongoid-2.0.0.rc1
@@ -7,14 +14,6 @@ GIT
       rspec (~> 2)
       rspec (~> 2)
       rspec (~> 2)
-
-GIT
-  remote: https://github.com/juno/kaminari.git
-  revision: 728acc53e7d1090d6f06d4a5c658f0d634ce0ddb
-  branch: mongoid
-  specs:
-    kaminari (0.9.9)
-      rails (>= 3.0.0)
 
 GEM
   remote: http://rubygems.org/
@@ -290,6 +289,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext (>= 1.0.4)
+  builder
   capybara
   fabrication
   faker

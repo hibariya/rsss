@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 class DashboardController < ApplicationController
-  before_filter :check_signin
 
   def index
-    current_user.sites<<Site.new
+    current_user.sites
   end
 
   def select_feed

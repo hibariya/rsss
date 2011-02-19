@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
   layout 'application'
 
   def current_user
-    @current_user ||= User.where(:token => session[:user_token]).first
+    @current_user ||= UserPresenter.new User.by_screen_name('hibariya').first
+#    @current_user ||= UserPresenter.new User.where(:token => session[:user_token]).first
   end
 
   def current_user=(user)

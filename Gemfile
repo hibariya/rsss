@@ -9,8 +9,9 @@ gem 'omniauth'
 gem 'haml'
 gem 'json'
 gem 'feedzirra'
-gem 'kaminari', :git => 'https://github.com/juno/kaminari.git', :branch => 'mongoid'
+gem 'kaminari', :git => 'git://github.com/amatsuda/kaminari.git'
 #gem 'kaminari-mongoid', :git => 'git@github.com:hibariya/kaminari-mongoid.git'
+gem 'builder'
 
 group :development, :test do
   gem 'rspec-rails', '>= 2.0.0'

@@ -26,11 +26,11 @@ class SitePresenter
   end
 
   def upbeat?
-    summary.score > before_summary.score
+    summary.score > (before_summary.try(:score) || 0)
   end
 
   def downbeat?
-    summary.score < before_summary.score
+    summary.score < (before_summary.try(:score) || 0)
   end
 
   def domain
@@ -42,6 +42,10 @@ class SitePresenter
     summary.respond_to?(name)?
       summary.send(name, *args):
       @site.send(name, *args)
+  end
+
+  class << self
+    delegate :model_name, :to => Site
   end
 
   private

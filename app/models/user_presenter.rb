@@ -96,6 +96,8 @@ class UserPresenter
     end
 
     alias load load_by_screen_name
+
+    delegate :model_name, :to => User
   end
 
   private

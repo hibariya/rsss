@@ -1,20 +1,36 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 
 class SitesController < ApplicationController
-  before_filter :check_signin
   
   def create
-    current_user.sites<<Site.new(:uri=>params[:site][:uri])
-    unless current_user.sites.last.valid?
-      flash[:notice] = current_user.sites.last.errors.to_a.join
+    @site = Site.new params[:site]
+    @site.user = current_user.user
+
+    if @site.invalid?
+      raise Mongoid::Errors::Validations
+
+    elsif @site.unavailable? && @site.detectable?
+      flash[:error] = 'フィードを選択してください'
+      render :action => :select_feed
+
+    elsif @site.unavailable?
+      flash[:error] = 'フィードが取得できませんでした'
+      return redirect_to dashboard_path
+
     else
-      return false unless check_feed current_user.sites.last
-      flash[:notice_volatile] = "#{current_user.sites.last.uri} を追加しました"
-      current_user.save
-      current_user.create_histories!
-      #current_user.be_skinny!
+      @site.reload_and_save
+      @site.user.tap do |user|
+        user.reload_site_summaries
+        user.reload_categories
+        user.reload_category_summaries
+      end
+      flash[:volatile] = "#{@site.uri} を追加しました"
+      return redirect_to dashboard_path
     end
-    return redirect_to '/dashboard'
+
+  rescue 
+    flash[:error] = '更新に失敗しました'
+    return redirect_to dashboard_path
   end
 
   def update

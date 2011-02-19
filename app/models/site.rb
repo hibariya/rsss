@@ -130,7 +130,34 @@ class Site
     end
   end
 
+  def detectable?
+    detects.present?
+  end
+
+  def detects
+    return @detected_sites if @detected_sites
+
+    @detected_feeds = alternates.map do |alternate|
+      site = Site.new(:uri => URI.join(uri, alternate).to_s)
+      if site.available?
+        site.reload_channel
+        site
+      end
+    end.compact
+  end
+
  private
+  def alternates
+    return @alternates if @alternates
+    agent = Mechanize.new
+    agent.get uri
+    links = agent.page.root.search('link')
+    @alternates = links.select{|l| l.attributes['rel'].to_s=='alternate' }. 
+      map{|l| l.attributes['href'].to_s }
+  rescue
+    []
+  end
+
   def strip_tags_and_spaces(s)
     s.gsub(/<\/?[^>]+>|\s/, '')
   end
