@@ -15,6 +15,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.rss { render :text => @user.feed.to_s }
+      format.foaf { render :text => @user.foaf.target! }
     end
   end
 

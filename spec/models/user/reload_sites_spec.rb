@@ -12,7 +12,7 @@ describe 'User#reload_sites', :clear => true do
 
     before :all do
       any_instance_of Site do |site|
-        stub(site).feed{ Feedzirra::Feed.parse stub_site.to_feed(version).to_s }
+        stub(site).feed{ Feedzirra::Feed.parse SitePresenter.new(stub_site).feed(version).to_s }
       end
       target.reload_sites
     end

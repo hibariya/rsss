@@ -3,13 +3,14 @@
 
 #content
   .sites_cover
-    - if @user.has_profile?
-      .profile.kdmr
-        %h3
-          = twitter_link @user
-        - if @user.site?
-          .massive
-            = user_site_link @user
+    .profile.kdmr
+      %h3
+        = twitter_link @user
+        %a{:href => user_page_path(@user, 'foaf'), :title => 'FOAF'}
+          %img{:src => '/images/foaf8015.gif'}
+
+      - if @user.has_profile?
+        .massive= user_site_link @user if @user.site?
         .massive= @user.description
 
     %ul.sites.kdmr

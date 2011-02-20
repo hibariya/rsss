@@ -103,33 +103,6 @@ class Site
     diffs.to_f
   end
 
-  def to_feed(version='1.0')
-    RSS::Maker.make version do |maker|
-      maker.channel.title    = maker.channel.description = title
-      maker.channel.about    = uri
-      maker.channel.link     = site_uri
-      maker.channel.date     = Time.now #
-      maker.channel.author   = user.screen_name
-      maker.channel.language = 'ja' # TDOO
-      maker.image.url        = ''
-      maker.image.title      = ''
-      maker.items.do_sort    = true
-
-      entries.each do |entry|
-        maker.items.new_item do |item|
-          %w(link title date description).each do |attr|
-            item.send "#{attr}=", entry.send(attr)
-          end
-
-          entry.categories.each do |category_name|
-            item.categories.new_category{|c| c.content = c.term = category_name }
-            item.dc_subjects.new_subject{|c| c.value = category_name }
-          end
-        end
-      end
-    end
-  end
-
   def detectable?
     detects.present?
   end

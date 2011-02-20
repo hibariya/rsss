@@ -59,7 +59,7 @@ class UserPresenter
     !associates.empty?
   end
 
-  def to_feed
+  def feed
     user_page_base = "http://rsss.be/users/#{screen_name}"
     RSS::Maker.make('1.0') do |maker|
       maker.channel.about = "#{user_page_base}.xml"
@@ -88,6 +88,26 @@ class UserPresenter
 
       feed_entries maker, recent_entries_by_category(category)[0..99]
     end
+  end
+
+  def foaf
+    xml = Builder::XmlMarkup.new
+    xml.instruct!
+    xml.rdf :RDF,
+            :'xmlns:rdf' => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            :'xmlns:foaf' => "http://xmlns.com/foaf/0.1/" do
+      xml.foaf:Person do
+        xml.foaf:nick, auth_profile.screen_name
+        xml.foaf:nick, auth_profile.name
+        xml.foaf:depiction, :'rdf:resource' => auth_profile.profile_image_url
+        sites.each do |site|
+          xml.foaf:weblog, :'rdf:resource' => site.site_uri
+        end
+
+        xml.foaf:homepage, :'rdf:resource' => site if site.present?
+      end
+    end
+    xml
   end
 
   class << self
