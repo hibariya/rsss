@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
                  :status => status_code(e)
         end
 
-        format.xml do
+        format.rss do
           render :layout => false, :text => '', :status => status_code(e)
         end
       end

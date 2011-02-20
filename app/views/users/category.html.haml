@@ -1,12 +1,12 @@
 - content_for :head do
-  %link{:rel => "alternate", :type => "application/rss+xml", :title => "RSS", :href => user_category_page_path(@user, @category, 'xml')}
+  %link{:rel => "alternate", :type => "application/rss+xml", :title => "RSS", :href => user_category_page_path(@user, @category, 'rss')}
 
 #content
   .category_cover
     %ul.recent_entries.kdmr
       %h3 
         #{h(@category)} に関連するエントリ
-        %a{:title => "RSS Feed", :href => user_category_page_path(@user, @category, 'xml')}
+        %a{:title => "RSS Feed", :href => user_category_page_path(@user, @category, 'rss')}
           %img{:src => '/images/rss.png', :alt => 'RSS Feed'}
       - @entries[0..10].each do |entry|
         %li.entry

@@ -1,5 +1,5 @@
 - content_for :head do
-  %link{:href => user_page_path(@user, 'xml'), :title => "RSS", :rel => "alternate", :type => "application/rss+xml"}
+  %link{:href => user_page_path(@user, 'rss'), :title => "RSS", :rel => "alternate", :type => "application/rss+xml"}
 
 #content
   .sites_cover
@@ -53,7 +53,7 @@
       %ul.recent_entries.kdmr
         %h3 
           最近のエントリ
-          %a{:title => "RSS Feed", :href => user_page_path(@user, 'xml')}
+          %a{:title => "RSS Feed", :href => user_page_path(@user, 'rss')}
             %img{:src => '/images/rss.png', :alt => 'RSS Feed'}
         - @user.entries[0..10].each do |entry|
           %li.entry

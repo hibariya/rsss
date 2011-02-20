@@ -14,7 +14,7 @@ class UsersController < ApplicationController
    
     respond_to do |format|
       format.html
-      format.xml { render :text => @user.to_feed.to_s }
+      format.rss { render :text => @user.feed.to_s }
     end
   end
 
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @entries = @user.recent_entries_by_category @category
     respond_to do |format|
       format.html
-      format.xml { render :text => @user.category_feed(@category).to_s }
+      format.rss { render :text => @user.category_feed(@category).to_s }
     end
   end
  
