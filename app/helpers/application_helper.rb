@@ -74,7 +74,7 @@ module ApplicationHelper
   end
 
   def category_link(category)
-    link = link_to category.name, user_category_path(category.user, category.name), :title => category.name
+    link = link_to category.name, user_category_page_path(category.user, category.name), :title => category.name
     saved_score = (1+category.score/2).round
     (<<-EOS).html_safe
       <span class="size_as_#{saved_score}">#{link}</span>
@@ -97,8 +97,8 @@ module ApplicationHelper
   end
 
   def site_link(site)
-    link_to site.title, site.site_uri,
-      :title => site.title, :class => "color_as_#{site.frequency_score}", :target => "_blank"
+    link_to "<span class=\"color_as_#{site.frequency_score}\">#{site.title}</span>".html_safe, 
+      site.site_uri, :title => site.title, :target => "_blank"
   end
 
   private
