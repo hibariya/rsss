@@ -5,12 +5,11 @@ class SessionsController < ApplicationController
   def create
     return failure unless user_info
 
-    logger.debug auth.inspect
-
-    current_user = load_user or create_user
+    current_user = UserPresenter.new load_user || create_user
     redirect_to dashboard_path, :notice => 'サインインしました'
-#  rescue
-#    failure
+
+  rescue
+    failure
   end
 
   def signout
@@ -20,7 +19,7 @@ class SessionsController < ApplicationController
 
   private
     def failure
-      render :action => :failure, :status => 403
+      render :action => :failure, :status => 403, :notice => 'サインインに失敗しました'
     end
 
     def load_user

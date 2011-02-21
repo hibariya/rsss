@@ -11,8 +11,7 @@ class ApplicationController < ActionController::Base
   layout 'application'
 
   def current_user
-    @current_user ||= UserPresenter.new User.by_screen_name('hibariya').first
-#    @current_user ||= UserPresenter.new User.where(:token => session[:user_token]).first
+    @current_user ||= UserPresenter.new User.where(:token => session[:user_token]).first
   end
 
   def current_user=(user)
@@ -46,7 +45,7 @@ class ApplicationController < ActionController::Base
     end
 
     def status_code(e)
-      if [ActionController::RoutingError, Rsss::UserNotFoundError].include? e.class
+      if [ActionController::RoutingError, Rsss::UserNotFoundError, Mongoid::Errors::DocumentNotFound].include? e.class
         404
 
       elsif [Rsss::NotAuthorized].include? e.class
@@ -59,7 +58,7 @@ class ApplicationController < ActionController::Base
     end
 
     def error_message(e)
-      if [ActionController::RoutingError, Rsss::UserNotFoundError].include? e.class
+      if [ActionController::RoutingError, Rsss::UserNotFoundError, Mongoid::Errors::DocumentNotFound].include? e.class
         'ユーザまたはページが見つかりませんでした。'
 
       elsif [Rsss::NotAuthorized].include? e.class
