@@ -56,30 +56,4 @@ class SitesController < ApplicationController
     return redirect_to '/dashboard'
   end
 
-  private
-  def check_feed(site)
-    begin 
-      site.load_channel_info
-      true
-    rescue Exception=>e 
-      flash[:feeds] = [] 
-      begin
-        agent = Mechanize.new
-        agent.get site.uri
-        agent.page.root.search('link').find_all{|l| l.attributes['rel'].to_s=='alternate' }.each do |link|
-          c = Site.new(:uri=>URI.join(site.uri, link.attributes['href'].to_s).to_s).load_channel_info
-          flash[:feeds]<<[c.title, c.uri] rescue next
-        end
-      rescue
-      end
-
-      if flash[:feeds].empty?
-        flash[:notice] = 'フィードの取得に失敗しました'
-        redirect_to '/dashboard'
-      else
-        redirect_to '/dashboard/select_feed/'+site.id.to_s unless flash[:feeds].empty?
-      end
-      false
-    end
-  end
 end
