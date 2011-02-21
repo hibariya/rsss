@@ -45,7 +45,8 @@ module Rsss
     config.filter_parameters += [:password, :oauth_token, :oauth_verifier, :token]
 
     #config.mongoid.logger = Logger.new($stdout, :warn)
-    config.mongoid.logger = Logger.new(Rails.logger, :warn)
+    #config.mongoid.logger = Logger.new(Rails.logger, :info)
+    config.mongoid.logger = Rails.logger
 
     config.generators do |g|
       g.template_engine :haml
