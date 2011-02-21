@@ -1,27 +1,59 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 
-task :cron => [:reload_users, :reload_associates]
+task :cron => [:reload_profile,
+               :reload_sites,
+               :reload_site_summaries,
+               :reload_categories,
+               :reload_category_summaries,
+               :reload_associates,
+               :reload_associate_summaries]
 
-desc "update feeds, categories and account information."
-task :reload_users=>:environment do
+desc "reload profile" 
+task :reload_profile => :environment do
   User.all.each do |user|
-    %w(profile 
-       sites 
-       site_summaries 
-       categories 
-       category_summaries).each do |reloadable|
-      user.send "reload_#{reloadable}" rescue (ErrorLog.add($!); next)
-    end
+    user.reload_profile rescue (ErrorLog.add($!); next)
   end
 end
 
-desc "update associates user to user."
-task :reload_associates=>:environment do
+desc "reload sites" 
+task :reload_sites => :environment do
   User.all.each do |user|
-    %w(associates 
-       associate_summaries).each do |reloadable|
-      user.send "reload_#{reloadable}" rescue (ErrorLog.add($!); next)
-    end
+    user.reload_sites rescue (ErrorLog.add($!); next)
+  end
+end
+
+desc "reload site summaries" 
+task :reload_site_summaries => :environment do
+  User.all.each do |user|
+    user.reload_site_summaries rescue (ErrorLog.add($!); next)
+  end
+end
+
+desc "reload categories"
+task :reload_categories => :environment do
+  User.all.each do |user|
+    user.reload_categories rescue (ErrorLog.add($!); next)
+  end
+end
+
+desc "reload category summaries"
+task :reload_category_summaries => :environment do
+  User.all.each do |user|
+    user.reload_category_summaries rescue (ErrorLog.add($!); next)
+  end
+end
+
+desc "reload associates"
+task :reload_associates => :environment do
+  User.all.each do |user|
+    user.reload_associates rescue (ErrorLog.add($!); next)
+  end
+end
+
+desc "reload associate summaries"
+task :reload_associate_summaries => :environment do
+  User.all.each do |user|
+    user.reload_associate_summaries rescue (ErrorLog.add($!); next)
   end
 end
 
