@@ -52,8 +52,8 @@ module ApplicationHelper
   def user_category_page_path(user, category, format = nil)
     part = screen_name user
     specified_screen_name?(part)?
-      specified_user_category_path(:user => part, :category => category, :format => format):
-      user_category_path(:user => part, :category => category, :format => format)
+      specified_user_category_path(:user => part, :category => escape_param(category), :format => format):
+      user_category_path(:user => part, :category => escape_param(category), :format => format)
   end
 
   def twitter_uri(user=nil)

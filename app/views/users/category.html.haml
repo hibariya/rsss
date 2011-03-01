@@ -2,19 +2,17 @@
   %link{:rel => "alternate", :type => "application/rss+xml", :title => "RSS", :href => user_category_page_path(@user, @category, 'rss')}
 
 #content
-  .category_cover
-    %ul.recent_entries.kdmr
-      %h3 
-        #{h(@category)} に関連するエントリ
-        %a{:title => "RSS Feed", :href => user_category_page_path(@user, @category, 'rss')}
-          %img{:src => '/images/rss.png', :alt => 'RSS Feed'}
-      - @entries[0..10].each do |entry|
-        %li.entry
-          .title
-            = entry_link entry
-          %div.info
-            - unless entry.image_sources.empty?
-              %div
-                %img{:src => entry.image_sources.first}
-            = string_head html_to_tooltip(entry.content), 200
- 
+  %ul#entries
+    %h3 
+      #{h(@category)} に関連するエントリ
+      %a{:title => "RSS Feed", :href => user_category_page_path(@user, @category, 'rss')}
+        %img{:src => '/images/rss.png', :alt => 'RSS Feed'}
+    - @entries[0..10].each do |entry|
+      %li
+        .title
+          = entry_link entry
+        .info
+          - unless entry.image_sources.empty?
+            %img{:src => entry.image_sources.first}
+          = string_head html_to_tooltip(entry.content), 200
+

@@ -237,6 +237,23 @@ ul#menu {
   width: 422px;
   list-style-type: none; }
 
+#entries {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  background: white;
+  width: 850px;
+  margin: 12px 0 12px 0;
+  padding: 0 0 0 15px; }
+  #entries li {
+    clear: both;
+    height: 60px;
+    padding-bottom: 6px; }
+  #entries img {
+    float: left;
+    margin-right: 6px; }
+
 #users {
   border-radius: 20px;
   border: 3px #e0ebaf solid;

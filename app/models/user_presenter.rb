@@ -43,20 +43,8 @@ class UserPresenter
     @sites ||= @user.sites.map{|s| SitePresenter.new s, @user }.select(&:summaries?)
   end
 
-  def sites?
-    !sites.empty?
-  end
-
   def has_profile?
     @user.site? || @user.description?
-  end
-
-  def categories?
-    !categories.empty?
-  end
-
-  def associates?
-    !associates.empty?
   end
 
   def feed
@@ -111,11 +99,9 @@ class UserPresenter
   end
 
   class << self
-    def load_by_screen_name(screen_name)
+    def load(screen_name)
       new User.by_screen_name(screen_name).first
     end
-
-    alias load load_by_screen_name
 
     delegate :model_name, :to => User
   end
