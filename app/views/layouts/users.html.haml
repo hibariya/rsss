@@ -15,14 +15,12 @@
   %body
     #head
       %a{:href => twitter_uri(@user), :title => @user.screen_name}
-        %img.icon{:src => @user.auth_profile.profile_image_url, :alt => @user.screen_name}
+        %img{:src => @user.auth_profile.profile_image_url, :alt => @user.screen_name}
       %h1 
         = link_to "#{@user.screen_name.upcase}'S RSS SUMMARIES", user_page_path(@user), :title => @user.screen_name
-      %div.clear
       .description
-        = link_to "#{@user.screen_name}(#{@user.name})", twitter_uri(@user), :title => @user.screen_name
-      .description
-        = @user.auth_profile.description
+        .user_name= link_to "#{@user.screen_name}(#{@user.name})", twitter_uri(@user), :title => @user.screen_name
+        .user_description= @user.auth_profile.description
     = render :partial=>'layouts/menu'
     = yield
     = render :partial=>'layouts/footer'

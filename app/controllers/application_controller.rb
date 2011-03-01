@@ -11,11 +11,13 @@ class ApplicationController < ActionController::Base
   layout 'application'
 
   def current_user
-    @current_user ||= UserPresenter.new User.where(:token => session[:user_token]).first
+    return @current_user if @current_user
+    user = User.where(:token => session[:user_token]).first
+    @current_user ||= user ? UserPresenter.new(user): nil
   end
 
   def current_user=(user)
-    session[:user_token] = user.token
+    session[:user_token] ||= user.token
     @current_user = user
   end
 

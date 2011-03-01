@@ -1,0 +1,101 @@
+#content {
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%; }
+  #content a {
+    color: green; }
+  #content #first_content {
+    margin: 12px 0 12px 0;
+    padding: 0;
+    width: 410px;
+    float: left; }
+  #content #second_content {
+    margin: 12px 0 12px 12px;
+    padding: 0;
+    width: 428px;
+    float: left; }
+
+#profile {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  background: white;
+  margin: 0 0 12px 0;
+  padding: 0 6px 6px 6px; }
+
+#sites {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  background: white;
+  margin: 0 0 12px 0;
+  padding-left: 6px; }
+  #sites .site {
+    margin: 12px 0 12px 12px; }
+
+#associates {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  background: white;
+  margin: 0 0 12px 0;
+  padding: 0 6px 6px 18px; }
+  #associates ul {
+    margin: 0;
+    padding: 0; }
+  #associates li {
+    padding: 3px 0 3px 0;
+    height: 36px;
+    clear: both;
+    margin: 0; }
+  #associates li img {
+    height: 18px;
+    width: 18px; }
+  #associates .associate {
+    margin-left: 6px;
+    float: left; }
+  #associates .info {
+    margin-left: 6px;
+    width: 100px;
+    float: left; }
+
+#history_gruff {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  background: white;
+  margin: 0 0 12px 0;
+  padding: 0 0 12px 12px;
+  width: 430px;
+  list-style-type: none; }
+  #history_gruff canvas#histories {
+    margin: 0;
+    padding: 0; }
+
+#categories {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  background: white;
+  margin: 0 0 12px 0;
+  padding: 0 6px 6px 18px;
+  width: 422px; }
+  #categories span {
+    margin-left: 6px; }
+
+#recent_entries {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  background: white;
+  margin: 0 0 12px 0;
+  padding: 0 6px 6px 18px;
+  width: 422px;
+  list-style-type: none; }

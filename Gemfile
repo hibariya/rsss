@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source :rubygems
 
 gem 'rails', '>= 3.0.0'
 gem 'bson_ext','>= 1.0.4'
@@ -6,11 +6,12 @@ gem 'mechanize'
 gem 'mongoid', '>= 2.0.0.beta.18'
 gem 'oauth'
 gem 'omniauth'
-gem 'haml'
+gem 'haml-rails'
 gem 'json'
 gem 'feedzirra'
 gem 'kaminari', :git => 'git://github.com/amatsuda/kaminari.git'
 gem 'builder'
+gem 'hassle', require: false
 
 group :development, :test do
   gem 'rspec-rails', '>= 2.0.0'

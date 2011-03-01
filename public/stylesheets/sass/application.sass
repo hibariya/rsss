@@ -1,0 +1,382 @@
+@font-face 
+  font-family: Ebit
+  src: url('/Furore.otf') format('opentype')
+
+@mixin kdmr
+  border-radius: 20px
+  border: 3px #e0ebaf solid
+  -moz-border-radius: 20px
+  -webkit-border-radius: 20px
+
+@mixin kdmr_max
+  width: 825px
+
+@mixin note
+  background: #FFFFFF
+  font-family: sans-serif
+
+body
+  margin: 0 36px 0 36px
+  padding: 0 0 0 0
+  font-size: 12px
+  font-family: sans-serif
+  background: #c3d825
+  width: 850px
+
+h3
+  font-size: 14px
+  padding: 6px 6px 6px 6px
+  margin: 0 0 0 0
+  font-family: Ebit
+
+form
+  display: inline
+
+input 
+  height: 24px
+  font-size: 16px
+  margin-right: 3px
+  padding: 0
+input[type=submit]
+  height: 30px
+input[type=text]
+  width: 650px
+  margin-bottom: 6px
+  font-size: 20px
+  font-weight: bold
+
+a 
+  text-decoration: none
+
+img
+  border: none
+
+ul
+  list-style-type: none
+
+ul li
+  border-bottom: 1px solid #F0F3F0
+  margin: 12px 0 12px 0
+  padding: 0 12px 12px 0
+
+p
+  padding: 6px 6px 6px 12px
+  margin: 0 0 0 0
+
+#head
+  height: 50px
+  margin: 0 0 0 0
+  padding: 0 0 10px 0
+  img
+    width: 24px
+    height: 24px
+    float: left
+    margin: 0 6px 0 0
+    padding: 0 0 0 0
+  a, h1
+    margin: 0 0 0 0
+    padding: 6px 0 0 0
+  h1  
+    font-family: Ebit, sans-serif
+    font-size: 30px
+    line-height: 9px
+  .description
+    padding: 2px 0 0 0 
+    clear: both
+
+ul#menu 
+  @include kdmr
+  @include kdmr_max
+  height: 32px
+  margin: 0
+  margin-right: 20px
+  background: #FFFFFF
+  li 
+    font-family: Ebit, sans-serif
+    font-size: 16px
+    float: left
+    padding: 7px 0 0 0
+    margin: 0 40px 0 20px
+    border: none
+
+#notices
+  @include kdmr
+  @include note
+  clear: both
+
+#foot
+  @include kdmr
+  @include kdmr_max
+  background: #FFFFFF
+  text-align: right
+  clear: both
+  font-family: Ebit, sans-serif
+  font-size: 16px
+  margin: 0 0 12px 0
+  padding: 0 20px 0 0
+  height: 32px
+  width: 100%
+  ul#foot_menu
+    padding: 7px 0 0 20px
+    float: left
+    margin: 0
+    li 
+      font-family: Ebit, sans-serif
+      font-size: 16px
+      float: left
+      padding: 0
+      margin: 0 40px 0 0
+      border: none
+  #credit
+    padding: 7px 0 0 0
+    text-align: right
+
+#content
+  padding: 0
+  margin-left: 0
+  margin-right: 0
+  width: 100%
+  a
+    color: #008000
+  #first_content
+    margin: 12px 0 12px 0
+    padding: 0
+    width: 410px
+    float: left
+  
+  #second_content
+    margin: 12px 0 12px 12px
+    padding: 0
+    width: 428px
+    float: left
+
+#profile
+  @include kdmr
+  background: #FFFFFF
+  margin: 0 0 12px 0
+  padding: 0 6px 6px 6px 
+
+#sites
+  @include kdmr
+  background: #FFFFFF
+  margin: 0 0 12px 0
+  padding-left: 6px
+  .site 
+    margin: 12px 0 12px 12px
+    ul.entries
+      margin: 6px 6px 6px 20px
+      padding: 0
+      font-size: 10px
+      li
+        border: none
+        margin: 0 0 2px 0
+        padding: 0
+
+#associates 
+  @include kdmr
+  background: #FFFFFF
+  margin: 0 0 12px 0
+  padding: 0 6px 6px 18px
+  ul
+    margin: 0
+    padding: 0
+    list-style: none
+  li 
+    padding: 3px 0 3px 0
+    height: 36px
+    margin: 0
+    width: 180px
+    float: left
+  li img 
+    height: 24px
+    width: 24px
+    margin: 2px 6px 2px 0
+    float: left
+
+#history_gruff
+  @include kdmr
+  background: #FFFFFF
+  margin: 0 0 12px 0
+  padding: 0 0 12px 12px
+  width: 430px
+  list-style-type: none
+  canvas#histories
+    margin: 0
+    padding: 0
+
+#categories
+  @include kdmr
+  background: #FFFFFF
+  margin: 0 0 12px 0
+  padding: 0 6px 6px 18px
+  width: 422px
+  span
+    margin-left: 6px
+
+#recent_entries
+  @include kdmr
+  background: #FFFFFF
+  margin: 0 0 12px 0
+  padding: 0 6px 6px 18px
+  width: 422px
+  list-style-type: none
+
+#users
+  @include kdmr
+  background: #FFFFFF
+  width: 850px
+  margin: 0
+  padding: 0 0 0 15px
+  li
+    clear: both
+    height: 60px
+    padding-bottom: 6px
+  img.icon
+    width: 48px
+    height: 48px
+    float: left
+    margin-right: 6px
+  .title
+  .info
+
+.pagination
+  @include kdmr
+  font-family: Ebit
+  background: #FFFFFF
+  margin: 6px -20px 6px auto
+  padding: 4px 12px 4px 12px
+  font-size: 16px
+  float: right
+  .page
+    margin-left: 4px
+
+#about
+  @include kdmr
+  @include kdmr_max
+  @include note
+  width: 850px
+  margin: 12px 0 12px 0
+  padding: 0 0 12px 12px
+
+.info 
+  font-size: 10px
+
+.massive 
+  font-size: 18px
+  padding-left: 12px
+
+.volatile 
+  color: #008000
+
+.error 
+  color: #F00
+
+.clear 
+  clear: both
+
+.description
+  font-family: sans-serif
+  font-size: 10px
+
+.size_as_0 
+  font-size: 14px
+.size_as_1 
+  font-size: 14px
+.size_as_2 
+  font-size: 15px
+.size_as_3 
+  font-size: 15px
+.size_as_4 
+  font-size: 16px
+.size_as_5 
+  font-size: 16px
+.size_as_6 
+  font-size: 17px
+.size_as_7 
+  font-size: 17px
+.size_as_8 
+  font-size: 18px
+.size_as_9 
+  font-size: 18px
+.size_as_10
+  font-size: 19px
+.size_as_11
+  font-size: 19px
+.size_as_12
+  font-size: 20px
+.size_as_13
+  font-size: 20px
+.size_as_14
+  font-size: 21px
+.size_as_15
+  font-size: 21px
+.size_as_16
+  font-size: 22px
+.size_as_17
+  font-size: 22px
+.size_as_18
+  font-size: 23px
+.size_as_19
+  font-size: 23px
+.size_as_20
+  font-size: 24px
+.size_as_21
+  font-size: 24px
+.size_as_22
+  font-size: 25px
+.size_as_23
+  font-size: 25px
+.size_as_24
+  font-size: 26px
+
+.color_as_0 
+  color: rgb(0, 0,   0)
+.color_as_1 
+  color: rgb(0, 10,  0)
+.color_as_2 
+  color: rgb(0, 20,  0)
+.color_as_3 
+  color: rgb(0, 30,  0)
+.color_as_4 
+  color: rgb(0, 40,  0)
+.color_as_5 
+  color: rgb(0, 50,  0)
+.color_as_6 
+  color: rgb(0, 60,  0)
+.color_as_7 
+  color: rgb(0, 70,  0)
+.color_as_8 
+  color: rgb(0, 80,  0)
+.color_as_9 
+  color: rgb(0, 90,  0)
+.color_as_10
+  color: rgb(0, 100, 0)
+.color_as_11
+  color: rgb(0, 110, 0)
+.color_as_12
+  color: rgb(0, 120, 0)
+.color_as_13
+  color: rgb(0, 130, 0)
+.color_as_14
+  color: rgb(0, 140, 0)
+.color_as_15
+  color: rgb(0, 150, 0)
+.color_as_16
+  color: rgb(0, 160, 0)
+.color_as_17
+  color: rgb(0, 170, 0)
+.color_as_18
+  color: rgb(0, 180, 0)
+.color_as_19
+  color: rgb(0, 190, 0)
+.color_as_20
+  color: rgb(0, 200, 0)
+.color_as_21
+  color: rgb(0, 210, 0)
+.color_as_22
+  color: rgb(0, 220, 0)
+.color_as_23
+  color: rgb(0, 230, 0)
+.color_as_24
+  color: rgb(0, 240, 0)
+

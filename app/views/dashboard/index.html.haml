@@ -1,39 +1,34 @@
-.kdmr.document-wide
-  %h3 PROFILE
-  .user-dashboard
-    = form_for current_user do |f|
-      %div{:style=>'font-family: Ebit;'} SITE
-      = f.text_field :site, :style=>'width: 650px;'
-      %br
-      %div{:style=>"font-family: Ebit; margin-top: 0.5em;"} Description
-      = f.text_field :description, :style=>'width: 650px;'
-      = f.submit '変更', :onclick=>'return confirm_dialog()'
-
-%ul#sites.sites-dashboard.kdmr
-  %h3 #{current_user.screen_name.upcase}'S SITES
-  %p 自分のサイトをいくつか登録することで、どのサイトをよく更新しているかを可視化することができます。
-
-  %li.site
-    %div ブログ、またはフィードのURIを追加:
-    %div
-      = form_for Site.new do |f|
-        = f.text_field :uri, :style => 'width: 650px;'
-        = f.submit '追加', :onclick => 'return confirm_dialog()'
-    .info
-
-  - current_user.sites.reverse.each do |site|
-    %li.site
-      %div
-        = site.title
-      %div
-        = form_for site.site do |f|
-          = f.text_field :uri, :style => 'width: 650px;'
-          = f.submit '変更', :onclick => 'return confirm_dialog()'
-
-        = form_for site.site, :html => {:method => :delete} do |f|
-          = f.submit '削除', :onclick => 'return confirm_dialog()'
-      .info
-
+#dashboard
+  #profile
+    %h3 PROFILE
+    = form_for current_user.user do |f|
+      .label SITE
+      .item= f.text_field :site
+      .label Description
+      .item 
+        = f.text_field :description
+        = f.submit '変更', :onclick => 'return confirm_dialog()'
+  
+  %ul#sites
+    %h3 #{current_user.screen_name.upcase}'S SITES
+    %p 自分のサイトをいくつか登録することで、どのサイトをよく更新しているかを可視化することができます。
+  
+    %li
+      .label ブログ、フィード、またはFOAFのURI:
+      .item
+        = form_for Site.new do |f|
+          = f.text_field :uri
+          = f.submit '追加', :onclick => 'return confirm_dialog()'
+  
+    - current_user.sites.reverse.each do |site|
+      %li
+        .label= site.title
+        .item
+          = form_for site.site do |f|
+            = f.text_field :uri
+            = f.submit '変更', :onclick => 'return confirm_dialog()'
+          = form_for site.site, :html => {:method => :delete} do |f|
+            = f.submit '削除', :onclick => 'return confirm_dialog()'
 
 - content_for :head do
   :javascript

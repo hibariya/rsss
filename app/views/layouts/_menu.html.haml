@@ -1,25 +1,21 @@
-.kdmr.note-wide
-  %span.menu
-    = menu_about_link
+%ul#menu
+  %li= menu_about_link
 
   - if signed_in? 
-    %span.menu
-      = menu_mypage_link
-    %span.menu
-      = menu_dashboard_link
-    %span.menu
-      = link_to 'SIGNOUT', '#'
-
+    %li= menu_mypage_link
+    %li= menu_dashboard_link
+    %li= link_to 'SIGNOUT', '#'
   - else
-    %span.menu
-      = link_to 'SIGN IN WITH TWITTER', '/auth/twitter'
+    %li= link_to 'SIGN IN WITH TWITTER', '/auth/twitter'
 
-- if flash[:volatile]
-  .kdmr.notice.volatile= flash[:volatile]
-
-- if flash[:error]
-  .kdmr.notice.error= flash[:error]
-
-- if flash[:notice]
-  .kdmr.notice= flash[:notice]
+- if [:volatile, :error, :notice].any?{|n| flash[n] }
+  #notices
+  - if flash[:volatile]
+    .volatile= flash[:volatile]
+  
+  - if flash[:error]
+    .error= flash[:error]
+  
+  - if flash[:notice]
+    .notice= flash[:notice]
 

@@ -61,7 +61,7 @@ module ApplicationHelper
   end
 
   def html_to_tooltip(html)
-    html.to_s.gsub(/(<[^>]+>|\s+)/, '')
+    html.to_s.gsub(/(<[^>]+>|\s+)/, ' ')
   end
 
   def twitter_link(user)
@@ -86,13 +86,13 @@ module ApplicationHelper
     link = link_to user.screen_name, user_page_path(user), :title => user.auth_profile.name
     # TODO: icon etc..
     (<<-EOS).html_safe
-      <div><img src="#{user.auth_profile.profile_image_url}" alt="#{user.auth_profile.name}" /></div>
-      <div>#{link}</div>
+      <img src="#{user.auth_profile.profile_image_url}" alt="#{user.auth_profile.name}" />
+      <div class="info">#{link}</div>
     EOS
   end
 
   def entry_link(entry)
-    link_to string_head(entry.title, 35), entry.link,
+    link_to string_head(entry.title, 32), entry.link,
       :target => "_blank", :title => entry.title, :style => 'color: green;'
   end
 

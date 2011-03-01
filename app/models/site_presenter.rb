@@ -37,6 +37,12 @@ class SitePresenter
     @domain ||= URI.parse(@site.uri).host
   end
 
+  def entries_each
+    entries[0..resize_score(score)].each do |entry|
+      yield entry
+    end
+  end
+
   def feed(version='1.0')
     RSS::Maker.make version do |maker|
       maker.channel.title    = maker.channel.description = title
@@ -76,6 +82,10 @@ class SitePresenter
   end
 
   private
+    def resize_score(score, max=5)
+      ((score.to_f/25) * max).round
+    end
+
     def site_summaries
       @site_summaries ||= user.site_summaries.where(:site_id => @site.id)
     end

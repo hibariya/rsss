@@ -1,0 +1,19 @@
+#profile {
+  margin: 12px 0 12px 0;
+  padding: 0 0px 12px 16px;
+  width: 100%; }
+  #profile .label {
+    margin: 0 0 0 12px; }
+  #profile .item {
+    margin: 0 0 12px 12px; }
+
+#sites {
+  width: 100%;
+  margin: 12px 0 12px 0;
+  padding: 0 12px 12px 6px; }
+  #sites .label {
+    margin: 0 0 0 16px; }
+  #sites .item {
+    margin: 0 0 0 12px; }
+  #sites h3 {
+    margin: 0 0 0 6px; }

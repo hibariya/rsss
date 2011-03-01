@@ -2,8 +2,8 @@
   %link{:href => user_page_path(@user, 'rss'), :title => "RSS", :rel => "alternate", :type => "application/rss+xml"}
 
 #content
-  .sites_cover
-    .profile.kdmr
+  #first_content
+    #profile
       %h3
         = twitter_link @user
         %a{:href => user_page_path(@user, 'foaf'), :title => 'FOAF'}
@@ -13,7 +13,7 @@
         .massive= user_site_link @user if @user.site?
         .massive= @user.description
 
-    %ul.sites.kdmr
+    %ul#sites
       %h3 最近更新しているサイト
       - @user.sites_by_score.each do |site|
         %li.site
@@ -23,48 +23,44 @@
             .info
               = site.domain
               = upbeat_or_downbeat site
-            .info.right
-              %div
-                - site.entries[0..3].each do |entry|
-                  = entry_link entry
-                  %br
+            %ul.entries
+              - site.entries_each do |entry|
+                %li= entry_link entry
 
-    - if @user.categories?
-      .categories.kdmr
-        %h3 最近つけたタグ/カテゴリ
-        %div
-          - @user.categories_by_frequency(30).each do |category|
-            = category_link category
+    #associates
+      %h3 近くのRSSS
+      %ul
+        - @user.associates_by_score(10).each do |associate|
+          %li
+            = associate_link associate
+            .info #{associate.associate.score.round}個のカテゴリが一致
+      .clear
 
-    - if @user.associates?
-      .associates.kdmr
-        %h3 近くのRSSS
-        %ul
-          - @user.associates_by_score(10).each do |associate|
-            %li
-              .associate= associate_link associate
-              .info #{associate.associate.score.round}個のカテゴリが一致
-
-  .sides_cover 
-    .gruff.kdmr
+  #second_content
+    #history_gruff
       %h3 ここ一ヶ月の推移(更新量+更新頻度)
       %canvas#histories
 
-    - if @user.sites?
-      %ul.recent_entries.kdmr
-        %h3 
-          最近のエントリ
-          %a{:title => "RSS Feed", :href => user_page_path(@user, 'rss')}
-            %img{:src => '/images/rss.png', :alt => 'RSS Feed'}
-        - @user.entries[0..10].each do |entry|
-          %li.entry
-            .title
-              = entry_link entry
-            %div.info
-              - unless entry.image_sources.empty?
-                %div
-                  %img{:src => entry.image_sources.first}
-              = string_head html_to_tooltip(entry.content), 200
+    #categories
+      %h3 最近つけたタグ/カテゴリ
+      %div
+        - @user.categories_by_frequency(30).each do |category|
+          = category_link category
+
+    %ul#recent_entries
+      %h3 
+        最近のエントリ
+        %a{:title => "RSS Feed", :href => user_page_path(@user, 'rss')}
+          %img{:src => '/images/rss.png', :alt => 'RSS Feed'}
+      - @user.entries[0..10].each do |entry|
+        %li.entry
+          .title
+            = entry_link entry
+          %div.info
+            - unless entry.image_sources.empty?
+              %div
+                %img{:src => entry.image_sources.first}
+            = string_head html_to_tooltip(entry.content), 200
 
 :javascript
   var g               = new Bluff.Line('histories', '410x280');
