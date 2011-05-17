@@ -45,7 +45,7 @@ module Rsss
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :oauth_token, :oauth_verifier, :token]
 
-    config.mongoid.logger = Logger.new($stdout, :warn)
+    #config.mongoid.logger = Logger.new($stdout, :warn)
 
     config.generators do |g|
       g.template_engine :haml
