@@ -30,7 +30,8 @@ class IndexController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.xml  { render :text=>user_feed.to_s }
+      format.xml  { render :text => user_feed.to_s }
+      format.rss  { render :text => user_feed.to_s }
     end
   end
 
@@ -51,6 +52,7 @@ class IndexController < ApplicationController
           select{|entry| entry.categories.map(&:downcase).include? category }
       }
       format.xml { render :text=>category_feed(category).to_s }
+      format.rss { render :text=>category_feed(category).to_s }
     end
   end
 
