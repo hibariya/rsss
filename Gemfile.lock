@@ -66,6 +66,11 @@ GEM
     mongoid-rspec (1.4.2)
       mongoid (~> 2.0)
       rspec (~> 2)
+    mongoid_rails_migrations (0.0.10)
+      activesupport (~> 3.0.0)
+      bundler (>= 0.9.19)
+      rails (~> 3.0.0)
+      railties (~> 3.0.0)
     nokogiri (1.4.4)
     oauth (0.4.4)
     polyglot (0.3.1)
@@ -125,6 +130,7 @@ DEPENDENCIES
   mechanize
   mongoid
   mongoid-rspec
+  mongoid_rails_migrations
   oauth
   rails
   rspec-rails (>= 2.0.0)

@@ -7,6 +7,7 @@ gem 'mongoid'
 gem 'oauth'
 gem 'haml'
 gem 'json'
+gem 'mongoid_rails_migrations'
 #gem 'feedzirra'
 
 group :development, :test do
