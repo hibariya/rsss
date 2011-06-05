@@ -20,4 +20,7 @@ class Entry
       flatten.compact.map{|m| m.scan(/src=['"]([^'"]+)['"]/) }.
       flatten.compact
   end
+
+  alias_method :_link, :link
+  alias_method :_link=, :link=
 end

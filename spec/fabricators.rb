@@ -1,9 +1,9 @@
 # -*- condig: utf-8 -*-
 
 Fabricator(:authorized_user, :class_name=>:user) do
-  screen_name { Fabricate.sequence(:screen_name){|i| [Faker::Internet.user_name, i.to_s].join } }
-  created_at { Time.now }
-  updated_at { Time.now }
+  screen_name { Fabricate.sequence(:screen_name){|i| "screen_name#{i}" } }
+  created_at { Time.now } # TODO: remove
+  updated_at { Time.now } # TODO: remove
   oauth_user_id { Fabricate.sequence :user_id, 1000 }
   oauth_token { Fabricate.sequence(:token){|i| (Digest::SHA1.new<<i.to_s).to_s } }
   oauth_secret { Fabricate.sequence(:token){|i| (Digest::SHA1.new<<i.to_s).to_s } }
@@ -11,15 +11,15 @@ Fabricator(:authorized_user, :class_name=>:user) do
 end
 
 Fabricator(:user, :from=>:authorized_user) do
-  description { Faker::Lorem.paragraph[0..190] }
-  site { Fabricate.sequence(:uri){|i| ['http://', i.to_s, Faker::Internet.domain_name].join } }
+  description { Fabricate.sequence(:user_description){|n| "description#{n}" } }
+  site { Fabricate.sequence(:uri){|n| "http://example#{n}.com" } }
   sites { (0..rand(10)).to_a.map{|i| Fabricate.build(:site) } }
 end
 
 Fabricator(:site) do
-  uri { Fabricate.sequence(:uri){|i| ['http://', i.to_s, Faker::Internet.domain_name].join } }
-  site_uri { Fabricate.sequence(:uri){|i| ['http://', i.to_s, Faker::Internet.domain_name, '/feed'].join } }
-  title { Faker::Lorem.sentence[0..50] }
+  uri { Fabricate.sequence(:uri){|n| "http://example#{n}.com" } }
+  site_uri { Fabricate.sequence(:uri){|n| "http://example#{n}.com/feed" } }
+  title { Fabricate.sequence(:site_title){|n| "title#{n}" } }
   histories {(0..30).to_a.map{|i| Fabricate.build(:history) }}
   entries {(0..30).to_a.map{|i| Fabricate.build(:entry) }}
 end
@@ -31,9 +31,9 @@ Fabricator(:history) do
 end
 
 Fabricator(:entry) do
-  title { Faker::Lorem.sentence[0..50] }
-  content { Faker::Lorem.paragraph }
-  link { Fabricate.sequence(:uri){|i| ['http://', Faker::Internet.domain_name, '/entry/', i.to_s].join } }
+  title { Fabricate.sequence(:entry_title){|n| "title#{n}" } }
+  content { Fabricate.sequence(:entry_content){|n| "entry content (#{n})" } }
+  _link { Fabricate.sequence(:uri){|n| "http://example#{n}.com/" } }
   date { Fabricate.sequence(:time){|t| t.day.ago.to_time } }
 end
 
