@@ -29,9 +29,7 @@ end
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-#require 'machinist'
 require 'mongoid'
-#require 'machinist/mongoid'
 require 'mongoid-rspec'
 
 # Requires supporting files with custom matchers and macros, etc,
@@ -60,6 +58,5 @@ RSpec.configure do |config|
       select { |c| c.name != 'system.indexes' }.each(&:drop)
   end
   require "#{File.dirname(__FILE__)}/fabricators"
-  #require "#{File.dirname(__FILE__)}/blueprints"
 end
 

@@ -26,10 +26,10 @@ group :development, :test do
   gem 'selenium-webdriver', '0.1.4'
   gem 'rspec-rails'
   gem 'mongoid-rspec'
-  gem 'faker'
+  gem 'faker' # TODO: remove
   gem 'fabrication'
   gem 'wirble'
-  gem 'spork'
+  gem 'spork', '~> 0.9.0.rc'
   gem 'fuubar'
   gem 'tapp'
   gem 'wirble'
