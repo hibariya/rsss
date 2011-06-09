@@ -20,7 +20,7 @@ gem 'kaminari'
 group :development, :test do
   gem 'yard'
   gem 'heroku'
-  gem 'ruby-debug19', require: 'ruby-debug'
+  #gem 'ruby-debug19', require: 'ruby-debug'
   gem 'rr'
   gem 'capybara'
   gem 'selenium-webdriver', '0.1.4'
