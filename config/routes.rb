@@ -13,7 +13,7 @@ Rsss::Application.routes.draw do
   match '/dashboard' => 'dashboard#index', :via=>[:get]
   match '/dashboard/select_feed/:id' => 'dashboard#select_feed', :via=>[:get]
   match '/auth' => 'auth#oauth', :via=>[:get]
-  match '/user/:user(.:format)' => 'index#user', :via=>[:get], :as => :user
+  match '/user/:user(.:format)' => 'index#user', :via=>[:get], :as => :user_page
   match '/user/:user/:category(.:format)' => 'index#category', :via=>[:get], :as => :user_category
   match '/updates' => 'index#updates', :via=>[:get]
   resources :sites, :expect=>[:create, :destroy, :update]

@@ -12,7 +12,7 @@ class Entry
   embedded_in :site, :inverse_of=>:entries
 
   validates :title, :presence=>true, :length=>{:maximum=>200}
-  validates :content, :length=>{:maximum=>5000}
+  validates :content, :length=>{:maximum=>10000}
   validates :link, :presence=>true, :length=>{:maximum=>400}, :format=>URI.regexp(['http', 'https'])
 
   def image_sources

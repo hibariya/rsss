@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_feed_path(username=nil)
-    [user_page_path(username), '.xml'].join
+    [user_page_path(username), '.rss'].join
   end
 
   def specified_screen_name?(screen_name)

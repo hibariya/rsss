@@ -1,5 +1,5 @@
 - content_for :head do
-  %link{:rel=>"alternate", :type=>"application/rss+xml", :title=>"RSS", :href=>user_path(@focus_user.screen_name, :rss)}
+  %link{:rel=>"alternate", :type=>"application/rss+xml", :title=>"RSS", :href=>user_feed_path(@focus_user.screen_name)}
 
 #segmentation
   .sites_cover

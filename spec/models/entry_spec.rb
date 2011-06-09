@@ -15,8 +15,8 @@ describe Entry do
       end
     end
 
-    context "contentの幅が5000以上のとき" do
-      before{ @target.content = 'あ'*5001 }
+    context "contentの幅が10000以上のとき" do
+      before{ @target.content = 'あ'*10001 }
       it "invalidになり、errorsにエラーメッセージが含まれている" do
         @target.should_not be_valid
         @target.errors[:content].should_not be_blank
