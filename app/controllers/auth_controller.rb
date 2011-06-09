@@ -38,6 +38,9 @@ class AuthController < ApplicationController
     return redirect_to '/dashboard'
 
   rescue
+    logger.debug $!.class
+    logger.debug $!.message
+    logger.debug $!.backtrace
     render :action=>:failure
   end
 

@@ -1,5 +1,6 @@
 .bundle
 .rspec
+.powenv
 autotest/*
 tmp/*
 vendor/*

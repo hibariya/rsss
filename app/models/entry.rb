@@ -13,7 +13,7 @@ class Entry
 
   validates :title, :presence=>true, :length=>{:maximum=>200}
   validates :content, :length=>{:maximum=>5000}
-  validates :link, :presence=>true, :length=>{:maximum=>400}, :format=>URI.regexp(['http'])
+  validates :link, :presence=>true, :length=>{:maximum=>400}, :format=>URI.regexp(['http', 'https'])
 
   def image_sources
     @image_sources ||= self.content.scan(/(<img[^>]+>)/).

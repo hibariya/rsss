@@ -12,8 +12,8 @@ class Site
   embeds_many :entries
   embedded_in :user, :inverse_of=>:sites
 
-  validates :uri, :presence=>true, :length=>{:maximum=>400}, :format=>URI.regexp(['http'])
-  validates :site_uri, :length=>{:maximum=>400}, :format=>URI.regexp(['http']), :allow_blank=>true
+  validates :uri, :presence=>true, :length=>{:maximum=>400}, :format=>URI.regexp(['http', 'https'])
+  validates :site_uri, :length=>{:maximum=>400}, :format=>URI.regexp(['http', 'https']), :allow_blank=>true
   validates :title, :length=>{:maximum=>200}
   validate do |site|
     site.errors.add(:uri, 'URI already exists') if site.duplicate?
