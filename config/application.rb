@@ -5,7 +5,7 @@ require File.expand_path('../boot', __FILE__)
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
-#require "rails/test_unit/railtie"
+# require "rails/test_unit/railtie"
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -36,16 +36,11 @@ module Rsss
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w()
-
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password, :oauth_token, :oauth_verifier, :token]
-
-    #config.mongoid.logger = Logger.new($stdout, :warn)
+    config.filter_parameters += [:password]
 
     config.generators do |g|
       g.template_engine :haml
@@ -53,7 +48,7 @@ module Rsss
       g.test_framework  :rspec
     end
 
+    # Enable the asset pipeline
+    config.assets.enabled = true
   end
-  
-  require File.join Rails.root, "lib/rsss"
 end

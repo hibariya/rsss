@@ -1,24 +1,4 @@
 Rsss::Application.routes.draw do
-  #get "users/update"
-
-  #get "sites/create"
-  #get "sites/update"
-  #get "sites/destroy"
-
-  #get "auth/oauth"
-  get 'auth/oauth_callback'
-  get 'auth/failure'
-  get 'auth/signout'
-
-  match '/dashboard' => 'dashboard#index', :via=>[:get]
-  match '/dashboard/select_feed/:id' => 'dashboard#select_feed', :via=>[:get]
-  match '/auth' => 'auth#oauth', :via=>[:get]
-  match '/user/:user(.:format)' => 'index#user', :via=>[:get], :as => :user_page
-  match '/user/:user/:category(.:format)' => 'index#category', :via=>[:get], :as => :user_category
-  match '/updates' => 'index#updates', :via=>[:get]
-  resources :sites, :expect=>[:create, :destroy, :update]
-  resources :users, :expect=>[:index, :update]
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -36,12 +16,12 @@ Rsss::Application.routes.draw do
   # Sample resource route with options:
   #   resources :products do
   #     member do
-  #       get :short
-  #       post :toggle
+  #       get 'short'
+  #       post 'toggle'
   #     end
   #
   #     collection do
-  #       get :sold
+  #       get 'sold'
   #     end
   #   end
 
@@ -55,7 +35,7 @@ Rsss::Application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get :recent, :on => :collection
+  #       get 'recent', :on => :collection
   #     end
   #   end
 
@@ -68,15 +48,11 @@ Rsss::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
-  root :to => 'index#index'
+  # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
-  #match '/:user(/:controller(/:action(/:id)))' => 'index#index'
-  match '/:user(.:format)' => 'index#user', :via=>[:get]
-  match '/:user/:category(.:format)' => 'index#category', :via=>[:get]
 end
