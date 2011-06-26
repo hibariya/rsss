@@ -11,13 +11,13 @@ class Article
   index :date
   index :site_id
 
-  scope :until_yesterday, -> { where(:date.lt => Time.now.beginning_of_day) }
+  scope :until_yesterday, -> { where(:published_at.lt => Time.now.beginning_of_day) }
 
   embedded_in :site, inverse_of: :articles
 
   validates :url, format: URI.regexp(%w(http https)), length: {maximum: 200}
-  validates :title, length: {maximum: 400}
-  validates :content, length: {maximum: 10000}
+  validates :raw_title, length: {maximum: 400}
+  validates :raw_content, length: {maximum: 10000}
 
   alias_method :raw_title, :title
 
