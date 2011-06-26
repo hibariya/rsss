@@ -28,6 +28,7 @@ group :development, :test do
   gem 'rr'
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'rspec'
   gem 'rspec-rails'
   gem 'mongoid-rspec'
   gem 'fabrication'

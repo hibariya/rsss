@@ -6,8 +6,5 @@ class Tag
 
   embedded_in :user, inverse_of: :tags
 
-  validates :name,
-    presence: true,
-    uniqueness: true,
-    length: {maximum: 200}
+  validates :name, presence: true, uniqueness: true, length: {maximum: 200}
 end

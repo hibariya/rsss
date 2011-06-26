@@ -299,6 +299,7 @@ DEPENDENCIES
   rake
   rb-fsevent
   rr
+  rspec
   rspec-rails
   sass
   sass-rails (~> 3.1.0.rc)
