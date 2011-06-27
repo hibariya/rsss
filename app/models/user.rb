@@ -48,6 +48,7 @@ class User
     def update_scores!
       volume_scores.zip(frequency_scores).map do |(site_id, volume), (_, frequency)|
         site = by_id(site_id)
+        site.archive_history!
         site.update_attributes! volume_score: volume, frequency_score: frequency
       end
     end
@@ -71,7 +72,7 @@ class User
     end
 
     def by_id(id)
-      where(_id: site_id).first
+      where(_id: id).first
     end
 
     def tags

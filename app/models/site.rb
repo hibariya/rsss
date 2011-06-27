@@ -5,8 +5,8 @@ class Site
   field :title,           type: String
   field :url,             type: String
   field :feed_url,        type: String
-  field :volume_score,    type: Fixnum
-  field :frequency_score, type: Fixnum
+  field :volume_score,    type: Fixnum, default: 0
+  field :frequency_score, type: Fixnum, default: 0
 
   validates :title, length: {maximum: 400}
   validates :url, format: URI.regexp(%w(http https)), length: {maximum: 200}
@@ -16,9 +16,11 @@ class Site
 
   embeds_many :histories, class_name: Site::History.to_s do
     def archive!(attrs)
-      attrs = {created_on: Date.today}.merge(attrs)
+      attrs   = {created_on: Date.today}.merge(attrs)
 
-      create! attrs
+      history = where(created_on: attrs[:created_on]).first || build
+      history.attributes = attrs
+      history.save!
 
       max_histories = Site::History::MAX_HISTORIES
       if count > max_histories
@@ -51,16 +53,26 @@ class Site
     ((frequency_score + volume_score).to_f / 2).round
   end
 
+  def tags
+    articles.map(&:tags).flatten.compact.map(&:downcase)
+  end
+
   def sync!
     feed = Feedzirra::Feed.fetch_and_parse(feed_url)
 
     update_attributes! title:    feed.title,
                        url:      feed.url,
                        feed_url: feed.feed_url
-    sync_articles! feed
+    sync_articles feed
   end
 
-  def sync_articles!(feed)
+  def archive_history!
+    histories.archive! volume_score: volume_score, frequency_score: frequency_score
+  end
+
+  private
+
+  def sync_articles(feed)
     feed.entries.map do |entry|
       article = articles.by_url(entry.url) || Article.new(site: self, url: entry.url)
 
@@ -72,9 +84,5 @@ class Site
 
     save!
     articles.not_in(url: feed.entries.map(&:url)).map(&:destroy)
-  end
-
-  def tags
-    articles.map(&:tags).flatten.compact.map(&:downcase)
   end
 end
