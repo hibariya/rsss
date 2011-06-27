@@ -19,26 +19,31 @@ class User
     end
 
     def by_name_or_build(name)
-      tags.where(name).first || build(name: name)
+      where(name: name).first || build(name: name)
     end
   end
 
   embeds_many :related_users, class_name: User::RelatedUser.to_s do
     def by_name_or_build(name)
-      tags.where(name).first || build(name: name)
+      where(name: name).first || build(name: name)
     end
   end
 
   references_many :authentications
 
   references_many :sites do
-    include Scorable
+    include User::Scorable
 
     def sync!
       threads = all.map {|site|
         Thread.fork do
-          site.sync!
-          Thread.pass
+          begin
+            site.sync!
+          rescue
+            Rails.logger.debug [:class,  :message, :backtrace].map {|m| $!.send(m).inspect }.join(' ')
+          ensure
+            Thread.pass
+          end
         end
       }
 
@@ -80,47 +85,26 @@ class User
     end
   end
 
-  module Scorable
-    def score(list)
-      values = list.values
-
-      if values.uniq.length.pred.zero?
-        _score_flatly list
-      else
-        _score list
-      end
-    end
-
-    def _score(list)
-      values = list.values
-      max    = Math.sqrt(values.max)
-      min    = Math.sqrt(values.min)
-      factor = 24 / (max - min)
-
-      list.inject({}) do |scores, (k, v)|
-        scores[k] = ((Math.sqrt(v) - min) * factor).round
-        scores
-      end
-    end
-
-    def _score_flatly(list)
-      list.inject({}) do |scores, (k, v)|
-        scores[k] = 0
-        scores
-      end
-    end
-  end
-
   class << self
     # XXX メモ以上の価値はないのであった
     def reload_all!
       all.map do |user|
-        user.sites.sync!
-        user.sites.update_scores!
-        user.reload_tags!
+        begin
+          user.sites.sync!
+          user.sites.update_scores!
+          user.reload_tags!
+        rescue
+          Rails.logger.debug [:class,  :message, :backtrace].map {|m| $!.send(m).inspect }.join(' ')
+        end
       end
 
-      all.map &:reload_related_users!
+      all.map do |user|
+        begin
+          user.reload_related_users!
+        rescue
+          Rails.logger.debug [:class,  :message, :backtrace].map {|m| $!.send(m).inspect }.join(' ')
+        end
+      end
     end
   end
 
@@ -151,6 +135,6 @@ class User
     end
 
     save!
-    tags.not_in(name: users.map(&:name)).map(&:destroy)
+    related_users.not_in(name: users.map(&:name)).map(&:destroy)
   end
 end

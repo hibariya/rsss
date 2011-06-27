@@ -9,7 +9,7 @@ class Site
   field :frequency_score, type: Fixnum, default: 0
 
   validates :title, length: {maximum: 400}
-  validates :url, format: URI.regexp(%w(http https)), length: {maximum: 200}
+  validates :url, allow_blank: true, format: URI.regexp(%w(http https)), length: {maximum: 200}
   validates :feed_url, presence: true, format: URI.regexp(%w(http https)), length: {maximum: 400}
 
   referenced_in :user
@@ -24,12 +24,12 @@ class Site
 
       max_histories = Site::History::MAX_HISTORIES
       if count > max_histories
-        desc(:created_on)[max_histories.pred..-1].map(&:destroy)
+        criteria.desc(:created_on)[max_histories.pred..-1].map(&:destroy)
       end
     end
   end
 
-  embeds_many :articles do
+  embeds_many :articles, class_name: Site::Article.to_s do
     def content_volume
       until_yesterday.map(&:content_length).sum / time_length
     end
@@ -41,7 +41,7 @@ class Site
     def time_length
       times  = until_yesterday.map(&:published_at).sort
       border = Time.now.beginning_of_day
-      (border - times.first).to_f.abs
+      (border.to_i - times.first.to_i).to_i.abs
     end
 
     def by_url(url)
@@ -78,7 +78,7 @@ class Site
 
       article.title        = entry.title
       article.content      = entry.content || entry.summary
-      article.tags         = entry.categories + entry.subjects
+      article.tags         = (entry.categories + Array.wrap(entry.try(:subjects))).compact.reject(&:blank?)
       article.published_at = entry.published
     end
 

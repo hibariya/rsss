@@ -1,4 +1,4 @@
-class Article
+class Site::Article
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -17,7 +17,7 @@ class Article
 
   validates :url, format: URI.regexp(%w(http https)), length: {maximum: 200}
   validates :raw_title, length: {maximum: 400}
-  validates :raw_content, length: {maximum: 10000}
+  validates :raw_content, length: {maximum: 100000}
 
   alias_method :raw_title, :title
 
@@ -32,7 +32,7 @@ class Article
   end
 
   def content_length
-    title.length + content.length
+    title.to_s.length + content.to_s.length
   end
 
   private
