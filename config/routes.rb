@@ -1,4 +1,20 @@
 Rsss::Application.routes.draw do
+  resources :users, only: [:index, :update] do
+    resources :sites, only: [:update, :destroy, :create]
+  end
+
+  match '/auth/failure'            => 'sessions#failure'
+  match '/auth/:provider/callback' => 'sessions#create'
+  match '/signin'                  => 'sessions#new', as: :signin
+  match '/signout'                 => 'sessions#destroy', as: :signout
+
+  match '/:user(.:format)'                 => 'users#show', via: :get, as: :user
+  match '/users/:user(.:format)'           => 'users#show', via: :get, as: :safe_user
+  match '/:user/:category(.:format)'       => 'users#category', via: :get, as: :user_category
+  match '/users/:user/:category(.:format)' => 'users#category', via: :get, as: :safe_user_category
+
+  root to: "hello#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

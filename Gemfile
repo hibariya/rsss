@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', git: 'git://github.com/rails/rails.git' #'3.1.0.rc4'
 
-gem 'sass-rails', "~> 3.1.0.rc"
+gem 'sass-rails', git: 'git://github.com/rails/sass-rails.git' #, "~> 3.1.0.rc"
 gem 'coffee-script'
 gem 'jquery-rails'
 gem 'uglifier'
@@ -11,10 +11,10 @@ gem 'bson_ext'
 gem 'mechanize'
 gem 'mongoid'
 gem 'oauth'
-gem 'haml', require: false
-gem 'haml-rails', require: false
-gem 'sass'
-gem 'omniauth'
+gem 'haml', git: 'git://github.com/nex3/haml.git'
+gem 'haml-rails', git: 'git://github.com/indirect/haml-rails.git'
+gem 'sass', git: 'git://github.com/nex3/sass.git'
+gem 'omniauth', git: 'git://github.com/intridea/omniauth.git'
 gem "jquery-rails"
 gem 'json'
 gem 'mongoid_rails_migrations', require: false
