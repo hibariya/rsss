@@ -1,3 +1,17 @@
-.document
-  -#=form_for current_user do |f|
-
+.dashboard
+  .document
+    = form_for current_user do |f|
+      %dl
+        %dt= f.label :bio
+        %dd= f.text_area :bio
+        %dt= f.label :url
+        %dd= f.text_field :url
+      = f.submit
+  .document
+    - current_user.sites.each do |site|
+      = form_for [current_user, site] do |f|
+        .item= f.label :feed_url, site.title
+        .item
+          = f.text_field :feed_url
+          = f.submit
+          = button_to :destroy, user_site_path(current_user, site), method: :delete, confirm: 'Are you sure?'

@@ -9,16 +9,16 @@
     = javascript_include_tag 'excanvas'
     = javascript_include_tag 'application'
     = csrf_meta_tag
-    %link{:rel=>"icon", :type=>"image/png", :href=>"/favicon.png"}
+    %link{rel: 'icon', type: 'image/png', href: '/favicon.png'}
     = yield :head
-  %body
+  %body{class: controller_name}
     #head
       %h1 RSSS: RSS SUMMARIES
-      %div{:style=>"clear: both;"}
-      = render :partial=>'layouts/menu'
+      %div{style: 'clear: both;'}
+      = render partial: 'layouts/menu'
     #page
       = yield
     #foot
-      = render :partial=>'layouts/footer'
-      = render :partial=>'layouts/analytics'
+      = render partial: 'layouts/footer'
+      = render partial: 'layouts/analytics'
 

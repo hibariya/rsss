@@ -4,4 +4,8 @@
 
 body.dashboard {
   // Place scoped styles here
+  textarea#user_bio {
+    width: 30em;
+    height: 4em;
+  }
 }

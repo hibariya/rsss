@@ -3,6 +3,8 @@ Rsss::Application.routes.draw do
     resources :sites, only: [:update, :destroy, :create]
   end
 
+  get 'dashboard', to: 'dashboard#show'
+
   match '/auth/failure'            => 'sessions#failure'
   match '/auth/:provider/callback' => 'sessions#create'
   match '/signin'                  => 'sessions#new', as: :signin
@@ -20,7 +22,6 @@ Rsss::Application.routes.draw do
   match '/users/:user/related_users/:related_user(.:format)' => 'related_users#show', via: :get, as: :safe_user_related_users
 
   root to: "hello#index"
-  get 'dashboard', to: 'dashboard#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
