@@ -15,8 +15,10 @@
     #head
       %h1 RSSS: RSS SUMMARIES
       %div{:style=>"clear: both;"}
-    = render :partial=>'layouts/menu'
-    = yield
-    = render :partial=>'layouts/footer'
-    = render :partial=>'layouts/analytics'
+      = render :partial=>'layouts/menu'
+    #page
+      = yield
+    #foot
+      = render :partial=>'layouts/footer'
+      = render :partial=>'layouts/analytics'
 

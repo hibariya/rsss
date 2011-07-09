@@ -1,19 +1,12 @@
-.kdmr.note-wide
-  %span.menu
-    = 'ABOUT'
-  %span.menu
-    = 'MY PAGE'
-  %span.menu
-    = 'DASHBOARD'
-  %span.menu
-    = 'SIGNOUT'
-  %span.menu
-    = 'SIGN IN WITH TWITTER'
-
-- if flash[:notice_volatile]
-  .kdmr.notice.volatile
-    = flash[:notice_volatile]
-
-- if flash[:notice]
-  .kdmr.notice
-    = flash[:notice]
+#menu
+  %ul
+    %li= 'ABOUT'
+    %li= 'MY PAGE'
+    %li= 'DASHBOARD'
+    %li= 'SIGNOUT'
+    %li= 'SIGN IN WITH TWITTER'
+#notices
+  - if flash[:notice_volatile]
+    #notice_volatile= flash[:notice_volatile]
+  - if flash[:notice]
+    #notice= flash[:notice]

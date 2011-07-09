@@ -1,0 +1,168 @@
+@font-face {
+  font-family: RSSSTheme;
+  src: url('/Furore.otf') format('opentype');
+}
+
+@mixin block-base {
+  margin: 6px 6px 6px 0;
+  padding: 24px;
+}
+
+@mixin block-widespace {
+  margin: 6px 6px 6px 0;
+  padding: 24px;
+}
+
+
+@mixin kdmr {
+  border-radius: 20px;
+  border: 3px #e0ebaf solid;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}
+
+@mixin note-base {
+  @include block-base;
+  background: #FFFFFF;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 1.2em;
+  text-align: left;
+}
+
+@mixin menu-base {
+  @include kdmr;
+  @include note-base;
+  font-family: RSSSTheme, sans-serif;
+  height: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  ul {
+    margin: -0.4em 0 0 0;
+    list-style: none;
+    li {
+      float: left;
+      font-size: 1.3em;
+      margin-left: 2em;
+    }
+  }
+}
+
+@mixin document-base {
+  @include note-base;
+  h2 {
+    font-family: RSSSTheme, sans-serif;
+    font-size: 1.8em;
+    margin: 0em 0em 0.2em 0em;
+    line-height: 0.7em;
+  }
+
+  h3 {
+    font-family: RSSSTheme;
+    font-size: 1.2em;
+    margin: 0em 0em 0em 0em;
+  }
+
+  form {
+    display: inline;
+  }
+  
+  input { 
+    height: 1.6em;
+    font-size: 1.2em;
+    margin-right: 0.25em;
+  }  
+ 
+  ul {
+    list-style-type: none;
+  }
+  
+  ul li {
+    border-bottom: 1px solid #F0F3F0;
+  }
+  
+  p {
+  }
+
+  .image {
+    text-align: center;
+  }
+}
+
+@mixin notice {
+  @include kdmr;
+  @include note-base;
+}
+
+body {
+  margin: 0em auto 0em auto;
+  padding: 0em auto 0em auto;
+  font-size: 12px;
+  font-family: sans-serif;
+  background: #c3d825;
+  width: 920px;
+
+  h1 {
+    font-family: RSSSTheme, sans-serif;
+    font-size: 2.5em;
+    padding: 0em 0em 0em 0em;
+    margin: 0em 0em 0.2em 0em;
+    line-height: 0.7em;
+  }
+
+  a {
+    text-decoration: none;
+  }
+  
+  img {
+    border: none;
+  }
+ 
+  #head {
+    h1 {
+      @include block-base;
+      padding: 10px;
+    }
+    #menu {
+      @include menu-base;
+    }
+
+    #notices {
+      clear: both;
+      #notice {
+        @include notice;
+      }
+
+      #notice_volatile {
+        @include notice;
+        color: #008000;
+      }
+    }
+
+  }
+
+  #page {
+    .document {
+      @include kdmr;
+      @include document-base;
+    }
+  }
+
+  #foot {
+    #foot_menu {
+      @include menu-base;
+      ul {
+        margin-left: -2em;
+        li {
+          margin-left: 1em;
+        }
+      }
+
+      #credit {
+        margin-top: 0.2em;
+        text-align: right;
+        width: 100%;
+      }
+    }
+  }
+}

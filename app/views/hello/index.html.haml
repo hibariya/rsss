@@ -1,60 +1,53 @@
-.kdmr.document-wide
+.document
   %h2 RSSSとは
   %p 
-    最近Webのどの辺を彷徨いているのかを<del>リアルタイム</del>(1日ごとに更新)に公開するプロフィールページです。
-    自分のブログなどをいくつか登録しておくことで、最近のブログ更新を可視化します。以下のような特徴があります。
+    最近Webのどの辺を彷徨いているのかを1日ごとに更新して公開します。
+    自分のブログなどが配信しているフィードをいくつか登録しておくことで、最近のブログ更新を可視化します。以下のような特徴があります。
   %ul
     %li 登録しているサイト一覧を評価結果順に表示します
-    %li ここ1ヶ月の更新の推移をグラフ表示します
+    %li ここ1ヶ月くらいの更新の推移をグラフ表示します
     %li 登録しているサイトのフィードを一括で配信します
-  %p{:style=>"text-align: center;"}
-    = image_tag 'sample_summaries.png'
-  %p 
-    複数サイトを束ねるプロフィールページとして使うと、最近よく更新しているサイトを自動的に上の方に表示するので便利かもしれません。
+  .image= image_tag 'sample_summaries.png'
   
   %h3 サイトの評価
   %p 
-    1日あたりの更新回数と更新量から、最近サイトがどれほど更新されているかを評価します。
+    1日あたりの更新回数と更新量から、各サイトが最近どれほど更新されているかを評価します。
     評価結果はサイトの文字色(更新頻度)と文字サイズ(更新量)、表示順(更新頻度+更新量)に反映されます。
-    つまり更新頻度が高いほど明るい色で表示され、更新量(文字数)が多いほど大きな文字で表示され、たくさん更新しているサイトほど目立つ仕組みです。
-  %p{:style=>"text-align: center;"}
-    = image_tag 'sample_activity.png'
+    更新頻度が高いほど明るい色で表示され、更新量(文字数)が多いほど大きな文字で表示されるので、よく更新しているサイトほど目立ちます。
+  .image= image_tag 'sample_activity.png'
 
   %h3 ここ1ヶ月の推移
   %p 
     1日毎に更新した各サイトの評価結果がグラフ表示されます。
-    数が多いとわかりにくいので今後なおしていきます。
-  %p{:style=>"text-align: center;"}
-    = image_tag 'sample_graph.png'
+  .image= image_tag 'sample_graph.png'
 
   %h3 使いかた
   %p 
     %a{:href=>"/auth"}ここ
-    からTwitterのOAuthでログインすると、↓のようにリダイレクトされます。ここが設定画面です。
-    この設定画面から、追加のプロフィールや自分のサイトを登録します。
-    サイトの登録フォームには、フィードのURIの他にブログのURIをそのまま入れることができます。
-  %p{:style=>"text-align: center;"}
-    = image_tag 'sample_oauth.png'
-    %br
+    からTwitterのOAuthでログインすると、Dashboardに移動します。
+    このDashboardから追加のプロフィールや自分のサイトを登録します。
+    サイトの登録フォームには、フィードのURLの他にブログのURLをそのまま入れることができます。
+  .image
+    .item= image_tag 'sample_oauth.png'
     ↓
-    %br
-    = image_tag 'sample_dashboard.png'
+    .item= image_tag 'sample_dashboard.png'
 
   %h3 バグ/その他
   %p
     %ul
       %li RSS1.0, RSS2.0, Atomに対応していますが、ときどきフィードの取得に失敗することがあります
       %li 永遠に取得できないフィードがあるかもしれません
-      %li Twitterで認証しますがTwitterへのPOST/DM送受信などはしません
-      %li 実験的なので評価の仕方はまだバランスがよくないかもしれません。今後精度を改善していく予定です
+      %li Twitterで認証します(Readonly: TwitterへのPOST/DM送受信などは行いません)
       %li 1日一回の更新なので最大24時間分のタイムラグがあります
       %li 
-        バグ報告/パッチ/その他: 
-        %a{:href=>"http://twitter.com/hibariya"} @hibariya (pussy_cat)
+        Github:
+        %a{:href=>"https://github.com/hibariya/rsss", alt: 'RSSS'} RSSS
       %li 
-        使用フォント: 
-        %a{:href=>"http://www.fontsquirrel.com/fonts/Furore"} Furore(Open Type)
+        Auther: 
+        %a{:href=>"http://twitter.com/hibariya", alt: 'hibariya'} @hibariya (pussy_cat)
       %li 
-        グラフ生成: 
-        %a{:href=>"http://bluff.jcoglan.com/"} Bluff(RubyのGruffのJavascript版)
-
+        Font:
+        %a{:href=>"http://www.fontsquirrel.com/fonts/Furore", alt: 'Furore'} Furore
+      %li 
+        Graph generator: 
+        %a{:href=>"http://bluff.jcoglan.com/", alt: 'Bluff'} Bluff
