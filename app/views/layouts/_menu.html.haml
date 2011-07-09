@@ -1,10 +1,13 @@
 #menu
   %ul
-    %li= 'ABOUT'
-    %li= 'MY PAGE'
-    %li= 'DASHBOARD'
-    %li= 'SIGNOUT'
-    %li= 'SIGN IN WITH TWITTER'
+    - if authenticated?
+      %li= link_to 'ABOUT', root_path, alt: 'About RSSS'
+      %li= link_to 'MY PAGE', safe_user_path(:user, current_user.name), alt: 'My Page'
+      %li= link_to 'DASHBOARD', dashboard_path, alt: 'Dashboard'
+      %li= link_to 'SIGNOUT', signout_path, method: :delete, alt: 'Sign out'
+    - else
+      %li= link_to 'ABOUT', root_path, alt: 'About RSSS'
+      %li= link_to 'SIGN IN WITH TWITTER', signin_path, alt: 'Sign in'
 #notices
   - if flash[:notice_volatile]
     #notice_volatile= flash[:notice_volatile]

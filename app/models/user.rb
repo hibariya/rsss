@@ -2,9 +2,9 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :name, type: String
-  field :url,  type: String
-  field :bio,  type: String
+  field :name,      type: String
+  field :url,       type: String
+  field :bio,       type: String
 
   index :name, unique: true
   index :'tags.name'

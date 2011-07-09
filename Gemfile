@@ -21,6 +21,7 @@ gem 'mongoid_rails_migrations', require: false
 gem 'feedzirra'
 gem 'settingslogic'
 gem 'kaminari'
+gem 'twitter', git: 'git://github.com/jnunemaker/twitter.git'
 
 group :development, :test do
   gem 'heroku'

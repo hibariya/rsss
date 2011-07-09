@@ -55,6 +55,18 @@ GIT
       oa-openid (= 0.3.0.rc1)
 
 GIT
+  remote: git://github.com/jnunemaker/twitter.git
+  revision: 0132ab35966b1220bbfe15c8ef97c30a801fa755
+  specs:
+    twitter (1.6.0)
+      faraday (~> 0.7.3)
+      faraday_middleware (~> 0.7.0.rc.1)
+      hashie (~> 1.0.0)
+      multi_json (~> 1.0.0)
+      multi_xml (~> 0.2.0)
+      simple_oauth (~> 0.1.5)
+
+GIT
   remote: git://github.com/nex3/haml.git
   revision: ffb73065aa2843b73b4a85766085cc93b9c8fd85
   specs:
@@ -160,6 +172,8 @@ GEM
       addressable (~> 2.2.6)
       multipart-post (~> 1.1.0)
       rack (< 2, >= 1.1.0)
+    faraday_middleware (0.7.0.rc1)
+      faraday (~> 0.7.3)
     feedzirra (0.0.24)
       activesupport (>= 2.3.8)
       builder (>= 2.1.2)
@@ -177,6 +191,7 @@ GEM
       thor (~> 0.14.6)
     guard-rspec (0.4.0)
       guard (>= 0.4.0)
+    hashie (1.0.0)
     heroku (2.3.6)
       launchy (>= 0.3.2)
       rest-client (~> 1.6.1)
@@ -278,6 +293,7 @@ GEM
       json_pure
       rubyzip
     settingslogic (2.0.6)
+    simple_oauth (0.1.5)
     spork (0.8.5)
     sprockets (2.0.0.beta.10)
       hike (~> 1.0)
@@ -338,6 +354,7 @@ DEPENDENCIES
   settingslogic
   spork
   tapp
+  twitter!
   uglifier
   wirble
   yard

@@ -7,13 +7,20 @@ Rsss::Application.routes.draw do
   match '/auth/:provider/callback' => 'sessions#create'
   match '/signin'                  => 'sessions#new', as: :signin
   match '/signout'                 => 'sessions#destroy', as: :signout
+  match '/auth/oauth_callback'     => 'sessions#create' # TODO remove me
 
-  match '/:user(.:format)'                 => 'users#show', via: :get, as: :user
-  match '/users/:user(.:format)'           => 'users#show', via: :get, as: :safe_user
-  match '/:user/:category(.:format)'       => 'users#category', via: :get, as: :user_category
-  match '/users/:user/:category(.:format)' => 'users#category', via: :get, as: :safe_user_category
+  # /:user
+  match '/:user(.:format)' => 'users#show', via: :get, as: :user
+  match '/:user/tags/:tag(.:format)' => 'tags#show', via: :get, as: :user_tag
+  match '/:user/related_users/:related_user(.:format)' => 'related_users#show', via: :get, as: :user_related_users
+
+  # /users/:user (for strange name users: auth signin signout user rails)
+  match '/users/:user(.:format)' => 'users#show', via: :get, as: :safe_user
+  match '/users/:user/tags/:tag(.:format)' => 'tags#show', via: :get, as: :safe_user_tag
+  match '/users/:user/related_users/:related_user(.:format)' => 'related_users#show', via: :get, as: :safe_user_related_users
 
   root to: "hello#index"
+  get 'dashboard', to: 'dashboard#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

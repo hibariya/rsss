@@ -8,4 +8,6 @@ class UsersController < ApplicationController
   def update
   end
 
+  def category
+  end
 end
