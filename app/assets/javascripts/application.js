@@ -6,4 +6,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require js_class
+//= require excanvas
+//= require bluff
+//= require json2
+//= require underscore-min
+//= require backbone-min
+//= require backbone.rails
 //= require_tree .
+

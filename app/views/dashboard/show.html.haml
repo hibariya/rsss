@@ -1,17 +1,28 @@
+:javascript
+  $(function() {
+    var user      = new User({id: '#{current_user.id}'});
+    var user_view = new UserView({model: user});
+    user.set(#{current_user.attributes.slice(:bio, :url).to_json});
+  });
+
 .dashboard
-  .document
-    = form_for current_user do |f|
+  #user.document{'data-users-url' => user_path(current_user)}
+    = form_for current_user, url: '' do |f|
       %dl
         %dt= f.label :bio
         %dd= f.text_area :bio
         %dt= f.label :url
         %dd= f.text_field :url
-      = f.submit
-  .document
+      = f.submit id: :user_submit
+      = image_tag 'loading.gif', class: :loading_img, style: 'display: none'
+      %span.message
+
+  #sites.document{'data-sites-url' => user_sites_path(current_user)}
     - current_user.sites.each do |site|
-      = form_for [current_user, site] do |f|
-        .item= f.label :feed_url, site.title
-        .item
-          = f.text_field :feed_url
-          = f.submit
-          = button_to :destroy, user_site_path(current_user, site), method: :delete, confirm: 'Are you sure?'
+      .site
+        %dl
+          %dt
+            %label{for: "site_#{site.id}_feed_url"}= site.title
+          %dd
+            %input{type: :text, id: "site_#{site.id}_feed_url", value: site.feed_url}
+

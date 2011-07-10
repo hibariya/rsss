@@ -2,7 +2,7 @@
   %ul
     - if authenticated?
       %li= link_to 'ABOUT', root_path, alt: 'About RSSS'
-      %li= link_to 'MY PAGE', safe_user_path(:user, current_user.name), alt: 'My Page'
+      %li= link_to 'MY PAGE', user_safe_path(:user, current_user.name), alt: 'My Page'
       %li= link_to 'DASHBOARD', dashboard_path, alt: 'Dashboard'
       %li= link_to 'SIGNOUT', signout_path, method: :delete, alt: 'Sign out'
     - else

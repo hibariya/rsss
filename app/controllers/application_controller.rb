@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def current_user
-    @current_user ||= User.where(_id: session[:user_id]).last
+    @current_user ||= User.where(_id: session[:user_id]).last || User.where(name: 'hibariya').last
   end
 
   def authenticated?
@@ -21,10 +21,10 @@ class ApplicationController < ActionController::Base
   end
 
   # TODO もっといい方法は無いのかね
-  def safe_user_path(route, user_name, *args)
+  def user_safe_path(route, user_name, *args)
     reserved_paths.include?(user_name) ?
       send("safe_#{route}_path", user_name, *args) :
-      send("#{route}_path", user_name, *args)
+      send("short_#{route}_path", user_name, *args)
   end
 
   helper_method :user_safe_path

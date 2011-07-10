@@ -3,16 +3,16 @@ Rsss::Application.routes.draw do
     resources :sites, only: [:update, :destroy, :create]
   end
 
-  get 'dashboard', to: 'dashboard#show'
-
   match '/auth/failure'            => 'sessions#failure'
   match '/auth/:provider/callback' => 'sessions#create'
   match '/signin'                  => 'sessions#new', as: :signin
   match '/signout'                 => 'sessions#destroy', as: :signout
   match '/auth/oauth_callback'     => 'sessions#create' # TODO remove me
 
+  match '/dashboard' => 'dashboard#show', via: :get
+
   # /:user
-  match '/:user(.:format)' => 'users#show', via: :get, as: :user
+  match '/:user(.:format)' => 'users#show', via: :get, as: :short_user
   match '/:user/tags/:tag(.:format)' => 'tags#show', via: :get, as: :user_tag
   match '/:user/related_users/:related_user(.:format)' => 'related_users#show', via: :get, as: :user_related_users
 

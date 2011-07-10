@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Users::SitesController do
+describe TagsController do
 
-  describe "GET 'update'" do
+  describe "GET 'show'" do
     it "should be successful" do
-      get 'update'
+      get 'show'
       response.should be_success
     end
   end
